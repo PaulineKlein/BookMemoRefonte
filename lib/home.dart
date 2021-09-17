@@ -6,6 +6,7 @@ import "BlocHelper/BookBloc.dart";
 import "BlocHelper/BookEvent.dart";
 import "BlocHelper/BookState.dart";
 import "Model/Book.dart";
+import "Strings.dart";
 
 class HomePage extends StatefulWidget {
   HomePage({Key? key, required this.title}) : super(key: key);
@@ -20,11 +21,13 @@ class _HomePageState extends State<HomePage> {
 
   void _addBook() {
     BlocProvider.of<BookBloc>(context).add(AddProduct(Book(
+        bookType: BookType.manga,
         title: "Naruto",
         author: "Masashi Kishimoto",
         year: 2010,
         buy: false,
         finish: false,
+        favorite: false,
         volume: 71,
         chapter: 0,
         episode: 0,
@@ -46,7 +49,7 @@ class _HomePageState extends State<HomePage> {
                 child: Padding(
                   padding: EdgeInsets.all(20),
                   child: Text(
-                    'VOS LIVRES',
+                    Strings.homeTitle,
                     style: TextStyle(fontSize: 20, color: Colors.black),
                   ),
                 ),
@@ -71,7 +74,7 @@ class _HomePageState extends State<HomePage> {
 
   Widget _bookList(List<Book> bookItem) {
     if (bookItem.length == 0) {
-      return Text("Pas encore de livre enregistré");
+      return Text(Strings.homeEmptyList);
     } else {
       return ListView.builder(
           itemCount: bookItem.length,
@@ -147,7 +150,7 @@ class _HomePageState extends State<HomePage> {
                   color: cardColor),
               SizedBox(width: 5),
               Text(
-                book.buy ? "Acheté" : "Non acheté",
+                book.buy ? Strings.bookBuy : Strings.bookNotBuy,
                 style: TextStyle(fontSize: 13.0, color: Colors.black),
               ),
             ]),
@@ -165,7 +168,7 @@ class _HomePageState extends State<HomePage> {
                   color: cardColor),
               SizedBox(width: 5),
               Text(
-                book.finish ? "Terminé" : "En cours",
+                book.finish ? Strings.bookFinish : Strings.bookNotFinish,
                 style: TextStyle(fontSize: 13.0, color: Colors.black),
               ),
             ]),
@@ -186,19 +189,19 @@ class _HomePageState extends State<HomePage> {
             },
             children: [
               TableRow(children: [
-                Text("Volume : ",
+                Text(Strings.bookVolume,
                     style: TextStyle(fontSize: 13.0, color: Colors.black)),
                 Text(book.volume > 0 ? "${book.volume}" : "-",
                     style: TextStyle(fontSize: 13.0, color: cardColor)),
               ]),
               TableRow(children: [
-                Text("Chapitre : ",
+                Text(Strings.bookChapter,
                     style: TextStyle(fontSize: 13.0, color: Colors.black)),
                 Text(book.chapter > 0 ? "${book.chapter}" : "- ",
                     style: TextStyle(fontSize: 13.0, color: cardColor)),
               ]),
               TableRow(children: [
-                Text("Episode : ",
+                Text(Strings.bookEpisode,
                     style: TextStyle(fontSize: 13.0, color: Colors.black)),
                 Text(book.episode > 0 ? "${book.episode}" : "-",
                     style: TextStyle(fontSize: 13.0, color: cardColor)),
