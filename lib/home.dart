@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import "BlocHelper/BookBloc.dart";
 import "BlocHelper/BookEvent.dart";
 import "BlocHelper/BookState.dart";
-import "Model/Book.dart";
+import "Data/Model/Book.dart";
 import "Strings.dart";
 
 class HomePage extends StatefulWidget {
@@ -25,9 +25,9 @@ class _HomePageState extends State<HomePage> {
         title: "Naruto",
         author: "Masashi Kishimoto",
         year: 2010,
-        buy: false,
-        finish: false,
-        favorite: false,
+        isBought: false,
+        isFinished: false,
+        isFavorite: false,
         volume: 71,
         chapter: 0,
         episode: 0,
@@ -144,13 +144,13 @@ class _HomePageState extends State<HomePage> {
             padding: EdgeInsets.symmetric(horizontal: 10, vertical: 2),
             child: Row(children: <Widget>[
               Icon(
-                  book.buy
+                  book.isBought
                       ? Icons.shopping_cart_outlined
                       : Icons.remove_shopping_cart_outlined,
                   color: cardColor),
               SizedBox(width: 5),
               Text(
-                book.buy ? Strings.bookBuy : Strings.bookNotBuy,
+                book.isBought ? Strings.bookBuy : Strings.bookNotBuy,
                 style: TextStyle(fontSize: 13.0, color: Colors.black),
               ),
             ]),
@@ -164,11 +164,11 @@ class _HomePageState extends State<HomePage> {
                 borderRadius: BorderRadius.all(Radius.circular(20))),
             padding: EdgeInsets.symmetric(horizontal: 10, vertical: 2),
             child: Row(children: <Widget>[
-              Icon(book.finish ? Icons.check : Icons.hourglass_bottom,
+              Icon(book.isFinished ? Icons.check : Icons.hourglass_bottom,
                   color: cardColor),
               SizedBox(width: 5),
               Text(
-                book.finish ? Strings.bookFinish : Strings.bookNotFinish,
+                book.isFinished ? Strings.bookFinish : Strings.bookNotFinish,
                 style: TextStyle(fontSize: 13.0, color: Colors.black),
               ),
             ]),

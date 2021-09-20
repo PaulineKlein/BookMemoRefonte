@@ -1,6 +1,6 @@
-import '../Model/Book.dart';
-
 //create states to represent a product being added and removed:
+import 'package:book_memo/Data/Model/Book.dart';
+
 abstract class BookState {
   final List<Book> bookItem;
 

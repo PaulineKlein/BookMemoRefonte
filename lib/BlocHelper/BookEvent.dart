@@ -1,6 +1,5 @@
+import 'package:book_memo/Data/Model/Book.dart';
 import 'package:equatable/equatable.dart';
-
-import '../Model/Book.dart';
 
 // Create events to add and remove products from the list of items:
 abstract class BookEvent extends Equatable {

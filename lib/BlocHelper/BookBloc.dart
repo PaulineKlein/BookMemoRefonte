@@ -1,6 +1,6 @@
+import 'package:book_memo/Data/Model/Book.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../Model/Book.dart';
 import 'BookEvent.dart';
 import 'BookState.dart';
 
