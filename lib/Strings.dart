@@ -8,4 +8,5 @@ class Strings {
   static const String bookVolume = "Volume :";
   static const String bookChapter = "Chapitre :";
   static const String bookEpisode = "Episode :";
+  static const String error = "Une erreur est survenue";
 }

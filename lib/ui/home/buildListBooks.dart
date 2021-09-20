@@ -1,85 +1,46 @@
+import 'package:book_memo/Data/Model/Book.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
-import "BlocHelper/BookBloc.dart";
-import "BlocHelper/BookEvent.dart";
-import "BlocHelper/BookState.dart";
-import "Data/Model/Book.dart";
-import "Strings.dart";
+import '../../Strings.dart';
 
-class HomePage extends StatefulWidget {
-  HomePage({Key? key, required this.title}) : super(key: key);
-  final String title;
+class BuildListBook extends StatelessWidget {
+  const BuildListBook({Key? key, required this.listBook}) : super(key: key);
 
-  @override
-  _HomePageState createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  List<bool> _expanded = [false, false];
-
-  void _addBook() {
-    BlocProvider.of<BookBloc>(context).add(AddProduct(Book(
-        bookType: BookType.manga,
-        title: "Naruto",
-        author: "Masashi Kishimoto",
-        year: 2010,
-        isBought: false,
-        isFinished: false,
-        isFavorite: false,
-        volume: 71,
-        chapter: 0,
-        episode: 0,
-        description: "les ninjas sont trop chouettes")));
-  }
+  final List<Book> listBook;
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<BookBloc, BookState>(builder: (_, bookState) {
-      List<Book> bookItem = bookState.bookItem;
-      return Scaffold(
-        appBar: AppBar(
-          title: Text(widget.title),
-        ),
-        body: Center(
-          child: Column(
-            children: <Widget>[
-              Center(
-                child: Padding(
-                  padding: EdgeInsets.all(20),
-                  child: Text(
-                    Strings.homeTitle,
-                    style: TextStyle(fontSize: 20, color: Colors.black),
-                  ),
-                ),
+    return Center(
+      child: Column(
+        children: <Widget>[
+          Center(
+            child: Padding(
+              padding: EdgeInsets.all(20),
+              child: Text(
+                Strings.homeTitle,
+                style: TextStyle(fontSize: 20, color: Colors.black),
               ),
-              Expanded(
-                  child: Padding(
-                      padding: EdgeInsets.all(3),
-                      child:
-                          SizedBox(height: 500.0, child: _bookList(bookItem))))
-              //SingleChildScrollView(child: _bookList())),
-            ],
+            ),
           ),
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: _addBook,
-          tooltip: 'AddBook',
-          child: Icon(Icons.add),
-        ), // This trailing comma makes auto-formatting nicer for build methods.
-      );
-    });
+          Expanded(
+              child: Padding(
+                  padding: EdgeInsets.all(3),
+                  child: SizedBox(height: 500.0, child: _bookList(listBook))))
+          //SingleChildScrollView(child: _bookList())),
+        ],
+      ),
+    );
   }
 
-  Widget _bookList(List<Book> bookItem) {
-    if (bookItem.length == 0) {
+  Widget _bookList(List<Book> listBook) {
+    if (listBook.length == 0) {
       return Text(Strings.homeEmptyList);
     } else {
       return ListView.builder(
-          itemCount: bookItem.length,
+          itemCount: listBook.length,
           itemBuilder: (context, position) {
-            return _buildCard(position, bookItem[position]);
+            return _buildCard(position, listBook[position]);
           });
     }
   }
@@ -99,8 +60,6 @@ class _HomePageState extends State<HomePage> {
         padding: EdgeInsets.all(10),
         child: ExpansionTile(
             childrenPadding: EdgeInsets.all(16).copyWith(top: 0),
-            onExpansionChanged: (isExpanded) =>
-                _expanded[position] = !isExpanded,
             title: Row(children: <Widget>[
               Icon(Icons.auto_stories_outlined, color: cardColor),
               SizedBox(width: 10),
