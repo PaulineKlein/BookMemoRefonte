@@ -1,5 +1,5 @@
-import 'Book.dart';
-import 'BookDao.dart';
+import 'book.dart';
+import 'bookDao.dart';
 
 class BookRepository {
   final bookDao = BookDao();

@@ -1,9 +1,9 @@
-import 'package:book_memo/Data/Model/BookRepository.dart';
+import 'package:book_memo/data/model/bookRepository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../Strings.dart';
-import 'BookEvent.dart';
-import 'BookState.dart';
+import '../strings.dart';
+import 'bookEvent.dart';
+import 'bookState.dart';
 
 class BookBloc extends Bloc<BookEvent, BookState> {
   final BookRepository repository;

@@ -2,11 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../Data/Model/Book.dart';
-import '../../Strings.dart';
-import '../../bloc/BookBloc.dart';
-import '../../bloc/BookEvent.dart';
-import '../../bloc/BookState.dart';
+import '../../bloc/bookBloc.dart';
+import '../../bloc/bookEvent.dart';
+import '../../bloc/bookState.dart';
+import '../../data/model/book.dart';
+import '../../strings.dart';
 import 'buildListBooks.dart';
 
 class HomePage extends StatefulWidget {

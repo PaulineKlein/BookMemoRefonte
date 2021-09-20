@@ -1,9 +1,9 @@
-import 'package:book_memo/Data/Model/BookRepository.dart';
+import 'package:book_memo/data/model/bookRepository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import "bloc/BookBloc.dart";
-import 'bloc/BookBlocObserver.dart';
+import "bloc/bookBloc.dart";
+import 'bloc/bookBlocObserver.dart';
 import 'ui/home/home.dart';
 
 void main() {

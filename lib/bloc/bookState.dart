@@ -1,5 +1,5 @@
 //create states to represent a product being added and removed:
-import 'package:book_memo/Data/Model/Book.dart';
+import 'package:book_memo/data/model/book.dart';
 import 'package:equatable/equatable.dart';
 
 abstract class BookState extends Equatable {

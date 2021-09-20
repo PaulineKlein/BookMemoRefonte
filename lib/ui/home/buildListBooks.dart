@@ -1,8 +1,8 @@
-import 'package:book_memo/Data/Model/Book.dart';
+import 'package:book_memo/data/model/book.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../../Strings.dart';
+import '../../strings.dart';
 
 class BuildListBook extends StatelessWidget {
   const BuildListBook({Key? key, required this.listBook}) : super(key: key);

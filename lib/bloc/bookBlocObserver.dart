@@ -1,7 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class BookBlocObserver extends BlocObserver {
-
   @override
   void onEvent(Bloc bloc, Object? event) {
     print('bloc: ${bloc.runtimeType}, event: $event');
@@ -25,5 +24,4 @@ class BookBlocObserver extends BlocObserver {
     print('BlocBase: ${bloc.runtimeType}, error: $error');
     super.onError(bloc, error, stackTrace);
   }
-
 }
