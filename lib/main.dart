@@ -1,7 +1,9 @@
 import 'package:book_memo/data/model/bookRepository.dart';
+import 'package:book_memo/ui/addBook/addBook.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'Strings.dart';
 import "bloc/bookBloc.dart";
 import 'bloc/bookBlocObserver.dart';
 import 'ui/home/home.dart';
@@ -26,7 +28,11 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         scaffoldBackgroundColor: Colors.blue[100],
       ),
-      home: HomePage(title: 'Book Memo'),
+      routes: {
+        AddBookPage.routeName: (context) => AddBookPage(),
+        HomePage.routeName: (context) => HomePage(title: Strings.homeTitle),
+      },
+      home: HomePage(title: Strings.homeTitle),
     );
   }
 }

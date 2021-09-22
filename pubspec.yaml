@@ -33,6 +33,7 @@ dependencies:
   sqflite: ^2.0.0
   path: ^1.8.0
   path_provider: ^2.0.5
+  flutter_form_bloc: ^0.20.6
 
 dev_dependencies:
   flutter_test:

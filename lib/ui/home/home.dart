@@ -1,3 +1,4 @@
+import 'package:book_memo/ui/addBook/addBook.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -5,13 +6,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../bloc/bookBloc.dart';
 import '../../bloc/bookEvent.dart';
 import '../../bloc/bookState.dart';
-import '../../data/model/book.dart';
 import '../../strings.dart';
 import 'buildListBooks.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key? key, required this.title}) : super(key: key);
   final String title;
+  static const routeName = '/home';
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -25,18 +26,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _addBook() {
-    BlocProvider.of<BookBloc>(context).add(AddBook(Book(
-        bookType: BookType.manga,
-        title: "Naruto",
-        author: "Masashi Kishimoto",
-        year: 2010,
-        isBought: false,
-        isFinished: false,
-        isFavorite: false,
-        volume: 71,
-        chapter: 0,
-        episode: 0,
-        description: "les ninjas sont trop chouettes")));
+    Navigator.pushNamed(context, AddBookPage.routeName);
   }
 
   @override
@@ -60,7 +50,7 @@ class _HomePageState extends State<HomePage> {
           } else if (state is BookError) {
             return Text(state.message);
           } else {
-            return Text(Strings.error);
+            return Text(Strings.genericError);
           }
         }),
       ),

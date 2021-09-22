@@ -41,4 +41,16 @@ class BookDao {
 
     return books;
   }
+
+  Future<List<Book>> checkTitle(String title) async {
+    final db = await dbProvider.database;
+    final List<Map<String, dynamic>> result =
+    await db.query(bookTable, where: "lower(title) = ?", whereArgs: [title.toLowerCase()]);
+
+    List<Book> books = List.generate(result.length, (i) {
+      return Book.fromMap(result[i]);
+    });
+
+    return books;
+  }
 }
