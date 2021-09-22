@@ -30,9 +30,9 @@ class MyApp extends StatelessWidget {
       ),
       routes: {
         AddBookPage.routeName: (context) => AddBookPage(),
-        HomePage.routeName: (context) => HomePage(title: Strings.homeTitle),
+        HomePage.routeName: (context) => HomePage(),
       },
-      home: HomePage(title: Strings.homeTitle),
+      home: HomePage(),
     );
   }
 }

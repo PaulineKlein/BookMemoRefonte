@@ -58,7 +58,8 @@ class AddBookFormBloc extends FormBloc<String, String> {
     if (title == null) {
       return null;
     } else {
-      var books = await repository.checkTitle(title);
+      var books = await repository
+          .getBooks(Strings.dbCompareTitle, [title.toLowerCase()]);
       if (books.isEmpty) {
         return null;
       } else {

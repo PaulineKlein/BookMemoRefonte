@@ -1,6 +1,7 @@
 class Strings {
   static const String homeTitle = "Votre bibliothèque";
   static const String homeEmptyList = "Pas encore de livre enregistré";
+  static const String homeSearchTitle = "entrez un titre, un auteur ...";
   static const String bookBuy = "Acheté";
   static const String bookNotBuy = "Non acheté";
   static const String bookFinish = "Terminé";
@@ -34,4 +35,8 @@ class Strings {
   static const String alertDialogAddTitle = "Livre ajouté avec Succès";
   static const String alertDialogAddMessage =
       "Souhaitez-vous en ajouter un autre ?";
+
+  static const String dbCompareTitle = "lower(title) = ?";
+  static const String dbCompareTitleAndAuthor =
+      "lower(title) LIKE ? OR lower(author) LIKE ?";
 }

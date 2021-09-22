@@ -30,22 +30,19 @@ class BookDao {
     return result;
   }
 
-  Future<List<Book>> getBooks(List<String>? columns) async {
+  Future<List<Book>> getBooks(
+      String? whereQuery, List<String>? whereArg) async {
     final db = await dbProvider.database;
-    final List<Map<String, dynamic>> result =
-        await db.query(bookTable, columns: columns);
+    final List<Map<String, dynamic>> result;
 
-    List<Book> books = List.generate(result.length, (i) {
-      return Book.fromMap(result[i]);
-    });
-
-    return books;
-  }
-
-  Future<List<Book>> checkTitle(String title) async {
-    final db = await dbProvider.database;
-    final List<Map<String, dynamic>> result =
-    await db.query(bookTable, where: "lower(title) = ?", whereArgs: [title.toLowerCase()]);
+    if (whereQuery == null) {
+      result = await db.query(bookTable);
+    } else if (whereArg == null) {
+      result = await db.query(bookTable, where: whereQuery);
+    } else {
+      result =
+          await db.query(bookTable, where: whereQuery, whereArgs: whereArg);
+    }
 
     List<Book> books = List.generate(result.length, (i) {
       return Book.fromMap(result[i]);

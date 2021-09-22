@@ -10,7 +10,6 @@ class BookRepository {
 
   Future deleteBook(String title) => bookDao.deleteBook(title);
 
-  Future getBooks(List<String>? columns) => bookDao.getBooks(columns);
-
-  Future checkTitle(String title) => bookDao.checkTitle(title);
+  Future getBooks(String? whereQuery, List<String>? whereArg) =>
+      bookDao.getBooks(whereQuery, whereArg);
 }
