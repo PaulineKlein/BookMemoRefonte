@@ -51,7 +51,6 @@ class _AddBookState extends State<AddBookPage> {
                   },
                   onSuccess: (context, state) {
                     LoadingDialog.hide(context);
-
                     AlertDialogUtility.getInstance().showAlertDialog(
                         context: context,
                         alertTitle: Strings.alertDialogAddTitle,
@@ -63,7 +62,14 @@ class _AddBookState extends State<AddBookPage> {
                   },
                   onFailure: (context, state) {
                     LoadingDialog.hide(context);
-                    // todo opup error
+                    AlertDialogUtility.getInstance().showAlertDialog(
+                        context: context,
+                        alertTitle: Strings.genericError,
+                        alertMessage: Strings.genericRetry,
+                        strCancelButton: Strings.genericYes,
+                        onCancelClick: _onCancelClick,
+                        strConfirmButton: Strings.genericNo,
+                        onConfirmClick: _onConfirmClick);
                   },
                   child: BuildBookForm(formBloc: formBloc)),
             ),

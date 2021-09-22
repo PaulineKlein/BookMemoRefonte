@@ -9,6 +9,7 @@ class Strings {
   static const String bookChapter = "Chapitre :";
   static const String bookEpisode = "Episode :";
   static const String genericError = "Une erreur est survenue";
+  static const String genericRetry = "Souhaitez-vous réessayer ?";
   static const String genericYes = "Oui";
   static const String genericNo = "Non";
   static const String addBookTitle = "Ajouter un livre";
