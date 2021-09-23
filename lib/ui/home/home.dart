@@ -104,11 +104,11 @@ class _HomePageState extends State<HomePage> {
           if (state is BookHasData) {
             return BuildListBook(listBook: state.booksList);
           } else if (state is BookNoData) {
-            return Text(state.message);
+            return BuildListBook(listBook: [], message: state.message);
           } else if (state is BookError) {
-            return Text(state.message);
+            return BuildListBook(listBook: [], message: state.message);
           } else {
-            return Text(Strings.genericError);
+            return BuildListBook(listBook: [], message: Strings.genericError);
           }
         }),
       ),

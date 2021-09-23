@@ -6,7 +6,7 @@ abstract class BookEvent extends Equatable {
   const BookEvent();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class LoadBook extends BookEvent {}
@@ -18,6 +18,15 @@ class SearchBook extends BookEvent {
 
   @override
   List<Object> get props => [searchInput];
+}
+
+class FilterBook extends BookEvent {
+  final String? query;
+
+  const FilterBook(this.query);
+
+  @override
+  List<Object?> get props => [query];
 }
 
 class AddBook extends BookEvent {

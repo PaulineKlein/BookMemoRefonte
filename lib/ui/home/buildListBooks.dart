@@ -3,11 +3,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../strings.dart';
+import 'buildFilter.dart';
 
 class BuildListBook extends StatelessWidget {
-  const BuildListBook({Key? key, required this.listBook}) : super(key: key);
+  const BuildListBook({Key? key, required this.listBook, this.message})
+      : super(key: key);
 
   final List<Book> listBook;
+  final String? message;
 
   @override
   Widget build(BuildContext context) {
@@ -16,11 +19,8 @@ class BuildListBook extends StatelessWidget {
         children: <Widget>[
           Center(
             child: Padding(
-              padding: EdgeInsets.all(20),
-              child: Text(
-                Strings.homeTitle,
-                style: TextStyle(fontSize: 20, color: Colors.black),
-              ),
+              padding: EdgeInsets.all(10),
+              child: BuildFilter(),
             ),
           ),
           Expanded(
@@ -35,7 +35,10 @@ class BuildListBook extends StatelessWidget {
 
   Widget _bookList(List<Book> listBook) {
     if (listBook.length == 0) {
-      return Text(Strings.homeEmptyList);
+      return Align(
+          alignment: Alignment.center,
+          child: Text(message == null ? Strings.genericError : message!,
+              style: TextStyle(fontSize: 18)));
     } else {
       return ListView.builder(
           itemCount: listBook.length,

@@ -20,6 +20,8 @@ class BookBloc extends Bloc<BookEvent, BookState> {
       yield* _mapRemoveBookToState(event);
     } else if (event is SearchBook) {
       yield* _mapSearchBookToState(event);
+    } else if (event is FilterBook) {
+      yield* _mapFilterBookToState(event);
     }
   }
 
@@ -46,6 +48,19 @@ class BookBloc extends Bloc<BookEvent, BookState> {
           await repository.getBooks(Strings.dbCompareTitleAndAuthor, listArg);
       if (books.isEmpty) {
         yield BookNoData(Strings.homeEmptyList);
+      } else {
+        yield BookHasData(books);
+      }
+    } catch (e) {
+      yield BookError(e.toString());
+    }
+  }
+
+  Stream<BookState> _mapFilterBookToState(FilterBook event) async* {
+    try {
+      var books = await repository.getBooks(event.query, null);
+      if (books.isEmpty) {
+        yield BookNoData(Strings.filterEmptyList);
       } else {
         yield BookHasData(books);
       }

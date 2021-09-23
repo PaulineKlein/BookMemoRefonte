@@ -2,13 +2,15 @@ class Strings {
   static const String homeTitle = "Votre bibliothèque";
   static const String homeEmptyList = "Pas encore de livre enregistré";
   static const String homeSearchTitle = "Entrez un titre, un auteur ...";
-  static const String bookBuy = "Acheté";
-  static const String bookNotBuy = "Non acheté";
+  static const String bookBuy = "Possédé";
+  static const String bookNotBuy = "Prêté";
   static const String bookFinish = "Terminé";
   static const String bookNotFinish = "En cours";
   static const String bookVolume = "Volume :";
   static const String bookChapter = "Chapitre :";
   static const String bookEpisode = "Episode :";
+  static const String filterCategory = "Catégories";
+  static const String filterEmptyList = "Aucun Résultat";
   static const String genericError = "Une erreur est survenue";
   static const String genericRetry = "Souhaitez-vous réessayer ?";
   static const String genericYes = "Oui";
@@ -26,7 +28,7 @@ class Strings {
   static const String formEpisode = "Episode";
   static const String formDescription = "Description";
   static const String formType = "Type";
-  static const String formTypeLiterature = "Litterature";
+  static const String formTypeLiterature = "Roman";
   static const String formTypeManga = "Manga";
   static const String formTypeComic = "BD";
   static const String formIsFinished = "Collection";
@@ -39,4 +41,7 @@ class Strings {
   static const String dbCompareTitle = "lower(title) = ?";
   static const String dbCompareTitleAndAuthor =
       "lower(title) LIKE ? OR lower(author) LIKE ?";
+  static const String dbHasType = "bookType IN ";
+  static const String dbIsFinished = "isFinished IN ";
+  static const String dbIsBought = "isBought IN ";
 }

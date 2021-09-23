@@ -36,12 +36,13 @@ class BookDao {
     final List<Map<String, dynamic>> result;
 
     if (whereQuery == null) {
-      result = await db.query(bookTable);
+      result = await db.query(bookTable, orderBy: 'title ASC');
     } else if (whereArg == null) {
-      result = await db.query(bookTable, where: whereQuery);
-    } else {
       result =
-          await db.query(bookTable, where: whereQuery, whereArgs: whereArg);
+          await db.query(bookTable, orderBy: 'title ASC', where: whereQuery);
+    } else {
+      result = await db.query(bookTable,
+          orderBy: 'title ASC', where: whereQuery, whereArgs: whereArg);
     }
 
     List<Book> books = List.generate(result.length, (i) {
