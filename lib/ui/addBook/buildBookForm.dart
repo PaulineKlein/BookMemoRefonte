@@ -20,6 +20,7 @@ class BuildBookForm extends StatelessWidget {
           children: <Widget>[
             TextFieldBlocBuilder(
               textFieldBloc: formBloc.textTitle,
+              textInputAction: TextInputAction.next,
               decoration: InputDecoration(
                 labelText: Strings.formTitle,
                 labelStyle: TextStyle(fontSize: 18.0),
@@ -30,6 +31,7 @@ class BuildBookForm extends StatelessWidget {
             ),
             TextFieldBlocBuilder(
               textFieldBloc: formBloc.textAuthor,
+              textInputAction: TextInputAction.next,
               decoration: InputDecoration(
                 labelText: Strings.formAuthor,
                 labelStyle: TextStyle(fontSize: 18.0),
@@ -40,6 +42,7 @@ class BuildBookForm extends StatelessWidget {
             ),
             TextFieldBlocBuilder(
               textFieldBloc: formBloc.textYear,
+              textInputAction: TextInputAction.next,
               keyboardType: TextInputType.number,
               decoration: InputDecoration(
                 labelText: Strings.formYear,
@@ -51,6 +54,7 @@ class BuildBookForm extends StatelessWidget {
             ),
             TextFieldBlocBuilder(
               textFieldBloc: formBloc.textDescription,
+              textInputAction: TextInputAction.next,
               decoration: InputDecoration(
                 labelText: Strings.formDescription,
                 labelStyle: TextStyle(fontSize: 18.0),
@@ -76,6 +80,7 @@ class BuildBookForm extends StatelessWidget {
                           TextFieldBlocBuilder(
                             textFieldBloc: formBloc.textVolume,
                             keyboardType: TextInputType.number,
+                            textInputAction: TextInputAction.next,
                             decoration: InputDecoration(
                               labelText: Strings.formVolume,
                               labelStyle: TextStyle(fontSize: 18.0),
@@ -86,6 +91,7 @@ class BuildBookForm extends StatelessWidget {
                           TextFieldBlocBuilder(
                             textFieldBloc: formBloc.textChapter,
                             keyboardType: TextInputType.number,
+                            textInputAction: TextInputAction.next,
                             decoration: InputDecoration(
                               labelText: Strings.formChapter,
                               labelStyle: TextStyle(fontSize: 18.0),
@@ -96,6 +102,7 @@ class BuildBookForm extends StatelessWidget {
                           TextFieldBlocBuilder(
                             textFieldBloc: formBloc.textEpisode,
                             keyboardType: TextInputType.number,
+                            textInputAction: TextInputAction.next,
                             decoration: InputDecoration(
                               labelText: Strings.formEpisode,
                               labelStyle: TextStyle(fontSize: 18.0),

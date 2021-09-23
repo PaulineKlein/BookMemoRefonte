@@ -1,7 +1,7 @@
 class Strings {
   static const String homeTitle = "Votre bibliothèque";
   static const String homeEmptyList = "Pas encore de livre enregistré";
-  static const String homeSearchTitle = "entrez un titre, un auteur ...";
+  static const String homeSearchTitle = "Entrez un titre, un auteur ...";
   static const String bookBuy = "Acheté";
   static const String bookNotBuy = "Non acheté";
   static const String bookFinish = "Terminé";
