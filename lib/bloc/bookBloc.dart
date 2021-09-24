@@ -22,6 +22,8 @@ class BookBloc extends Bloc<BookEvent, BookState> {
       yield* _mapSearchBookToState(event);
     } else if (event is FilterBook) {
       yield* _mapFilterBookToState(event);
+    } else if (event is IncreaseBook) {
+      yield* _mapIncreaseBookToState(event);
     }
   }
 
@@ -82,6 +84,14 @@ class BookBloc extends Bloc<BookEvent, BookState> {
     try {
       await repository.deleteBook(event.book.title);
       yield BookSuccess(event.book.title + ' remove to database');
+    } catch (e) {
+      yield BookError(e.toString());
+    }
+  }
+
+  Stream<BookState> _mapIncreaseBookToState(IncreaseBook event) async* {
+    try {
+      await repository.increaseBook(event.book, event.column, event.value);
     } catch (e) {
       yield BookError(e.toString());
     }

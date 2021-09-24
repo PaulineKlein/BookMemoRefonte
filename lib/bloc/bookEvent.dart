@@ -46,3 +46,14 @@ class RemoveBook extends BookEvent {
   @override
   List<Object> get props => [book];
 }
+
+class IncreaseBook extends BookEvent {
+  final Book book;
+  final String column;
+  final int value;
+
+  const IncreaseBook(this.book, this.column, this.value);
+
+  @override
+  List<Object> get props => [book];
+}

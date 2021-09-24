@@ -4,14 +4,20 @@ import 'package:flutter/material.dart';
 
 import '../../strings.dart';
 import 'buildFilter.dart';
+import 'buildListActions.dart';
 
-class BuildListBook extends StatelessWidget {
-  const BuildListBook({Key? key, required this.listBook, this.message})
+class BuildListBook extends StatefulWidget {
+  BuildListBook({Key? key, required this.listBook, this.message})
       : super(key: key);
 
   final List<Book> listBook;
   final String? message;
 
+  @override
+  _BuildListBookState createState() => _BuildListBookState();
+}
+
+class _BuildListBookState extends State<BuildListBook> {
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -26,36 +32,33 @@ class BuildListBook extends StatelessWidget {
           Expanded(
               child: Padding(
                   padding: EdgeInsets.all(3),
-                  child: SizedBox(height: 500.0, child: _bookList(listBook))))
-          //SingleChildScrollView(child: _bookList())),
+                  child: SizedBox(height: 500.0, child: _bookList(context))))
         ],
       ),
     );
   }
 
-  Widget _bookList(List<Book> listBook) {
-    if (listBook.length == 0) {
+  Widget _bookList(BuildContext context) {
+    if (widget.listBook.length == 0) {
       return Align(
           alignment: Alignment.center,
-          child: Text(message == null ? Strings.genericError : message!,
+          child: Text(
+              widget.message == null ? Strings.genericError : widget.message!,
               style: TextStyle(fontSize: 18)));
     } else {
       return ListView.builder(
-          itemCount: listBook.length,
+          itemCount: widget.listBook.length,
           itemBuilder: (context, position) {
-            return _buildCard(position, listBook[position]);
+            return _buildCard(position, context);
           });
     }
   }
 
-  // This function displays each new pair in a ListTile,
-  // which allows you to make the rows more attractive in the next step
-  Widget _buildCard(position, Book book) {
+  Widget _buildCard(int position, BuildContext context) {
     Color cardColor = position % 2 == 0 ? Colors.blue : Colors.deepPurple;
 
     return Card(
       elevation: 0,
-      //color: position % 2 == 0 ? Colors.blue[100] : Colors.deepPurple[100],
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
           side: BorderSide(color: cardColor)),
@@ -64,17 +67,23 @@ class BuildListBook extends StatelessWidget {
         child: ExpansionTile(
             childrenPadding: EdgeInsets.all(16).copyWith(top: 0),
             title: Row(children: <Widget>[
-              Icon(Icons.auto_stories_outlined, color: cardColor),
+              Image.asset(
+                "assets/images/icon_${widget.listBook[position].getNameFromType()}.png",
+                width: 50,
+              ),
               SizedBox(width: 10),
-              Text(book.title,
+              Text(widget.listBook[position].title,
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
             ]),
-            children: [_buildExpansionTile(book, cardColor)]),
+            children: [_buildExpansionTile(position, cardColor, context)]),
       ),
     );
   }
 
-  Widget _buildExpansionTile(Book book, Color cardColor) {
+  Widget _buildExpansionTile(
+      int position, Color cardColor, BuildContext context) {
+    Book book = widget.listBook[position];
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -171,6 +180,39 @@ class BuildListBook extends StatelessWidget {
             ],
           ),
         ),
+        SizedBox(height: 10),
+        Container(
+            decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                  blurRadius: 13,
+                  color: Colors.black12,
+                ),
+              ],
+              color: Colors.white,
+              borderRadius: BorderRadius.all(Radius.circular(10.0)),
+            ),
+            padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+            child: BuildListActions(
+              book: book,
+              cardColor: cardColor,
+              position: position,
+              onIncreaseValue: (String column, int updateValue) {
+                setState(() {
+                  switch (column) {
+                    case "volume":
+                      widget.listBook[position].volume = updateValue;
+                      break;
+                    case "chapter":
+                      widget.listBook[position].chapter = updateValue;
+                      break;
+                    case "episode":
+                      widget.listBook[position].episode = updateValue;
+                      break;
+                  }
+                });
+              },
+            )),
       ],
     );
   }

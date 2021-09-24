@@ -37,6 +37,11 @@ class Strings {
   static const String alertDialogAddTitle = "Livre ajouté avec Succès";
   static const String alertDialogAddMessage =
       "Souhaitez-vous en ajouter un autre ?";
+  static const String alertDialogDeleteTitle = "Suppression en cours";
+  static const String alertDialogDeleteMessage =
+      "Souhaitez-vous vraiment supprimer ce livre ?";
+  static const String alertDialogAdvancementMessage =
+      "Voulez-vous incrémenter cette série ?";
 
   static const String dbCompareTitle = "lower(title) = ?";
   static const String dbCompareTitleAndAuthor =

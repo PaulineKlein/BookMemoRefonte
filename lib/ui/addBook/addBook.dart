@@ -51,7 +51,7 @@ class _AddBookState extends State<AddBookPage> {
                   },
                   onSuccess: (context, state) {
                     LoadingDialog.hide(context);
-                    AlertDialogUtility.getInstance().showAlertDialog(
+                    AlertDialogUtility.getInstance().showAlertDialogTwoChoices(
                         context: context,
                         alertTitle: Strings.alertDialogAddTitle,
                         alertMessage: Strings.alertDialogAddMessage,
@@ -62,7 +62,7 @@ class _AddBookState extends State<AddBookPage> {
                   },
                   onFailure: (context, state) {
                     LoadingDialog.hide(context);
-                    AlertDialogUtility.getInstance().showAlertDialog(
+                    AlertDialogUtility.getInstance().showAlertDialogTwoChoices(
                         context: context,
                         alertTitle: Strings.genericError,
                         alertMessage: Strings.genericRetry,

@@ -30,6 +30,16 @@ class BookDao {
     return result;
   }
 
+  Future<int> increaseBook(Book book, String column, int value) async {
+    // row to update
+    Map<String, dynamic> row = {column : value};
+
+    final db = await dbProvider.database;
+    var result = await db.update(bookTable, row,
+        where: "title = ?", whereArgs: [book.title]);
+    return result;
+  }
+
   Future<List<Book>> getBooks(
       String? whereQuery, List<String>? whereArg) async {
     final db = await dbProvider.database;

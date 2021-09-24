@@ -26,6 +26,17 @@ class Book {
       required this.episode,
       this.description});
 
+  String getNameFromType() {
+    switch (this.bookType) {
+      case BookType.manga:
+        return "manga";
+      case BookType.comic:
+        return "comic";
+      case BookType.literature:
+        return "literature";
+    }
+  }
+
   Map<String, dynamic> toMap() {
     return {
       'bookType': bookType.index,
