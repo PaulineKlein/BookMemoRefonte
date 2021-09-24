@@ -49,24 +49,24 @@ class _BuildListActionsState extends State<BuildListActions> {
         alertTitle: widget.book.title,
         onVolumeClick: () {
           int updateValue = widget.book.volume + 1;
-          BlocProvider.of<BookBloc>(context)
-              .add(IncreaseBook(widget.book, "volume", updateValue));
+          BlocProvider.of<BookBloc>(context).add(
+              IncreaseBook(widget.book, Strings.columnVolume, updateValue));
           Navigator.pop(context);
-          widget.onIncreaseValue("volume", updateValue);
+          widget.onIncreaseValue(Strings.columnVolume, updateValue);
         },
         onChapterClick: () {
           int updateValue = widget.book.chapter + 1;
-          BlocProvider.of<BookBloc>(context)
-              .add(IncreaseBook(widget.book, "chapter", updateValue));
+          BlocProvider.of<BookBloc>(context).add(
+              IncreaseBook(widget.book, Strings.columnChapter, updateValue));
           Navigator.pop(context);
-          widget.onIncreaseValue("chapter", updateValue);
+          widget.onIncreaseValue(Strings.columnChapter, updateValue);
         },
         onEpisodeClick: () {
           int updateValue = widget.book.episode + 1;
-          BlocProvider.of<BookBloc>(context)
-              .add(IncreaseBook(widget.book, "episode", updateValue));
+          BlocProvider.of<BookBloc>(context).add(
+              IncreaseBook(widget.book, Strings.columnEpisode, updateValue));
           Navigator.pop(context);
-          widget.onIncreaseValue("episode", updateValue);
+          widget.onIncreaseValue(Strings.columnEpisode, updateValue);
         });
   }
 

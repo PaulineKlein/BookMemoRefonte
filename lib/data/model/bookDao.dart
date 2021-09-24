@@ -1,3 +1,4 @@
+import 'package:book_memo/strings.dart';
 import 'package:sqflite/sqflite.dart';
 
 import '../databaseProvider.dart';
@@ -9,7 +10,7 @@ class BookDao {
   Future<int> insertBook(Book book) async {
     final db = await dbProvider.database;
     var result = await db.insert(
-      bookTable,
+      Strings.bookTable,
       book.toMap(),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
@@ -18,25 +19,25 @@ class BookDao {
 
   Future<int> updateBook(Book book) async {
     final db = await dbProvider.database;
-    var result = await db.update(bookTable, book.toMap(),
-        where: "title = ?", whereArgs: [book.title]);
+    var result = await db.update(Strings.bookTable, book.toMap(),
+        where: "${Strings.columnId} = ?", whereArgs: [book.id]);
     return result;
   }
 
-  Future<int> deleteBook(String title) async {
+  Future<int> deleteBook(int id) async {
     final db = await dbProvider.database;
-    var result =
-        await db.delete(bookTable, where: "title = ?", whereArgs: [title]);
+    var result = await db.delete(Strings.bookTable,
+        where: "${Strings.columnId} = ?", whereArgs: [id]);
     return result;
   }
 
   Future<int> increaseBook(Book book, String column, int value) async {
     // row to update
-    Map<String, dynamic> row = {column : value};
+    Map<String, dynamic> row = {column: value};
 
     final db = await dbProvider.database;
-    var result = await db.update(bookTable, row,
-        where: "title = ?", whereArgs: [book.title]);
+    var result = await db.update(Strings.bookTable, row,
+        where: "${Strings.columnId} = ?", whereArgs: [book.id]);
     return result;
   }
 
@@ -46,13 +47,16 @@ class BookDao {
     final List<Map<String, dynamic>> result;
 
     if (whereQuery == null) {
-      result = await db.query(bookTable, orderBy: 'title ASC');
+      result = await db.query(Strings.bookTable,
+          orderBy: '${Strings.columnTitle} ASC');
     } else if (whereArg == null) {
-      result =
-          await db.query(bookTable, orderBy: 'title ASC', where: whereQuery);
+      result = await db.query(Strings.bookTable,
+          orderBy: '${Strings.columnTitle} ASC', where: whereQuery);
     } else {
-      result = await db.query(bookTable,
-          orderBy: 'title ASC', where: whereQuery, whereArgs: whereArg);
+      result = await db.query(Strings.bookTable,
+          orderBy: '${Strings.columnTitle} ASC',
+          where: whereQuery,
+          whereArgs: whereArg);
     }
 
     List<Book> books = List.generate(result.length, (i) {

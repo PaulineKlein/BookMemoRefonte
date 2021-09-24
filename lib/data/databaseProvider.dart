@@ -5,13 +5,15 @@ import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
-final bookTable = 'book';
+import '../strings.dart';
 
 class DatabaseProvider {
   DatabaseProvider._(); // constructeur privé
 
   static final DatabaseProvider dbProvider = DatabaseProvider._();
   static Database? _database;
+  static final _databaseName = "bookMemo.db";
+  static final _databaseVersion = 1;
 
   Future<Database> get database async {
     if (_database != null) return _database!;
@@ -22,9 +24,9 @@ class DatabaseProvider {
   createDatabase() async {
     WidgetsFlutterBinding.ensureInitialized();
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
-    String path = join(documentsDirectory.path, "bookMemo.db");
+    String path = join(documentsDirectory.path, _databaseName);
     var database = await openDatabase(path,
-        version: 1, onCreate: initDB, onUpgrade: onUpgrade);
+        version: _databaseVersion, onCreate: initDB, onUpgrade: onUpgrade);
     return database;
   }
 
@@ -33,18 +35,19 @@ class DatabaseProvider {
   }
 
   void initDB(Database database, int version) async {
-    await database.execute("CREATE TABLE $bookTable ("
-        "bookType INTEGER, "
-        "title TEXT PRIMARY KEY, "
-        "author TEXT, "
-        "year INTEGER, "
-        "isBought INTEGER, "
-        "isFinished INTEGER, "
-        "isFavorite INTEGER, "
-        "volume INTEGER, "
-        "chapter INTEGER, "
-        "episode INTEGER, "
-        "description TEXT "
+    await database.execute("CREATE TABLE ${Strings.bookTable} ("
+        "${Strings.columnId} INTEGER PRIMARY KEY AUTOINCREMENT, "
+        "${Strings.columnBookType} INTEGER, "
+        "${Strings.columnTitle} TEXT UNIQUE, "
+        "${Strings.columnAuthor} TEXT, "
+        "${Strings.columnYear} INTEGER, "
+        "${Strings.columnIsBought} INTEGER, "
+        "${Strings.columnIsFinished} INTEGER, "
+        "${Strings.columnIsFavorite} INTEGER, "
+        "${Strings.columnVolume} INTEGER, "
+        "${Strings.columnChapter} INTEGER, "
+        "${Strings.columnEpisode} INTEGER, "
+        "${Strings.columnDescription} TEXT "
         ")");
   }
 }

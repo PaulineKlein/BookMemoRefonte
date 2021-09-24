@@ -8,9 +8,10 @@ class BookRepository {
 
   Future updateBook(Book book) => bookDao.updateBook(book);
 
-  Future deleteBook(String title) => bookDao.deleteBook(title);
+  Future deleteBook(int id) => bookDao.deleteBook(id);
 
-  Future increaseBook(Book book, String column, int value) => bookDao.increaseBook(book, column, value);
+  Future increaseBook(Book book, String column, int value) =>
+      bookDao.increaseBook(book, column, value);
 
   Future getBooks(String? whereQuery, List<String>? whereArg) =>
       bookDao.getBooks(whereQuery, whereArg);

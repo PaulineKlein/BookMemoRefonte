@@ -1,6 +1,9 @@
+import '../../strings.dart';
+
 enum BookType { literature, manga, comic }
 
 class Book {
+  int? id;
   final BookType bookType;
   final String title;
   final String author;
@@ -14,7 +17,8 @@ class Book {
   String? description;
 
   Book(
-      {required this.bookType,
+      {this.id,
+      required this.bookType,
       required this.title,
       required this.author,
       this.year,
@@ -38,31 +42,35 @@ class Book {
   }
 
   Map<String, dynamic> toMap() {
-    return {
-      'bookType': bookType.index,
-      'title': title,
-      'author': author,
-      'year': year,
-      'isBought': isBought,
-      'isFinished': isFinished,
-      'isFavorite': isFavorite,
-      'volume': volume,
-      'chapter': chapter,
-      'episode': episode,
-      'description': description,
+    var map = {
+      Strings.columnBookType: bookType.index,
+      Strings.columnTitle: title,
+      Strings.columnAuthor: author,
+      Strings.columnYear: year,
+      Strings.columnIsBought: isBought == true ? 1 : 0,
+      Strings.columnIsFinished: isFinished == true ? 1 : 0,
+      Strings.columnIsFavorite: isFavorite == true ? 1 : 0,
+      Strings.columnVolume: volume,
+      Strings.columnChapter: chapter,
+      Strings.columnEpisode: episode,
+      Strings.columnDescription: description,
     };
+
+    if (id != null) map[Strings.columnId] = id;
+    return map;
   }
 
   factory Book.fromMap(Map<String, dynamic> map) => new Book(
-      bookType: BookType.values[map['bookType']],
-      title: map['title'],
-      author: map['author'],
-      year: map['year'],
-      isBought: map['isBought'] == 1,
-      isFinished: map['isFinished'] == 1,
-      isFavorite: map['isFavorite'] == 1,
-      volume: map['volume'],
-      chapter: map['chapter'],
-      episode: map['episode'],
-      description: map['description']);
+      id: map[Strings.columnId],
+      bookType: BookType.values[map[Strings.columnBookType]],
+      title: map[Strings.columnTitle],
+      author: map[Strings.columnAuthor],
+      year: map[Strings.columnYear],
+      isBought: map[Strings.columnIsBought] == 1,
+      isFinished: map[Strings.columnIsFinished] == 1,
+      isFavorite: map[Strings.columnIsFavorite] == 1,
+      volume: map[Strings.columnVolume],
+      chapter: map[Strings.columnChapter],
+      episode: map[Strings.columnEpisode],
+      description: map[Strings.columnDescription]);
 }

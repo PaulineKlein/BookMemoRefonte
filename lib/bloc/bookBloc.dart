@@ -82,8 +82,12 @@ class BookBloc extends Bloc<BookEvent, BookState> {
 
   Stream<BookState> _mapRemoveBookToState(RemoveBook event) async* {
     try {
-      await repository.deleteBook(event.book.title);
-      yield BookSuccess(event.book.title + ' remove to database');
+      if (event.book.id == null) {
+        yield BookError(Strings.genericError);
+      } else {
+        await repository.deleteBook(event.book.id!);
+        yield BookSuccess(event.book.title + ' remove to database');
+      }
     } catch (e) {
       yield BookError(e.toString());
     }
