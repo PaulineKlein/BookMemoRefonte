@@ -11,15 +11,6 @@ abstract class BookEvent extends Equatable {
 
 class LoadBook extends BookEvent {}
 
-class SearchBook extends BookEvent {
-  final String searchInput;
-
-  const SearchBook(this.searchInput);
-
-  @override
-  List<Object> get props => [searchInput];
-}
-
 class FilterBook extends BookEvent {
   final String? query;
 

@@ -58,8 +58,8 @@ class Strings {
   static const String columnEpisode = 'episode';
   static const String columnDescription = 'description';
   static const String dbCompareTitle = "lower(title) = ?";
-  static const String dbCompareTitleAndAuthor =
-      "lower(title) LIKE ? OR lower(author) LIKE ?";
+  static const String dbHasTitle = "lower(title) LIKE ";
+  static const String dbHasAuthor = "lower(author) LIKE ";
   static const String dbHasType = "bookType IN ";
   static const String dbIsFinished = "isFinished IN ";
   static const String dbIsBought = "isBought IN ";

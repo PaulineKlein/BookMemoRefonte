@@ -14,12 +14,14 @@ class BuildListActions extends StatefulWidget {
       {Key? key,
       required this.book,
       required this.cardColor,
-      required this.onIncreaseValue})
+      required this.onIncreaseValue,
+      required this.onDeleteBook})
       : super(key: key);
 
   final Book book;
   final Color cardColor;
   final Function(String, int) onIncreaseValue;
+  final Function() onDeleteBook;
 
   @override
   _BuildListActionsState createState() => _BuildListActionsState();
@@ -35,6 +37,7 @@ class _BuildListActionsState extends State<BuildListActions> {
         onCancelClick: () {
           Navigator.pop(context);
           BlocProvider.of<BookBloc>(context).add(RemoveBook(widget.book));
+          widget.onDeleteBook();
         },
         strConfirmButton: Strings.genericNo,
         onConfirmClick: () {

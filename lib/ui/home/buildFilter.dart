@@ -23,11 +23,7 @@ class _BuildFilter extends State<BuildFilter> {
     Strings.bookNotBuy
   ];
   List _selectedIndexs = [];
-
-  void _filterList() {
-    String? query = _getFilterQuery();
-    BlocProvider.of<BookBloc>(context).add(FilterBook(query));
-  }
+  final myTitleSearchController = TextEditingController();
 
   String? _getFilterQuery() {
     List<String> query = [];
@@ -67,13 +63,37 @@ class _BuildFilter extends State<BuildFilter> {
       query.add("${Strings.dbIsBought} (${isBoughtSelected.join(', ')})");
     }
 
+    // title query :
+    if (myTitleSearchController.text.isNotEmpty) {
+      String search = myTitleSearchController.text.toLowerCase();
+      query.add(
+          "${Strings.dbHasTitle} \"%$search%\" OR ${Strings.dbHasAuthor} \"%$search%\"");
+    }
+
     // final query :
     if (query.isNotEmpty) {
-      String lastQuery = query.join('AND ');
+      String lastQuery = query.join(' AND ');
       return lastQuery;
     } else {
       return null;
     }
+  }
+
+  void _filterList() {
+    String? query = _getFilterQuery();
+    BlocProvider.of<BookBloc>(context).add(FilterBook(query));
+  }
+
+  @override
+  initState() {
+    super.initState();
+    myTitleSearchController.addListener(_filterList);
+  }
+
+  @override
+  void dispose() {
+    myTitleSearchController.dispose();
+    super.dispose();
   }
 
   @override
@@ -92,18 +112,36 @@ class _BuildFilter extends State<BuildFilter> {
       ),
       child: Column(
         children: <Widget>[
-          Row(
-            children: <Widget>[
-              Icon(Icons.tune, color: Colors.deepPurple),
-              SizedBox(width: 15.0),
-              Text(
-                Strings.filterCategory,
-                style: Theme.of(context)
-                    .textTheme
-                    .headline5
-                    ?.apply(color: Colors.deepPurple),
-              )
-            ],
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 9.0),
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(10.0)),
+              border: Border.all(
+                color: Colors.grey.withOpacity(.43),
+              ),
+            ),
+            child: ListTile(
+              leading: Icon(
+                Icons.search,
+                color: Colors.grey,
+                size: 28,
+              ),
+              title: TextField(
+                autofocus: false,
+                controller: myTitleSearchController,
+                decoration: InputDecoration(
+                  hintText: Strings.homeSearchTitle,
+                  hintStyle: TextStyle(
+                    color: Colors.grey,
+                    fontSize: 16,
+                    fontStyle: FontStyle.italic,
+                  ),
+                  border: InputBorder.none,
+                ),
+                style: TextStyle(color: Colors.black),
+              ),
+            ),
           ),
           SizedBox(height: 9.0),
           Container(

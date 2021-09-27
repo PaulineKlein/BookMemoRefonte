@@ -43,7 +43,9 @@ class _BuildListBookState extends State<BuildListBook> {
       return Align(
           alignment: Alignment.center,
           child: Text(
-              widget.message == null ? Strings.genericError : widget.message!,
+              widget.message == null
+                  ? Strings.filterEmptyList
+                  : widget.message!,
               style: TextStyle(fontSize: 18)));
     } else {
       return ListView.builder(
@@ -209,6 +211,11 @@ class _BuildListBookState extends State<BuildListBook> {
                       widget.listBook[position].episode = updateValue;
                       break;
                   }
+                });
+              },
+              onDeleteBook: () {
+                setState(() {
+                  widget.listBook.remove(widget.listBook[position]);
                 });
               },
             )),
