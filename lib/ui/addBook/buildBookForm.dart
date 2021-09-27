@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_bloc/flutter_form_bloc.dart';
 
 import '../../strings.dart';
-import 'AddBookFormBloc.dart';
+import 'bookFormBloc.dart';
 
 class BuildBookForm extends StatelessWidget {
   const BuildBookForm({Key? key, required this.formBloc}) : super(key: key);
 
-  final AddBookFormBloc formBloc;
+  final BookFormBloc formBloc;
 
   @override
   Widget build(BuildContext context) {

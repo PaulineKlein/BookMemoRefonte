@@ -196,17 +196,16 @@ class _BuildListBookState extends State<BuildListBook> {
             child: BuildListActions(
               book: book,
               cardColor: cardColor,
-              position: position,
               onIncreaseValue: (String column, int updateValue) {
                 setState(() {
                   switch (column) {
-                    case "volume":
+                    case Strings.columnVolume:
                       widget.listBook[position].volume = updateValue;
                       break;
-                    case "chapter":
+                    case Strings.columnChapter:
                       widget.listBook[position].chapter = updateValue;
                       break;
-                    case "episode":
+                    case Strings.columnEpisode:
                       widget.listBook[position].episode = updateValue;
                       break;
                   }

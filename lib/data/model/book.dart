@@ -33,11 +33,22 @@ class Book {
   String getNameFromType() {
     switch (this.bookType) {
       case BookType.manga:
-        return "manga";
+        return Strings.formTypeManga;
       case BookType.comic:
-        return "comic";
+        return Strings.formTypeComic;
       case BookType.literature:
-        return "literature";
+        return Strings.formTypeLiterature;
+    }
+  }
+
+  static BookType getTypeFromName(String? selectedValue) {
+    switch (selectedValue) {
+      case Strings.formTypeManga:
+        return BookType.manga;
+      case Strings.formTypeComic:
+        return BookType.comic;
+      default:
+        return BookType.literature;
     }
   }
 

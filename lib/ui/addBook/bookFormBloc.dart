@@ -4,21 +4,21 @@ import 'package:flutter_form_bloc/flutter_form_bloc.dart';
 
 import '../../strings.dart';
 
-class AddBookFormBloc extends FormBloc<String, String> {
-  final repository = BookRepository();
+class BookFormBloc extends FormBloc<String, String> {
+  bool isUpdating = false;
+  int? idUpdating;
 
+  final repository = BookRepository();
   final textTitle = TextFieldBloc(
     validators: [valueRequired],
     asyncValidatorDebounceTime: Duration(milliseconds: 300),
   );
-
   final textAuthor = TextFieldBloc();
   final textYear = TextFieldBloc();
   final textVolume = TextFieldBloc();
   final textChapter = TextFieldBloc();
   final textEpisode = TextFieldBloc();
   final textDescription = TextFieldBloc();
-
   final booleanBought = BooleanFieldBloc();
   final booleanFavorite = BooleanFieldBloc();
 
@@ -36,7 +36,25 @@ class AddBookFormBloc extends FormBloc<String, String> {
     initialValue: Strings.bookNotFinish,
   );
 
-  AddBookFormBloc() {
+  BookFormBloc(Book? book) {
+    if (book != null) {
+      isUpdating = true;
+      idUpdating = book.id;
+      textTitle.updateInitialValue(book.title);
+      textAuthor.updateInitialValue(book.author);
+      textYear
+          .updateInitialValue(book.year != null ? book.year.toString() : "");
+      textVolume.updateInitialValue(book.volume.toString());
+      textChapter.updateInitialValue(book.chapter.toString());
+      textEpisode.updateInitialValue(book.episode.toString());
+      textDescription.updateInitialValue(book.description);
+      booleanBought.updateInitialValue(book.isBought);
+      booleanFavorite.updateInitialValue(book.isFavorite);
+      selectIsfinished.updateInitialValue(
+          book.isFinished ? Strings.bookFinish : Strings.bookNotFinish);
+      selectType.updateInitialValue(book.getNameFromType());
+    }
+
     addFieldBlocs(fieldBlocs: [
       textTitle,
       textAuthor,
@@ -55,7 +73,8 @@ class AddBookFormBloc extends FormBloc<String, String> {
   }
 
   Future<String?> _checkTitle(String? title) async {
-    if (title == null) {
+    if (title == null || isUpdating) {
+      // si on met à jour un titre, il ne faut pas vérifier qu'il existe déjà en bdd :
       return null;
     } else {
       var books = await repository
@@ -82,7 +101,7 @@ class AddBookFormBloc extends FormBloc<String, String> {
   void onSubmitting() async {
     try {
       var book = Book(
-          bookType: checkTypeFrom(selectType.value),
+          bookType: Book.getTypeFromName(selectType.value),
           title: textTitle.value != null ? textTitle.value! : "",
           author: textAuthor.value != null ? textAuthor.value! : "",
           year: textYear.valueToInt,
@@ -95,8 +114,15 @@ class AddBookFormBloc extends FormBloc<String, String> {
           chapter: textChapter.valueToInt != null ? textChapter.valueToInt! : 0,
           episode: textEpisode.valueToInt != null ? textEpisode.valueToInt! : 0,
           description: textDescription.value);
-      await Future<void>.delayed(Duration(milliseconds: 500));
-      var result = await repository.insertBook(book);
+
+      var result = 0;
+      if (isUpdating) {
+        book.id = idUpdating;
+        result = await repository.updateBook(book);
+      } else {
+        result = await repository.insertBook(book);
+      }
+
       if (result > 0) {
         clearInputs();
         emitSuccess(canSubmitAgain: true);
@@ -105,17 +131,6 @@ class AddBookFormBloc extends FormBloc<String, String> {
       }
     } catch (e) {
       emitFailure();
-    }
-  }
-
-  BookType checkTypeFrom(String? selectedValue) {
-    switch (selectedValue) {
-      case Strings.formTypeManga:
-        return BookType.manga;
-      case Strings.formTypeComic:
-        return BookType.comic;
-      default:
-        return BookType.literature;
     }
   }
 

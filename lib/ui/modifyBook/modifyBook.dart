@@ -1,28 +1,38 @@
 import 'package:book_memo/bloc/bookBloc.dart';
 import 'package:book_memo/bloc/bookEvent.dart';
+import 'package:book_memo/data/model/book.dart';
 import 'package:book_memo/strings.dart';
+import 'package:book_memo/ui/addBook/bookFormBloc.dart';
+import 'package:book_memo/ui/addBook/buildBookForm.dart';
 import 'package:book_memo/ui/generic/alertDialog.dart';
 import 'package:book_memo/ui/generic/loadingDialog.dart';
 import 'package:book_memo/ui/home/home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_bloc/flutter_form_bloc.dart';
 
-import 'bookFormBloc.dart';
-import 'buildBookForm.dart';
+class ModifyBookArguments {
+  final Book book;
 
-class AddBookPage extends StatefulWidget {
-  AddBookPage({Key? key}) : super(key: key);
-  static const routeName = '/add_book';
-
-  @override
-  _AddBookState createState() => _AddBookState();
+  ModifyBookArguments({required this.book});
 }
 
-class _AddBookState extends State<AddBookPage> {
+class ModifyBookPage extends StatefulWidget {
+  ModifyBookPage({Key? key}) : super(key: key);
+  static const routeName = '/modify_book';
+
+  @override
+  _ModifyBookState createState() => _ModifyBookState();
+}
+
+class _ModifyBookState extends State<ModifyBookPage> {
   @override
   Widget build(BuildContext context) {
+    // Extract the arguments from the current ModalRoute
+    final arguments =
+        ModalRoute.of(context)!.settings.arguments as ModifyBookArguments;
+
     return BlocProvider(
-      create: (context) => BookFormBloc(null),
+      create: (context) => BookFormBloc(arguments.book),
       child: Builder(
         builder: (context) {
           final formBloc = BlocProvider.of<BookFormBloc>(context);
@@ -51,14 +61,7 @@ class _AddBookState extends State<AddBookPage> {
                   },
                   onSuccess: (context, state) {
                     LoadingDialog.hide(context);
-                    AlertDialogUtility.getInstance().showAlertDialogTwoChoices(
-                        context: context,
-                        alertTitle: Strings.alertDialogAddTitle,
-                        alertMessage: Strings.alertDialogAddMessage,
-                        strCancelButton: Strings.genericYes,
-                        onCancelClick: _onCancelClick,
-                        strConfirmButton: Strings.genericNo,
-                        onConfirmClick: _onConfirmClick);
+                    _onConfirmClick();
                   },
                   onFailure: (context, state) {
                     LoadingDialog.hide(context);
