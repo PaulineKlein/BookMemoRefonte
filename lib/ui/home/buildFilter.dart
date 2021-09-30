@@ -112,8 +112,19 @@ class _BuildFilter extends State<BuildFilter> {
       ),
       child: Column(
         children: <Widget>[
+          Row(children: <Widget>[
+            Icon(Icons.tune, color: Colors.deepPurple),
+            SizedBox(width: 15.0),
+            Text(
+              Strings.filterCategory,
+              style: Theme.of(context)
+                  .textTheme
+                  .headline5
+                  ?.apply(color: Colors.deepPurple),
+            ),
+          ]),
+          SizedBox(height: 9.0),
           Container(
-            margin: const EdgeInsets.symmetric(horizontal: 9.0),
             alignment: Alignment.center,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(10.0)),
@@ -165,7 +176,7 @@ class _BuildFilter extends State<BuildFilter> {
                     },
                     child: Container(
                       padding: const EdgeInsets.all(7.5),
-                      margin: const EdgeInsets.symmetric(horizontal: 9.0),
+                      margin: const EdgeInsets.only(right: 16.0),
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
                         color: _isSelected ? Colors.deepPurple : null,
