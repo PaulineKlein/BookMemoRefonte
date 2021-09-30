@@ -174,24 +174,32 @@ class _BuildFilter extends State<BuildFilter> {
                         }
                       });
                     },
-                    child: Container(
-                      padding: const EdgeInsets.all(7.5),
-                      margin: const EdgeInsets.only(right: 16.0),
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        color: _isSelected ? Colors.deepPurple : null,
-                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                        border: Border.all(
-                          color: Colors.grey.withOpacity(.43),
+                    child: AnimatedSwitcher(
+                      duration: const Duration(milliseconds: 800),
+                      transitionBuilder:
+                          (Widget child, Animation<double> animation) {
+                        return FadeTransition(opacity: animation, child: child);
+                      },
+                      child: Container(
+                        key: ValueKey<int>(_isSelected ? 1 : 0),
+                        padding: const EdgeInsets.all(7.5),
+                        margin: const EdgeInsets.only(right: 16.0),
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          color: _isSelected ? Colors.deepPurple : null,
+                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                          border: Border.all(
+                            color: Colors.grey.withOpacity(.43),
+                          ),
                         ),
-                      ),
-                      child: Text(
-                        "${_categories[i]}",
-                        style: Theme.of(context).textTheme.button?.apply(
-                              color: _isSelected
-                                  ? Colors.white
-                                  : Colors.deepPurple,
-                            ),
+                        child: Text(
+                          "${_categories[i]}",
+                          style: Theme.of(context).textTheme.button?.apply(
+                                color: _isSelected
+                                    ? Colors.white
+                                    : Colors.deepPurple,
+                              ),
+                        ),
                       ),
                     ),
                   );

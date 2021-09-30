@@ -262,20 +262,28 @@ class _BuildListBookState extends State<BuildListBook> {
   Widget _buildFavoriteIcon(int pos, Color cardColor) {
     // on click on the icon, inverse the value of favorite
     int isfavoriteUpdate = widget.listBook[pos].isFavorite ? 0 : 1;
-    return IconButton(
-        icon: Icon(
-            widget.listBook[pos].isFavorite
-                ? Icons.favorite
-                : Icons.favorite_border,
-            color: Colors.pink[400]),
-        onPressed: () {
-          BlocProvider.of<BookBloc>(context).add(IncreaseBook(
-              widget.listBook[pos],
-              Strings.columnIsFavorite,
-              isfavoriteUpdate));
-          setState(() {
-            widget.listBook[pos].isFavorite = !widget.listBook[pos].isFavorite;
-          });
-        });
+    return AnimatedSwitcher(
+      duration: const Duration(milliseconds: 500),
+      transitionBuilder: (Widget child, Animation<double> animation) {
+        return FadeTransition(opacity: animation, child: child);
+      },
+      child: IconButton(
+          icon: Icon(
+              widget.listBook[pos].isFavorite
+                  ? Icons.favorite
+                  : Icons.favorite_border,
+              color: Colors.pink[400]),
+          key: ValueKey<int>(isfavoriteUpdate),
+          onPressed: () {
+            BlocProvider.of<BookBloc>(context).add(IncreaseBook(
+                widget.listBook[pos],
+                Strings.columnIsFavorite,
+                isfavoriteUpdate));
+            setState(() {
+              widget.listBook[pos].isFavorite =
+                  !widget.listBook[pos].isFavorite;
+            });
+          }),
+    );
   }
 }
