@@ -1,14 +1,14 @@
 import 'package:book_memo/data/model/book.dart';
-import 'package:book_memo/data/model/bookRepository.dart';
 import 'package:flutter_form_bloc/flutter_form_bloc.dart';
 
 import '../../strings.dart';
+import 'bookInteractor.dart';
 
 class BookFormBloc extends FormBloc<String, String> {
   bool isUpdating = false;
   int? idUpdating;
 
-  final repository = BookRepository();
+  final interactor = BookInteractor();
   final textTitle = TextFieldBloc(
     validators: [valueRequired],
     asyncValidatorDebounceTime: Duration(milliseconds: 300),
@@ -77,7 +77,7 @@ class BookFormBloc extends FormBloc<String, String> {
       // si on met à jour un titre, il ne faut pas vérifier qu'il existe déjà en bdd :
       return null;
     } else {
-      var books = await repository
+      var books = await interactor
           .getBooks(Strings.dbCompareTitle, [title.toLowerCase()]);
       if (books.isEmpty) {
         return null;
@@ -118,9 +118,9 @@ class BookFormBloc extends FormBloc<String, String> {
       var result = 0;
       if (isUpdating) {
         book.id = idUpdating;
-        result = await repository.updateBook(book);
+        result = await interactor.updateBook(book);
       } else {
-        result = await repository.insertBook(book);
+        result = await interactor.insertBook(book);
       }
 
       if (result > 0) {

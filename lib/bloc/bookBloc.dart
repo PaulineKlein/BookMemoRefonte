@@ -1,4 +1,4 @@
-import 'package:book_memo/data/model/bookRepository.dart';
+import 'package:book_memo/ui/addBook/bookInteractor.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../strings.dart';
@@ -6,9 +6,9 @@ import 'bookEvent.dart';
 import 'bookState.dart';
 
 class BookBloc extends Bloc<BookEvent, BookState> {
-  final BookRepository repository;
+  final BookInteractor interactor;
 
-  BookBloc({required this.repository}) : super(InitialBookState());
+  BookBloc({required this.interactor}) : super(InitialBookState());
 
   @override
   Stream<BookState> mapEventToState(BookEvent event) async* {
@@ -27,7 +27,7 @@ class BookBloc extends Bloc<BookEvent, BookState> {
 
   Stream<BookState> _mapLoadBookToState() async* {
     try {
-      var books = await repository.getBooks(null, null);
+      var books = await interactor.getBooks(null, null);
       if (books.isEmpty) {
         yield BookNoData(Strings.homeEmptyList);
       } else {
@@ -40,7 +40,7 @@ class BookBloc extends Bloc<BookEvent, BookState> {
 
   Stream<BookState> _mapFilterBookToState(FilterBook event) async* {
     try {
-      var books = await repository.getBooks(event.query, null);
+      var books = await interactor.getBooks(event.query, null);
       if (books.isEmpty) {
         yield BookNoData(Strings.filterEmptyList);
       } else {
@@ -53,7 +53,7 @@ class BookBloc extends Bloc<BookEvent, BookState> {
 
   Stream<BookState> _mapAddBookToState(AddBook event) async* {
     try {
-      await repository.insertBook(event.book);
+      await interactor.insertBook(event.book);
       yield BookSuccess(event.book.title + ' add to database');
     } catch (e) {
       yield BookError(e.toString());
@@ -65,7 +65,7 @@ class BookBloc extends Bloc<BookEvent, BookState> {
       if (event.book.id == null) {
         yield BookError(Strings.genericError);
       } else {
-        await repository.deleteBook(event.book.id!);
+        await interactor.deleteBook(event.book.id!);
       }
     } catch (e) {
       yield BookError(e.toString());
@@ -74,7 +74,7 @@ class BookBloc extends Bloc<BookEvent, BookState> {
 
   Stream<BookState> _mapIncreaseBookToState(IncreaseBook event) async* {
     try {
-      await repository.increaseBook(event.book, event.column, event.value);
+      await interactor.increaseBook(event.book, event.column, event.value);
     } catch (e) {
       yield BookError(e.toString());
     }

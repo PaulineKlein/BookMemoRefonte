@@ -64,4 +64,5 @@ class Strings {
   static const String dbHasType = "bookType IN ";
   static const String dbIsFinished = "isFinished IN ";
   static const String dbIsBought = "isBought IN ";
+  static const String dbIsFavorite = "isFavorite = 1 ";
 }

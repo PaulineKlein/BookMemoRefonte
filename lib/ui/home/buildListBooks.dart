@@ -265,7 +265,7 @@ class _BuildListBookState extends State<BuildListBook> {
     return AnimatedSwitcher(
       duration: const Duration(milliseconds: 500),
       transitionBuilder: (Widget child, Animation<double> animation) {
-        return FadeTransition(opacity: animation, child: child);
+        return ScaleTransition(child: child, scale: animation);
       },
       child: IconButton(
           icon: Icon(

@@ -1,5 +1,5 @@
-import 'package:book_memo/data/model/bookRepository.dart';
 import 'package:book_memo/ui/addBook/addBook.dart';
+import 'package:book_memo/ui/addBook/bookInteractor.dart';
 import 'package:book_memo/ui/modifyBook/modifyBook.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,9 +10,10 @@ import 'ui/home/home.dart';
 
 void main() {
   Bloc.observer = BookBlocObserver();
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(MultiBlocProvider(providers: [
     BlocProvider<BookBloc>(
-      create: (context) => BookBloc(repository: BookRepository()),
+      create: (context) => BookBloc(interactor: BookInteractor()),
     ),
   ], child: MyApp()));
 }
