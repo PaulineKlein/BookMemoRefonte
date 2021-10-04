@@ -1,7 +1,12 @@
+import 'dart:async';
+
 import 'package:book_memo/ui/addBook/addBook.dart';
+import 'package:book_memo/ui/modifyBook/modifyBook.dart';
+import 'package:book_memo/widget/widgetHelper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:home_widget/home_widget.dart';
 
 import '../../bloc/bookBloc.dart';
 import '../../bloc/bookEvent.dart';
@@ -19,15 +24,33 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   Icon customIcon = const Icon(Icons.search);
+  StreamSubscription? subscription;
 
   @override
   initState() {
     super.initState();
     BlocProvider.of<BookBloc>(context).add(LoadBook());
+    subscription = HomeWidget.widgetClicked.listen(_launchedFromWidget);
+  }
+
+  @override
+  void dispose() {
+    subscription?.cancel();
+    super.dispose();
   }
 
   void _addBook() {
     Navigator.pushNamed(context, AddBookPage.routeName);
+  }
+
+  void _launchedFromWidget(var uri) {
+    WidgetHelper().launchedFromWidget(uri).then((value) => {
+          if (value != null)
+            {
+              Navigator.pushReplacementNamed(context, ModifyBookPage.routeName,
+                  arguments: ModifyBookArguments(book: value))
+            }
+        });
   }
 
   @override

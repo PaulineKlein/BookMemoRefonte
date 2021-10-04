@@ -48,13 +48,13 @@ class BookDao {
 
     if (whereQuery == null) {
       result = await db.query(Strings.bookTable,
-          orderBy: '${Strings.columnTitle} ASC');
+          orderBy: 'lower(${Strings.columnTitle}) ASC');
     } else if (whereArg == null) {
       result = await db.query(Strings.bookTable,
-          orderBy: '${Strings.columnTitle} ASC', where: whereQuery);
+          orderBy: 'lower(${Strings.columnTitle}) ASC', where: whereQuery);
     } else {
       result = await db.query(Strings.bookTable,
-          orderBy: '${Strings.columnTitle} ASC',
+          orderBy: 'lower(${Strings.columnTitle}) ASC',
           where: whereQuery,
           whereArgs: whereArg);
     }

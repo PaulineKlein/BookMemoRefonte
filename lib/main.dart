@@ -1,6 +1,7 @@
 import 'package:book_memo/ui/addBook/addBook.dart';
 import 'package:book_memo/ui/addBook/bookInteractor.dart';
 import 'package:book_memo/ui/modifyBook/modifyBook.dart';
+import 'package:book_memo/ui/splash.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -34,7 +35,7 @@ class MyApp extends StatelessWidget {
         HomePage.routeName: (context) => HomePage(),
         ModifyBookPage.routeName: (context) => ModifyBookPage(),
       },
-      home: HomePage(),
+      home: SplashPage(),
     );
   }
 }

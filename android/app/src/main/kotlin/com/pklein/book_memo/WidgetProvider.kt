@@ -5,7 +5,9 @@ import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.widget.RemoteViews
+import es.antonborri.home_widget.HomeWidgetLaunchIntent
 
 const val UPDATE_LIST = "UPDATE_LIST"
 
@@ -41,10 +43,10 @@ class WidgetProvider : AppWidgetProvider() {
         setRemoteAdapter(context, views)
 
         val clickIntent = Intent(context, MainActivity::class.java)
-        val clickPI =
+        clickIntent.action = HomeWidgetLaunchIntent.HOME_WIDGET_LAUNCH_ACTION
+         val pendingIntent =
             PendingIntent.getActivity(context, 0, clickIntent, PendingIntent.FLAG_UPDATE_CURRENT)
-        clickIntent.action = UPDATE_LIST
-        views.setPendingIntentTemplate(R.id.widget_list, clickPI)
+        views.setPendingIntentTemplate(R.id.widget_list, pendingIntent)
 
         //Request that the AppWidgetManager updates the application widget//
         appWidgetManager.notifyAppWidgetViewDataChanged(

@@ -11,12 +11,13 @@ import '../strings.dart';
 class WidgetHelper {
   final BookRepository repository = BookRepository();
 
-  Future<List<bool?>?> _sendData(
-      List<String> mListTitle, List<String> mListInfo) async {
+  Future<List<bool?>?> _sendData(List<String> mListTitle,
+      List<String> mListInfo, List<int> mListId) async {
     try {
       return Future.wait([
         HomeWidget.saveWidgetData<String>('bookTitles', jsonEncode(mListTitle)),
         HomeWidget.saveWidgetData<String>('bookInfos', jsonEncode(mListInfo)),
+        HomeWidget.saveWidgetData<String>('bookIds', jsonEncode(mListId)),
       ]);
     } on PlatformException catch (exception) {
       debugPrint('Error Sending Data. $exception');
@@ -35,6 +36,7 @@ class WidgetHelper {
   Future<void> sendAndUpdate() async {
     List<String> mListTitle = [];
     List<String> mListInfo = [];
+    List<int> mListId = [];
     List<Book> booksList =
         await repository.getBooks(Strings.dbIsFavorite, null);
 
@@ -43,9 +45,24 @@ class WidgetHelper {
         mListTitle.add(booksList[i].title);
         mListInfo.add(
             "T${booksList[i].volume}, chap.${booksList[i].chapter}, ep.${booksList[i].episode}");
+        mListId.add(booksList[i].id != null ? booksList[i].id! : 0);
       }
-      await _sendData(mListTitle, mListInfo);
+      await _sendData(mListTitle, mListInfo, mListId);
       await _updateWidget();
+    }
+  }
+
+  Future<Book?> launchedFromWidget(var uri) async {
+    print("launchedFromWidget : my URI = $uri");
+    if (uri != null && uri.host == "updatebook") {
+      var bookList = await repository.getBooks(uri.query, null);
+      if (bookList.isNotEmpty) {
+        return bookList[0];
+      } else {
+        return null;
+      }
+    } else {
+      return null;
     }
   }
 }
