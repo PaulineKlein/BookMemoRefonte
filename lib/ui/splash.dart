@@ -4,6 +4,7 @@ import 'package:book_memo/widget/widgetHelper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:home_widget/home_widget.dart';
+import 'package:lottie/lottie.dart';
 
 import 'home/home.dart';
 import 'modifyBook/modifyBook.dart';
@@ -33,15 +34,19 @@ class _SplashPageState extends State<SplashPage> {
   }
 
   void _launchedFromWidget(var uri) {
-    WidgetHelper().launchedFromWidget(uri).then((value) => {
-          if (value != null)
-            {
-              Navigator.pushReplacementNamed(context, ModifyBookPage.routeName,
-                  arguments: ModifyBookArguments(book: value))
-            }
-          else
-            {Navigator.pushReplacementNamed(context, HomePage.routeName)}
-        });
+    Future.delayed(const Duration(milliseconds: 2000), ()
+    {
+      WidgetHelper().launchedFromWidget(uri).then((value) =>
+      {
+        if (value != null)
+          {
+            Navigator.pushReplacementNamed(context, ModifyBookPage.routeName,
+                arguments: ModifyBookArguments(book: value))
+          }
+        else
+          {Navigator.pushReplacementNamed(context, HomePage.routeName)}
+      });
+    });
   }
 
   @override
@@ -49,7 +54,10 @@ class _SplashPageState extends State<SplashPage> {
     return Scaffold(
       body: Center(
         child: Container(
-          child: CircularProgressIndicator(),
+          child: Lottie.asset(
+        'assets/lotties/waiting_book.json',
+        animate: true,
+        repeat: true),
         ),
       ),
     );
