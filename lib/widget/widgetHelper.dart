@@ -47,9 +47,9 @@ class WidgetHelper {
             "T${booksList[i].volume}, chap.${booksList[i].chapter}, ep.${booksList[i].episode}");
         mListId.add(booksList[i].id != null ? booksList[i].id! : 0);
       }
-      await _sendData(mListTitle, mListInfo, mListId);
-      await _updateWidget();
     }
+    await _sendData(mListTitle, mListInfo, mListId);
+    await _updateWidget();
   }
 
   Future<Book?> launchedFromWidget(var uri) async {

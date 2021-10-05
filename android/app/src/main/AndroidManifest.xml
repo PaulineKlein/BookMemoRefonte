@@ -1,12 +1,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.pklein.book_memo">
+    package="com.pklein.bookmemo">
 
     <application
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
-        android:label="book_memo">
+        android:label="BookMemo">
         <activity
-            android:name=".MainActivity"
+            android:name="com.pklein.bookmemo.MainActivity"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
             android:hardwareAccelerated="true"
             android:launchMode="singleTop"
@@ -39,7 +39,7 @@
             android:name="flutterEmbedding"
             android:value="2" />
 
-        <receiver android:name=".WidgetProvider">
+        <receiver android:name="com.pklein.bookmemo.WidgetProvider">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -48,7 +48,7 @@
                 android:resource="@xml/widget" />
         </receiver>
         <service
-            android:name=".WidgetService"
+            android:name="com.pklein.bookmemo.WidgetService"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
     </application>
 </manifest>
