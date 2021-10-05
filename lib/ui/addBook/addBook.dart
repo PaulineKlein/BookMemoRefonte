@@ -1,6 +1,7 @@
 import 'package:book_memo/bloc/bookBloc.dart';
 import 'package:book_memo/bloc/bookEvent.dart';
 import 'package:book_memo/strings.dart';
+import 'package:book_memo/ui/generic/CustomFloatingActionButton.dart';
 import 'package:book_memo/ui/generic/alertDialog.dart';
 import 'package:book_memo/ui/generic/loadingDialog.dart';
 import 'package:book_memo/ui/home/home.dart';
@@ -19,6 +20,25 @@ class AddBookPage extends StatefulWidget {
 }
 
 class _AddBookState extends State<AddBookPage> {
+  bool isSmallFAB = false;
+  ScrollController _scrollController = new ScrollController();
+
+  @override
+  initState() {
+    super.initState();
+    _scrollController.addListener(() {
+      if (_scrollController.offset > 50) {
+        setState(() {
+          isSmallFAB = true;
+        });
+      } else {
+        setState(() {
+          isSmallFAB = false;
+        });
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -41,10 +61,10 @@ class _AddBookState extends State<AddBookPage> {
             ),
             child: Scaffold(
               appBar: AppBar(title: Text(Strings.addBookTitle)),
-              floatingActionButton: FloatingActionButton(
-                onPressed: formBloc.submit,
-                child: Icon(Icons.send),
-              ),
+              floatingActionButton: customFloatingActionButton(
+                  isSmallFAB, Strings.addBookSend, () {
+                return formBloc.submit;
+              }),
               body: FormBlocListener<BookFormBloc, String, String>(
                   onSubmitting: (context, state) {
                     LoadingDialog.show(context);
@@ -71,7 +91,8 @@ class _AddBookState extends State<AddBookPage> {
                         strConfirmButton: Strings.genericNo,
                         onConfirmClick: _onConfirmClick);
                   },
-                  child: BuildBookForm(formBloc: formBloc)),
+                  child: BuildBookForm(
+                      formBloc: formBloc, scrollController: _scrollController)),
             ),
           );
         },

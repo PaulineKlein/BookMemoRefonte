@@ -4,6 +4,7 @@ import 'package:book_memo/data/model/book.dart';
 import 'package:book_memo/strings.dart';
 import 'package:book_memo/ui/addBook/bookFormBloc.dart';
 import 'package:book_memo/ui/addBook/buildBookForm.dart';
+import 'package:book_memo/ui/generic/CustomFloatingActionButton.dart';
 import 'package:book_memo/ui/generic/alertDialog.dart';
 import 'package:book_memo/ui/generic/loadingDialog.dart';
 import 'package:book_memo/ui/home/home.dart';
@@ -25,6 +26,25 @@ class ModifyBookPage extends StatefulWidget {
 }
 
 class _ModifyBookState extends State<ModifyBookPage> {
+  bool isSmallFAB = false;
+  ScrollController _scrollController = new ScrollController();
+
+  @override
+  initState() {
+    super.initState();
+    _scrollController.addListener(() {
+      if (_scrollController.offset > 50) {
+        setState(() {
+          isSmallFAB = true;
+        });
+      } else {
+        setState(() {
+          isSmallFAB = false;
+        });
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     // Extract the arguments from the current ModalRoute
@@ -50,11 +70,11 @@ class _ModifyBookState extends State<ModifyBookPage> {
               ),
             ),
             child: Scaffold(
-              appBar: AppBar(title: Text(Strings.addBookTitle)),
-              floatingActionButton: FloatingActionButton(
-                onPressed: formBloc.submit,
-                child: Icon(Icons.send),
-              ),
+              appBar: AppBar(title: Text(Strings.modifyBookTitle)),
+              floatingActionButton: customFloatingActionButton(
+                  isSmallFAB, Strings.modifyBookSend, () {
+                return formBloc.submit;
+              }),
               body: FormBlocListener<BookFormBloc, String, String>(
                   onSubmitting: (context, state) {
                     LoadingDialog.show(context);
@@ -74,7 +94,8 @@ class _ModifyBookState extends State<ModifyBookPage> {
                         strConfirmButton: Strings.genericNo,
                         onConfirmClick: _onConfirmClick);
                   },
-                  child: BuildBookForm(formBloc: formBloc)),
+                  child: BuildBookForm(
+                      formBloc: formBloc, scrollController: _scrollController)),
             ),
           );
         },

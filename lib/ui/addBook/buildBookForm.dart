@@ -6,13 +6,17 @@ import '../../strings.dart';
 import 'bookFormBloc.dart';
 
 class BuildBookForm extends StatelessWidget {
-  const BuildBookForm({Key? key, required this.formBloc}) : super(key: key);
+  const BuildBookForm(
+      {Key? key, required this.formBloc, required this.scrollController})
+      : super(key: key);
 
   final BookFormBloc formBloc;
+  final ScrollController scrollController;
 
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
+      controller: scrollController,
       physics: ClampingScrollPhysics(),
       child: Padding(
         padding: const EdgeInsets.all(20.0),

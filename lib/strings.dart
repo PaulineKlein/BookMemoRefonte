@@ -17,6 +17,9 @@ class Strings {
   static const String genericYes = "Oui";
   static const String genericNo = "Non";
   static const String addBookTitle = "Ajouter un livre";
+  static const String addBookSend = "Ajouter";
+  static const String modifyBookTitle = "Modifier";
+  static const String modifyBookSend = "Modifier";
   static const String formTitle = "Titre";
   static const String formTitleError =
       "Ce titre est déja présent dans la bilbiothèque";
