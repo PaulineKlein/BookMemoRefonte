@@ -1,6 +1,6 @@
-import 'package:book_memo/bloc/bookBloc.dart';
-import 'package:book_memo/bloc/bookEvent.dart';
-import 'package:book_memo/data/model/book.dart';
+import 'package:bookmemo/bloc/bookBloc.dart';
+import 'package:bookmemo/bloc/bookEvent.dart';
+import 'package:bookmemo/data/model/book.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';

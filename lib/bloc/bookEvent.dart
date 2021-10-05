@@ -1,4 +1,4 @@
-import 'package:book_memo/data/model/book.dart';
+import 'package:bookmemo/data/model/book.dart';
 import 'package:equatable/equatable.dart';
 
 // Create events to add and remove products from the list of items:

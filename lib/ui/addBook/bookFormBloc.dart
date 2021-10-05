@@ -1,4 +1,4 @@
-import 'package:book_memo/data/model/book.dart';
+import 'package:bookmemo/data/model/book.dart';
 import 'package:flutter_form_bloc/flutter_form_bloc.dart';
 
 import '../../strings.dart';

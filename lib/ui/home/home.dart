@@ -1,8 +1,8 @@
 import 'dart:async';
 
-import 'package:book_memo/ui/addBook/addBook.dart';
-import 'package:book_memo/ui/modifyBook/modifyBook.dart';
-import 'package:book_memo/widget/widgetHelper.dart';
+import 'package:bookmemo/ui/addBook/addBook.dart';
+import 'package:bookmemo/ui/modifyBook/modifyBook.dart';
+import 'package:bookmemo/widget/widgetHelper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

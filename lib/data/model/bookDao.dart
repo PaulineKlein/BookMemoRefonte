@@ -1,4 +1,4 @@
-import 'package:book_memo/strings.dart';
+import 'package:bookmemo/strings.dart';
 import 'package:sqflite/sqflite.dart';
 
 import '../databaseProvider.dart';

@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:book_memo/widget/widgetHelper.dart';
+import 'package:bookmemo/widget/widgetHelper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:home_widget/home_widget.dart';

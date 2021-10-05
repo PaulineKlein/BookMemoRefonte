@@ -1,10 +1,10 @@
-import 'package:book_memo/bloc/bookBloc.dart';
-import 'package:book_memo/bloc/bookEvent.dart';
-import 'package:book_memo/strings.dart';
-import 'package:book_memo/ui/generic/CustomFloatingActionButton.dart';
-import 'package:book_memo/ui/generic/alertDialog.dart';
-import 'package:book_memo/ui/generic/loadingDialog.dart';
-import 'package:book_memo/ui/home/home.dart';
+import 'package:bookmemo/bloc/bookBloc.dart';
+import 'package:bookmemo/bloc/bookEvent.dart';
+import 'package:bookmemo/strings.dart';
+import 'package:bookmemo/ui/generic/CustomFloatingActionButton.dart';
+import 'package:bookmemo/ui/generic/alertDialog.dart';
+import 'package:bookmemo/ui/generic/loadingDialog.dart';
+import 'package:bookmemo/ui/home/home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_bloc/flutter_form_bloc.dart';
 

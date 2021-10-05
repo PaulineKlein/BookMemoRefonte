@@ -33,8 +33,7 @@ android {
     }
 
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "com.pklein.book_memo"
+        applicationId "com.pklein.bookmemo"
         minSdkVersion 21
         targetSdkVersion 30
         versionCode flutterVersionCode.toInteger()
@@ -42,7 +41,18 @@ android {
     }
 
     buildTypes {
+        debug {
+            versionNameSuffix "-debug"
+            debuggable true
+            minifyEnabled false
+            testCoverageEnabled true
+            signingConfig signingConfigs.debug
+        }
         release {
+            debuggable false
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             // TODO: Add your own signing config for the release build.
             // Signing with the debug keys for now, so `flutter run --release` works.
             signingConfig signingConfigs.debug

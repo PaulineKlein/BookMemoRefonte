@@ -1,8 +1,8 @@
-import 'package:book_memo/bloc/bookBloc.dart';
-import 'package:book_memo/bloc/bookEvent.dart';
-import 'package:book_memo/data/model/book.dart';
-import 'package:book_memo/ui/generic/alertDialog.dart';
-import 'package:book_memo/ui/modifyBook/modifyBook.dart';
+import 'package:bookmemo/bloc/bookBloc.dart';
+import 'package:bookmemo/bloc/bookEvent.dart';
+import 'package:bookmemo/data/model/book.dart';
+import 'package:bookmemo/ui/generic/alertDialog.dart';
+import 'package:bookmemo/ui/modifyBook/modifyBook.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:book_memo/data/model/book.dart';
-import 'package:book_memo/data/model/bookRepository.dart';
+import 'package:bookmemo/data/model/book.dart';
+import 'package:bookmemo/data/model/bookRepository.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:home_widget/home_widget.dart';

@@ -1,6 +1,6 @@
-import 'package:book_memo/data/model/book.dart';
-import 'package:book_memo/data/model/bookRepository.dart';
-import 'package:book_memo/widget/widgetHelper.dart';
+import 'package:bookmemo/data/model/book.dart';
+import 'package:bookmemo/data/model/bookRepository.dart';
+import 'package:bookmemo/widget/widgetHelper.dart';
 
 class BookInteractor {
   final BookRepository repository = BookRepository();

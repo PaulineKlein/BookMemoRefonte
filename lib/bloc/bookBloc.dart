@@ -1,4 +1,4 @@
-import 'package:book_memo/ui/addBook/bookInteractor.dart';
+import 'package:bookmemo/ui/addBook/bookInteractor.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../strings.dart';
