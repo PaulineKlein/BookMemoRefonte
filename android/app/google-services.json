@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "523542167722",
+    "project_id": "bookmemo-a5c72",
+    "storage_bucket": "bookmemo-a5c72.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:523542167722:android:9ae0a7a00f0c66a5e0d0d3",
+        "android_client_info": {
+          "package_name": "com.pklein.bookmemo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "523542167722-2smc9p1oj07r1cikthfd860vhrlg3gii.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB50I16Gh3-fKfVnbxPuw0gZp6pscZEhJo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "523542167722-2smc9p1oj07r1cikthfd860vhrlg3gii.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

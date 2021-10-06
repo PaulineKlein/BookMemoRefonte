@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:bookmemo/data/model/book.dart';
 import 'package:bookmemo/data/model/bookRepository.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:home_widget/home_widget.dart';
@@ -21,6 +22,8 @@ class WidgetHelper {
       ]);
     } on PlatformException catch (exception) {
       debugPrint('Error Sending Data. $exception');
+      await FirebaseCrashlytics.instance.recordError(exception, null,
+          reason: 'non-fatal error : Error Sending Data WidgetHelper');
     }
   }
 
@@ -30,6 +33,8 @@ class WidgetHelper {
           name: 'WidgetProvider', iOSName: 'WidgetProvider');
     } on PlatformException catch (exception) {
       debugPrint('Error Updating Widget. $exception');
+      await FirebaseCrashlytics.instance.recordError(exception, null,
+          reason: 'non-fatal error : Error Updating Data WidgetHelper');
     }
   }
 

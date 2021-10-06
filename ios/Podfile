@@ -28,8 +28,10 @@ require File.expand_path(File.join('packages', 'flutter_tools', 'bin', 'podhelpe
 flutter_ios_podfile_setup
 
 target 'Runner' do
+  platform :ios, '10.0'
   use_frameworks!
   use_modular_headers!
+  pod 'Firebase/Analytics'
 
   flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
 end

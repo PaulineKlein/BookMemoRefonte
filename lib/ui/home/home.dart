@@ -1,10 +1,13 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:bookmemo/ui/addBook/addBook.dart';
 import 'package:bookmemo/ui/modifyBook/modifyBook.dart';
 import 'package:bookmemo/widget/widgetHelper.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:home_widget/home_widget.dart';
 
@@ -30,7 +33,9 @@ class _HomePageState extends State<HomePage> {
   initState() {
     super.initState();
     BlocProvider.of<BookBloc>(context).add(LoadBook());
-    subscription = HomeWidget.widgetClicked.listen(_launchedFromWidget);
+    if (Platform.isAndroid) {
+      subscription = HomeWidget.widgetClicked.listen(_launchedFromWidget);
+    }
   }
 
   @override
@@ -40,7 +45,9 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _addBook() {
-    Navigator.pushNamed(context, AddBookPage.routeName);
+    WidgetsBinding.instance!.addPostFrameCallback((_) async {
+      Navigator.pushNamed(context, AddBookPage.routeName);
+    });
   }
 
   void _launchedFromWidget(var uri) {

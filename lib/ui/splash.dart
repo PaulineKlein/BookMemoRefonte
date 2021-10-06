@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:bookmemo/ui/splashInteractor.dart';
 import 'package:bookmemo/widget/widgetHelper.dart';
@@ -24,9 +25,16 @@ class _SplashPageState extends State<SplashPage> {
   @override
   initState() {
     WidgetsFlutterBinding.ensureInitialized();
-    HomeWidget.initiallyLaunchedFromHomeWidget().then(_launchedFromWidget);
-    subscription = HomeWidget.widgetClicked.listen(_launchedFromWidget);
     interactor.migrateOldDatabase(context);
+    interactor.initializeFlutterFire();
+    WidgetsBinding.instance!.addPostFrameCallback((_) async {
+      if (Platform.isAndroid) {
+        HomeWidget.initiallyLaunchedFromHomeWidget().then(_launchedFromWidget);
+        subscription = HomeWidget.widgetClicked.listen(_launchedFromWidget);
+      } else {
+        Navigator.pushReplacementNamed(context, HomePage.routeName);
+      }
+    });
     super.initState();
   }
 
@@ -37,18 +45,17 @@ class _SplashPageState extends State<SplashPage> {
   }
 
   void _launchedFromWidget(var uri) {
-    Future.delayed(const Duration(milliseconds: 2000), ()
-    {
-      WidgetHelper().launchedFromWidget(uri).then((value) =>
-      {
-        if (value != null)
-          {
-            Navigator.pushReplacementNamed(context, ModifyBookPage.routeName,
-                arguments: ModifyBookArguments(book: value))
-          }
-        else
-          {Navigator.pushReplacementNamed(context, HomePage.routeName)}
-      });
+    Future.delayed(const Duration(milliseconds: 2000), () {
+      WidgetHelper().launchedFromWidget(uri).then((value) => {
+            if (value != null)
+              {
+                Navigator.pushReplacementNamed(
+                    context, ModifyBookPage.routeName,
+                    arguments: ModifyBookArguments(book: value))
+              }
+            else
+              {Navigator.pushReplacementNamed(context, HomePage.routeName)}
+          });
     });
   }
 
@@ -57,10 +64,8 @@ class _SplashPageState extends State<SplashPage> {
     return Scaffold(
       body: Center(
         child: Container(
-          child: Lottie.asset(
-        'assets/lotties/waiting_book.json',
-        animate: true,
-        repeat: true),
+          child: Lottie.asset('assets/lotties/waiting_book.json',
+              animate: true, repeat: true),
         ),
       ),
     );
