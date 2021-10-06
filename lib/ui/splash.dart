@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:bookmemo/ui/splashInteractor.dart';
 import 'package:bookmemo/widget/widgetHelper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -18,12 +19,14 @@ class SplashPage extends StatefulWidget {
 
 class _SplashPageState extends State<SplashPage> {
   StreamSubscription? subscription;
+  final interactor = SplashInteractor();
 
   @override
   initState() {
     WidgetsFlutterBinding.ensureInitialized();
     HomeWidget.initiallyLaunchedFromHomeWidget().then(_launchedFromWidget);
     subscription = HomeWidget.widgetClicked.listen(_launchedFromWidget);
+    interactor.migrateOldDatabase(context);
     super.initState();
   }
 

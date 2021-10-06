@@ -15,4 +15,6 @@ class BookRepository {
 
   Future<List<Book>> getBooks(String? whereQuery, List<String>? whereArg) =>
       bookDao.getBooks(whereQuery, whereArg);
+
+  Future<bool> hasMigrateOldDatabase() => bookDao.hasMigrateOldDatabase();
 }

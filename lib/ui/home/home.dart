@@ -75,7 +75,7 @@ class _HomePageState extends State<HomePage> {
           } else if (state is BookError) {
             return BuildListBook(listBook: [], message: state.message);
           } else {
-            return BuildListBook(listBook: [], message: Strings.genericError);
+            return BuildListBook(listBook: [], message: "");
           }
         }),
       ),

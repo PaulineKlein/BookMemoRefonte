@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:bookmemo/strings.dart';
+import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 import '../databaseProvider.dart';
@@ -64,5 +67,28 @@ class BookDao {
     });
 
     return books;
+  }
+
+  Future<bool> hasMigrateOldDatabase() async {
+    // look for old database :
+    var databasesPath = await getDatabasesPath();
+    String path = join(databasesPath, "Book.db");
+
+    if (File(path).existsSync()) {
+      var oldDatabase = await openDatabase(path);
+      if (oldDatabase.isOpen) {
+        var result = await oldDatabase.query("Book");
+
+        List<Book> books = List.generate(result.length, (i) {
+          return Book.fromMapOldDatabase(result[i]);
+        });
+
+        books.forEach((element) {
+          insertBook(element);
+        });
+        return true;
+      }
+    }
+    return false;
   }
 }

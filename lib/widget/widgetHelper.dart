@@ -53,7 +53,7 @@ class WidgetHelper {
   }
 
   Future<Book?> launchedFromWidget(var uri) async {
-    print("launchedFromWidget : my URI = $uri");
+    debugPrint("launchedFromWidget : my URI = $uri");
     if (uri != null && uri.host == "updatebook") {
       var bookList = await repository.getBooks(uri.query, null);
       if (bookList.isNotEmpty) {

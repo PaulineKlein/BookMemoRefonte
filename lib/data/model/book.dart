@@ -84,4 +84,27 @@ class Book {
       chapter: map[Strings.columnChapter],
       episode: map[Strings.columnEpisode],
       description: map[Strings.columnDescription]);
+
+  factory Book.fromMapOldDatabase(Map<String, dynamic> map) {
+    var bookTypeOld = BookType.comic;
+    if (map["type"] == "MANGA") {
+      bookTypeOld = BookType.manga;
+    } else if (map["type"] == "LITERATURE") {
+      bookTypeOld = BookType.literature;
+    }
+
+    return new Book(
+        id: map["id"],
+        bookType: bookTypeOld,
+        title: map["title"],
+        author: map["author"],
+        year: map["year"],
+        isBought: map["bought"] == 1,
+        isFinished: map["finish"] == 1,
+        isFavorite: map["favorite"] == 1,
+        volume: map["tome"],
+        chapter: map["chapter"],
+        episode: map["episode"],
+        description: map["desc"]);
+  }
 }
