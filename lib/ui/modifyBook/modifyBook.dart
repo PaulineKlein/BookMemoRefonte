@@ -108,7 +108,10 @@ class _ModifyBookState extends State<ModifyBookPage> {
   }
 
   void _onConfirmClick() {
-    Navigator.pushNamed(context, HomePage.routeName);
-    BlocProvider.of<BookBloc>(context).add(LoadBook());
+    WidgetsBinding.instance!.addPostFrameCallback((_) async {
+      Navigator.pushNamedAndRemoveUntil(
+          context, HomePage.routeName, (Route<dynamic> route) => false);
+      BlocProvider.of<BookBloc>(context).add(LoadBook());
+    });
   }
 }
