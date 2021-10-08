@@ -1,10 +1,12 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:bookmemo/data/model/book.dart';
 import 'package:bookmemo/data/model/bookRepository.dart';
 import 'package:bookmemo/helper/extension/stringExtension.dart';
 import 'package:csv/csv.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter_form_bloc/flutter_form_bloc.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
@@ -40,6 +42,20 @@ class FileHelper {
   File createFile(List<Book> books, String path) {
     // create rows with books informations :
     List<List<dynamic>> rows = <List<dynamic>>[];
+    rows.add([
+      Strings.formType,
+      Strings.formTitle,
+      Strings.formAuthor,
+      Strings.formYear,
+      Strings.formIsBought,
+      Strings.formIsFinished,
+      Strings.formIsFavorite,
+      Strings.formVolume,
+      Strings.formChapter,
+      Strings.formEpisode,
+      Strings.formDescription
+    ]);
+
     for (int i = 0; i < books.length; i++) {
       List<dynamic> row = [];
       row.add(books[i].getNameFromType());
@@ -59,18 +75,49 @@ class FileHelper {
       row.add(books[i].description?.removeCsvDelimiter ?? "");
       rows.add(row);
     }
+
     String csv = const ListToCsvConverter(fieldDelimiter: ";").convert(rows);
-
     File newFile = new File(path);
-
-    String header =
-        "${Strings.formType};${Strings.formTitle};${Strings.formAuthor};${Strings.formYear};"
-        "${Strings.formIsBought};${Strings.formIsFinished};${Strings.formIsFavorite};${Strings.formVolume};"
-        "${Strings.formChapter};${Strings.formEpisode};${Strings.formDescription};\n";
-
-    newFile.writeAsString(header.removeAccents + csv.removeAccents);
+    newFile.writeAsString(csv.removeAccents);
 
     return newFile;
+  }
+
+  Future<int?> importCsv() async {
+    String path = await getPathPicker('csv');
+
+    if (path.isNotEmpty) {
+      final input = File(path).openRead();
+      final fields = await input
+          .transform(utf8.decoder)
+          .transform(new CsvToListConverter(fieldDelimiter: ";"))
+          .toList();
+
+      int nbRows = 0;
+      for (int i = 1; i < fields.length; i++) {
+        if (fields[i].length == 11) {
+          Book book = Book(
+              bookType: Book.getTypeFromName(fields[i][0]),
+              title: fields[i][1],
+              author: fields[i][2],
+              year: fields[i][3] == "" ? null : fields[i][3],
+              isBought: fields[i][4] == Strings.genericYes ? true : false,
+              isFinished: fields[i][5] == Strings.bookFinish ? true : false,
+              isFavorite: fields[i][6] == Strings.genericYes ? true : false,
+              volume: fields[i][7] == "" ? 0 : fields[i][7],
+              chapter: fields[i][8] == "" ? 0 : fields[i][8],
+              episode: fields[i][9] == "" ? 0 : fields[i][9],
+              description: fields[i][10]);
+
+          repository.insertBook(book);
+          nbRows += 1;
+        }
+      }
+      return nbRows;
+    } else {
+      // User canceled the picker
+      return -1;
+    }
   }
 
   Future<PermissionStatus> getStoragePermission() async {
@@ -80,5 +127,14 @@ class FileHelper {
       status = await Permission.storage.request();
     }
     return status;
+  }
+
+  Future<String> getPathPicker(String fileType) async {
+    // choose the csv file :
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: [fileType],
+    );
+    return result?.files.single.path ?? "";
   }
 }

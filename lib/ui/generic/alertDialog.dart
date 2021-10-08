@@ -12,6 +12,18 @@ class AlertDialogUtility {
     return alert!;
   }
 
+  void showPopup(
+      {required BuildContext context,
+      required String alertTitle,
+      required String alertMessage,
+      required String strCancelButton}) {
+    _showDialog(
+        context: context,
+        alertTitle: alertTitle,
+        alertMessage: alertMessage,
+        listButton: []);
+  }
+
   void showAlertDialogTwoChoices(
       {required BuildContext context,
       required String alertTitle,

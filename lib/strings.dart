@@ -46,6 +46,8 @@ class Strings {
       "Souhaitez-vous vraiment supprimer ce livre ?";
   static const String alertDialogAdvancementMessage =
       "Voulez-vous incrémenter cette série ?";
+  static const String alertDialogImportTitle = "Import en succès";
+  static const String alertDialogImportMessage = "Nombre de lignes récupérées :";
   static const String menuImport = "Importer un CSV";
   static const String menuExport = "Exporter en CSV";
 

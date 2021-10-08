@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:bookmemo/helper/fileHelper.dart';
 import 'package:bookmemo/helper/widgetHelper.dart';
 import 'package:bookmemo/ui/addBook/addBook.dart';
+import 'package:bookmemo/ui/generic/alertDialog.dart';
 import 'package:bookmemo/ui/modifyBook/modifyBook.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -59,9 +60,42 @@ class _HomePageState extends State<HomePage> {
         });
   }
 
+  Future<void> _importCsv() async {
+    int? result = await FileHelper().importCsv();
+
+    if (result == null || result == 0) {
+      AlertDialogUtility.getInstance().showAlertDialogTwoChoices(
+          context: context,
+          alertTitle: Strings.genericError,
+          alertMessage: Strings.genericRetry,
+          strCancelButton: Strings.genericYes,
+          onCancelClick: _onConfirmClick,
+          strConfirmButton: Strings.genericNo,
+          onConfirmClick: _onCancelClick);
+    } else if (result > 0) {
+      AlertDialogUtility.getInstance().showPopup(
+        context: context,
+        alertTitle: Strings.alertDialogImportTitle,
+        alertMessage: "${Strings.alertDialogImportMessage} $result",
+        strCancelButton: Strings.genericYes,
+      );
+      BlocProvider.of<BookBloc>(this.context).add(LoadBook());
+    }
+  }
+
+  void _onCancelClick() {
+    Navigator.pop(context);
+  }
+
+  void _onConfirmClick() {
+    Navigator.pop(context);
+    _importCsv();
+  }
+
   void _handleMenuClick(String value) {
     switch (value) {
       case Strings.menuImport:
+        _importCsv();
         break;
       case Strings.menuExport:
         FileHelper().createCsv();
