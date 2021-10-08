@@ -1,7 +1,7 @@
 import 'package:bookmemo/bloc/bookBloc.dart';
 import 'package:bookmemo/bloc/bookEvent.dart';
 import 'package:bookmemo/data/model/bookRepository.dart';
-import 'package:bookmemo/widget/widgetHelper.dart';
+import 'package:bookmemo/helper/widgetHelper.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/cupertino.dart';

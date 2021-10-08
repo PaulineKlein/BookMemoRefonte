@@ -7,7 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:home_widget/home_widget.dart';
 
-import '../strings.dart';
+import '../../strings.dart';
 
 class WidgetHelper {
   final BookRepository repository = BookRepository();

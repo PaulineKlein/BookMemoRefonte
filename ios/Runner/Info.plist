@@ -26,6 +26,8 @@
     <true/>
     <key>FirebaseCrashlyticsCollectionEnabled</key>
     <true/>
+    <key>NSPhotoLibraryAddUsageDescription</key>
+    <string>Permet l import / export de votre bibliotheque sous format CSV</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>

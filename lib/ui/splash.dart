@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:bookmemo/ui/splashInteractor.dart';
-import 'package:bookmemo/widget/widgetHelper.dart';
+import 'package:bookmemo/helper/widgetHelper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:home_widget/home_widget.dart';

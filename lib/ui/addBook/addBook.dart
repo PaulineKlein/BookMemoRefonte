@@ -1,7 +1,7 @@
 import 'package:bookmemo/bloc/bookBloc.dart';
 import 'package:bookmemo/bloc/bookEvent.dart';
 import 'package:bookmemo/strings.dart';
-import 'package:bookmemo/ui/generic/CustomFloatingActionButton.dart';
+import 'package:bookmemo/ui/generic/customFloatingActionButton.dart';
 import 'package:bookmemo/ui/generic/alertDialog.dart';
 import 'package:bookmemo/ui/generic/loadingDialog.dart';
 import 'package:bookmemo/ui/home/home.dart';

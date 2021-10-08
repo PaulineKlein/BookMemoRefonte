@@ -1,13 +1,11 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:bookmemo/helper/fileHelper.dart';
+import 'package:bookmemo/helper/widgetHelper.dart';
 import 'package:bookmemo/ui/addBook/addBook.dart';
 import 'package:bookmemo/ui/modifyBook/modifyBook.dart';
-import 'package:bookmemo/widget/widgetHelper.dart';
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:home_widget/home_widget.dart';
 
@@ -32,7 +30,7 @@ class _HomePageState extends State<HomePage> {
   @override
   initState() {
     super.initState();
-    BlocProvider.of<BookBloc>(context).add(LoadBook());
+    BlocProvider.of<BookBloc>(this.context).add(LoadBook());
     if (Platform.isAndroid) {
       subscription = HomeWidget.widgetClicked.listen(_launchedFromWidget);
     }
@@ -46,7 +44,7 @@ class _HomePageState extends State<HomePage> {
 
   void _addBook() {
     WidgetsBinding.instance!.addPostFrameCallback((_) async {
-      Navigator.pushNamed(context, AddBookPage.routeName);
+      Navigator.pushNamed(this.context, AddBookPage.routeName);
     });
   }
 
@@ -54,10 +52,21 @@ class _HomePageState extends State<HomePage> {
     WidgetHelper().launchedFromWidget(uri).then((value) => {
           if (value != null)
             {
-              Navigator.pushReplacementNamed(context, ModifyBookPage.routeName,
+              Navigator.pushReplacementNamed(
+                  this.context, ModifyBookPage.routeName,
                   arguments: ModifyBookArguments(book: value))
             }
         });
+  }
+
+  void _handleMenuClick(String value) {
+    switch (value) {
+      case Strings.menuImport:
+        break;
+      case Strings.menuExport:
+        FileHelper().createCsv();
+        break;
+    }
   }
 
   @override
@@ -66,6 +75,20 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: Text(Strings.homeTitle),
         centerTitle: true,
+        actions: <Widget>[
+          PopupMenuButton<String>(
+            onSelected: _handleMenuClick,
+            itemBuilder: (BuildContext context) {
+              return {Strings.menuImport, Strings.menuExport}
+                  .map((String choice) {
+                return PopupMenuItem<String>(
+                  value: choice,
+                  child: Text(choice),
+                );
+              }).toList();
+            },
+          ),
+        ],
       ),
       body: BlocListener<BookBloc, BookState>(
         listenWhen: (previousState, state) {
