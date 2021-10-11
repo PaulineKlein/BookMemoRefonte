@@ -59,40 +59,46 @@ class _AddBookState extends State<AddBookPage> {
                 ),
               ),
             ),
-            child: Scaffold(
-              appBar: AppBar(title: Text('addBookTitle'.tr())),
-              floatingActionButton: customFloatingActionButton(
-                  isSmallFAB, 'addBookSend'.tr(), () {
-                return formBloc.submit;
-              }),
-              body: FormBlocListener<BookFormBloc, String, String>(
-                  onSubmitting: (context, state) {
-                    LoadingDialog.show(context);
-                  },
-                  onSuccess: (context, state) {
-                    LoadingDialog.hide(context);
-                    AlertDialogUtility.getInstance().showAlertDialogTwoChoices(
-                        context: context,
-                        alertTitle: 'alertDialogAddTitle'.tr(),
-                        alertMessage: 'alertDialogAddMessage'.tr(),
-                        strCancelButton: 'genericYes'.tr(),
-                        onCancelClick: _onCancelClick,
-                        strConfirmButton: 'genericNo'.tr(),
-                        onConfirmClick: _onConfirmClick);
-                  },
-                  onFailure: (context, state) {
-                    LoadingDialog.hide(context);
-                    AlertDialogUtility.getInstance().showAlertDialogTwoChoices(
-                        context: context,
-                        alertTitle: 'genericError'.tr(),
-                        alertMessage: 'genericRetry'.tr(),
-                        strCancelButton: 'genericYes'.tr(),
-                        onCancelClick: _onCancelClick,
-                        strConfirmButton: 'genericNo'.tr(),
-                        onConfirmClick: _onConfirmClick);
-                  },
-                  child: BuildBookForm(
-                      formBloc: formBloc, scrollController: _scrollController)),
+            child: WillPopScope(
+              onWillPop: _onBackPressed,
+              child: Scaffold(
+                appBar: AppBar(title: Text('addBookTitle'.tr())),
+                floatingActionButton: customFloatingActionButton(
+                    isSmallFAB, 'addBookSend'.tr(), () {
+                  return formBloc.submit;
+                }),
+                body: FormBlocListener<BookFormBloc, String, String>(
+                    onSubmitting: (context, state) {
+                      LoadingDialog.show(context);
+                    },
+                    onSuccess: (context, state) {
+                      LoadingDialog.hide(context);
+                      AlertDialogUtility.getInstance()
+                          .showAlertDialogTwoChoices(
+                              context: context,
+                              alertTitle: 'alertDialogAddTitle'.tr(),
+                              alertMessage: 'alertDialogAddMessage'.tr(),
+                              strCancelButton: 'genericYes'.tr(),
+                              onCancelClick: _onCancelClick,
+                              strConfirmButton: 'genericNo'.tr(),
+                              onConfirmClick: _onConfirmClick);
+                    },
+                    onFailure: (context, state) {
+                      LoadingDialog.hide(context);
+                      AlertDialogUtility.getInstance()
+                          .showAlertDialogTwoChoices(
+                              context: context,
+                              alertTitle: 'genericError'.tr(),
+                              alertMessage: 'genericRetry'.tr(),
+                              strCancelButton: 'genericYes'.tr(),
+                              onCancelClick: _onCancelClick,
+                              strConfirmButton: 'genericNo'.tr(),
+                              onConfirmClick: _onConfirmClick);
+                    },
+                    child: BuildBookForm(
+                        formBloc: formBloc,
+                        scrollController: _scrollController)),
+              ),
             ),
           );
         },
@@ -102,6 +108,11 @@ class _AddBookState extends State<AddBookPage> {
 
   void _onCancelClick() {
     Navigator.pop(context);
+  }
+
+  Future<bool> _onBackPressed() async {
+    BlocProvider.of<BookBloc>(context).add(LoadBook());
+    return true; // Returning true allows the pop to happen, returning false prevents it.
   }
 
   void _onConfirmClick() {
