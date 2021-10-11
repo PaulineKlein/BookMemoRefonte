@@ -2,7 +2,7 @@ import 'package:easy_localization/src/public_ext.dart';
 
 import '../../strings.dart';
 
-enum BookType { literature, manga, comic }
+enum BookType { literature, manga, comic, movie }
 
 class Book {
   int? id;
@@ -40,6 +40,8 @@ class Book {
         return 'formTypeComic'.tr();
       case BookType.literature:
         return 'formTypeLiterature'.tr();
+      case BookType.movie:
+        return 'formTypeMovie'.tr();
     }
   }
 
@@ -48,8 +50,10 @@ class Book {
       return BookType.manga;
     } else if (selectedValue == 'formTypeComic'.tr()) {
       return BookType.comic;
-    } else {
+    } else if (selectedValue == 'formTypeLiterature'.tr()) {
       return BookType.literature;
+    } else {
+      return BookType.movie;
     }
   }
 

@@ -7,6 +7,18 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../strings.dart';
 
+enum FilterType {
+  literature, // 0
+  manga, // 1
+  comic, // 2
+  movie, // 3
+  favorite, // 4
+  finish, // 5
+  notFinish, // 6
+  bought, // 7
+  notBought, // 8
+}
+
 class BuildFilter extends StatefulWidget {
   const BuildFilter({Key? key}) : super(key: key);
 
@@ -15,13 +27,15 @@ class BuildFilter extends StatefulWidget {
 
 class _BuildFilter extends State<BuildFilter> {
   List _categories = [
-    'formTypeLiterature'.tr(),
-    'formTypeManga'.tr(),
-    'formTypeComic'.tr(),
-    'bookFinish'.tr(),
-    'bookNotFinish'.tr(),
-    'bookBuy'.tr(),
-    'bookNotBuy'.tr()
+    'formTypeLiterature'.tr(), // 0
+    'formTypeManga'.tr(), // 1
+    'formTypeComic'.tr(), // 2
+    'formTypeMovie'.tr(), // 3
+    'bookFavorite'.tr(), // 4
+    'bookFinish'.tr(), // 5
+    'bookNotFinish'.tr(), // 6
+    'bookBuy'.tr(), // 7
+    'bookNotBuy'.tr(), // 8
   ];
   List _selectedIndexs = [];
   final myTitleSearchController = TextEditingController();
@@ -31,7 +45,7 @@ class _BuildFilter extends State<BuildFilter> {
 
     // type query :
     List<int> typeSelected = [];
-    for (var i = 0; i < 3; i++) {
+    for (var i = 0; i < 4; i++) {
       if (_selectedIndexs.contains(i)) {
         typeSelected.add(i);
       }
@@ -40,12 +54,17 @@ class _BuildFilter extends State<BuildFilter> {
       query.add("${Strings.dbHasType} (${typeSelected.join(', ')})");
     }
 
+    // isFavorite query :
+    if (_selectedIndexs.contains(FilterType.favorite.index)) {
+      query.add(Strings.dbIsFavorite);
+    }
+
     // isFinished query :
     List<int> isFinishedSelected = [];
-    if (_selectedIndexs.contains(3)) {
+    if (_selectedIndexs.contains(FilterType.finish.index)) {
       isFinishedSelected.add(1); // bookFinish
     }
-    if (_selectedIndexs.contains(4)) {
+    if (_selectedIndexs.contains(FilterType.notFinish.index)) {
       isFinishedSelected.add(0); // bookNotFinish
     }
     if (isFinishedSelected.isNotEmpty) {
@@ -54,10 +73,10 @@ class _BuildFilter extends State<BuildFilter> {
 
     // isBought query :
     List<int> isBoughtSelected = [];
-    if (_selectedIndexs.contains(5)) {
+    if (_selectedIndexs.contains(FilterType.bought.index)) {
       isBoughtSelected.add(1); // bookBought
     }
-    if (_selectedIndexs.contains(6)) {
+    if (_selectedIndexs.contains(FilterType.notBought.index)) {
       isBoughtSelected.add(0); // bookNotBought
     }
     if (isBoughtSelected.isNotEmpty) {

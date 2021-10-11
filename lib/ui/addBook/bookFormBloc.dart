@@ -27,7 +27,8 @@ class BookFormBloc extends FormBloc<String, String> {
     items: [
       'formTypeManga'.tr(),
       'formTypeLiterature'.tr(),
-      'formTypeComic'.tr()
+      'formTypeComic'.tr(),
+      'formTypeMovie'.tr()
     ],
     initialValue: 'formTypeManga'.tr(),
   );
