@@ -1,8 +1,8 @@
+import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_bloc/flutter_form_bloc.dart';
 
-import '../../strings.dart';
 import 'bookFormBloc.dart';
 
 class BuildBookForm extends StatelessWidget {
@@ -26,7 +26,7 @@ class BuildBookForm extends StatelessWidget {
               textFieldBloc: formBloc.textTitle,
               textInputAction: TextInputAction.next,
               decoration: InputDecoration(
-                labelText: Strings.formTitle,
+                labelText: 'formTitle'.tr(),
                 labelStyle: TextStyle(fontSize: 18.0),
                 prefixIcon: Icon(Icons.text_fields),
                 fillColor: Colors.white,
@@ -37,7 +37,7 @@ class BuildBookForm extends StatelessWidget {
               textFieldBloc: formBloc.textAuthor,
               textInputAction: TextInputAction.next,
               decoration: InputDecoration(
-                labelText: Strings.formAuthor,
+                labelText: 'formAuthor'.tr(),
                 labelStyle: TextStyle(fontSize: 18.0),
                 prefixIcon: Icon(Icons.assignment_ind_rounded),
                 fillColor: Colors.white,
@@ -49,7 +49,7 @@ class BuildBookForm extends StatelessWidget {
               textInputAction: TextInputAction.next,
               keyboardType: TextInputType.number,
               decoration: InputDecoration(
-                labelText: Strings.formYear,
+                labelText: 'formYear'.tr(),
                 labelStyle: TextStyle(fontSize: 18.0),
                 prefixIcon: Icon(Icons.calendar_today),
                 fillColor: Colors.white,
@@ -60,7 +60,7 @@ class BuildBookForm extends StatelessWidget {
               textFieldBloc: formBloc.textDescription,
               textInputAction: TextInputAction.next,
               decoration: InputDecoration(
-                labelText: Strings.formDescription,
+                labelText: 'formDescription'.tr(),
                 labelStyle: TextStyle(fontSize: 18.0),
                 prefixIcon: Icon(Icons.description),
                 fillColor: Colors.white,
@@ -78,7 +78,7 @@ class BuildBookForm extends StatelessWidget {
                     child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Text(Strings.formAdvancement,
+                          Text('formAdvancement'.tr(),
                               style: TextStyle(
                                   fontSize: 18.0, color: Colors.blue)),
                           TextFieldBlocBuilder(
@@ -86,7 +86,7 @@ class BuildBookForm extends StatelessWidget {
                             keyboardType: TextInputType.number,
                             textInputAction: TextInputAction.next,
                             decoration: InputDecoration(
-                              labelText: Strings.formVolume,
+                              labelText: 'formVolume'.tr(),
                               labelStyle: TextStyle(fontSize: 18.0),
                               enabledBorder: InputBorder.none,
                               prefixIcon: Icon(Icons.calculate_outlined),
@@ -97,7 +97,7 @@ class BuildBookForm extends StatelessWidget {
                             keyboardType: TextInputType.number,
                             textInputAction: TextInputAction.next,
                             decoration: InputDecoration(
-                              labelText: Strings.formChapter,
+                              labelText: 'formChapter'.tr(),
                               labelStyle: TextStyle(fontSize: 18.0),
                               enabledBorder: InputBorder.none,
                               prefixIcon: Icon(Icons.calculate_outlined),
@@ -108,7 +108,7 @@ class BuildBookForm extends StatelessWidget {
                             keyboardType: TextInputType.number,
                             textInputAction: TextInputAction.next,
                             decoration: InputDecoration(
-                              labelText: Strings.formEpisode,
+                              labelText: 'formEpisode'.tr(),
                               labelStyle: TextStyle(fontSize: 18.0),
                               enabledBorder: InputBorder.none,
                               prefixIcon: Icon(Icons.calculate_outlined),
@@ -118,7 +118,7 @@ class BuildBookForm extends StatelessWidget {
             RadioButtonGroupFieldBlocBuilder<String>(
               selectFieldBloc: formBloc.selectType,
               decoration: InputDecoration(
-                  labelText: Strings.formType,
+                  labelText: 'formType'.tr(),
                   labelStyle: TextStyle(fontSize: 20.0, color: Colors.blue),
                   prefixIcon: SizedBox(),
                   contentPadding: EdgeInsets.all(5.0)),
@@ -127,7 +127,7 @@ class BuildBookForm extends StatelessWidget {
             RadioButtonGroupFieldBlocBuilder<String>(
               selectFieldBloc: formBloc.selectIsfinished,
               decoration: InputDecoration(
-                  labelText: Strings.formIsFinished,
+                  labelText: 'formIsFinished'.tr(),
                   labelStyle: TextStyle(fontSize: 20.0, color: Colors.blue),
                   prefixIcon: SizedBox(),
                   contentPadding: EdgeInsets.all(5.0)),
@@ -137,14 +137,14 @@ class BuildBookForm extends StatelessWidget {
               booleanFieldBloc: formBloc.booleanBought,
               body: Container(
                 alignment: Alignment.centerLeft,
-                child: Text(Strings.formIsBought),
+                child: Text('formIsBought'.tr()),
               ),
             ),
             SwitchFieldBlocBuilder(
               booleanFieldBloc: formBloc.booleanFavorite,
               body: Container(
                 alignment: Alignment.centerLeft,
-                child: Text(Strings.formIsFavorite),
+                child: Text('formIsFavorite'.tr()),
               ),
             ),
           ],

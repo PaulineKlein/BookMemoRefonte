@@ -1,6 +1,7 @@
 import 'package:bookmemo/bloc/bookBloc.dart';
 import 'package:bookmemo/bloc/bookEvent.dart';
 import 'package:bookmemo/data/model/book.dart';
+import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
@@ -47,9 +48,7 @@ class _BuildListBookState extends State<BuildListBook> {
       return Align(
           alignment: Alignment.center,
           child: Text(
-              widget.message == null
-                  ? Strings.filterEmptyList
-                  : widget.message!,
+              widget.message == null ? 'filterEmptyList'.tr() : widget.message!,
               style: TextStyle(fontSize: 18)));
     } else {
       return ListView.builder(
@@ -87,7 +86,7 @@ class _BuildListBookState extends State<BuildListBook> {
   Widget _buildTitleTile(int pos) {
     return Row(children: <Widget>[
       Image.asset(
-        "assets/images/icon_${widget.listBook[pos].getNameFromType()}.png",
+        "assets/images/icon_${widget.listBook[pos].bookType.index}.png",
         width: 50,
       ),
       SizedBox(width: 10),
@@ -103,7 +102,7 @@ class _BuildListBookState extends State<BuildListBook> {
   Widget _buildExpansionTile(int pos, Color cardColor, BuildContext context) {
     Book book = widget.listBook[pos];
     String author =
-        book.author.isEmpty ? Strings.bookAuthorNotKnown : book.author;
+        book.author.isEmpty ? 'bookAuthorNotKnown'.tr() : book.author;
     BoxDecoration decorateTile = BoxDecoration(
       boxShadow: [
         BoxShadow(blurRadius: 13, color: cardColor.withOpacity(0.2)),
@@ -118,14 +117,14 @@ class _BuildListBookState extends State<BuildListBook> {
         Row(children: <Widget>[
           _buildBookInfoInChip(
               cardColor,
-              book.isBought ? Strings.bookBuy : Strings.bookNotBuy,
+              book.isBought ? 'bookBuy'.tr() : 'bookNotBuy'.tr(),
               book.isBought
                   ? Icons.shopping_cart_outlined
                   : Icons.remove_shopping_cart_outlined),
           SizedBox(width: 5),
           _buildBookInfoInChip(
               cardColor,
-              book.isFinished ? Strings.bookFinish : Strings.bookNotFinish,
+              book.isFinished ? 'bookFinish'.tr() : 'bookNotFinish'.tr(),
               book.isFinished ? Icons.check : Icons.hourglass_bottom),
           new Spacer(),
           _buildFavoriteIcon(pos, cardColor),
@@ -159,7 +158,7 @@ class _BuildListBookState extends State<BuildListBook> {
                     },
                     children: [
                       TableRow(children: [
-                        Text(Strings.bookVolume,
+                        Text('bookVolume'.tr(),
                             style:
                                 TextStyle(fontSize: 13.0, color: Colors.black)),
                         Text(book.volume > 0 ? "${book.volume}" : "-",
@@ -169,7 +168,7 @@ class _BuildListBookState extends State<BuildListBook> {
                                 fontWeight: FontWeight.bold)),
                       ]),
                       TableRow(children: [
-                        Text(Strings.bookChapter,
+                        Text('bookChapter'.tr(),
                             style:
                                 TextStyle(fontSize: 13.0, color: Colors.black)),
                         Text(book.chapter > 0 ? "${book.chapter}" : "- ",
@@ -179,7 +178,7 @@ class _BuildListBookState extends State<BuildListBook> {
                                 fontWeight: FontWeight.bold)),
                       ]),
                       TableRow(children: [
-                        Text(Strings.bookEpisode,
+                        Text('bookEpisode'.tr(),
                             style:
                                 TextStyle(fontSize: 13.0, color: Colors.black)),
                         Text(book.episode > 0 ? "${book.episode}" : "-",

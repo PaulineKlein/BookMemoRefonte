@@ -1,5 +1,6 @@
 import 'package:bookmemo/bloc/bookBloc.dart';
 import 'package:bookmemo/bloc/bookEvent.dart';
+import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,13 +15,13 @@ class BuildFilter extends StatefulWidget {
 
 class _BuildFilter extends State<BuildFilter> {
   List _categories = [
-    Strings.formTypeLiterature,
-    Strings.formTypeManga,
-    Strings.formTypeComic,
-    Strings.bookFinish,
-    Strings.bookNotFinish,
-    Strings.bookBuy,
-    Strings.bookNotBuy
+    'formTypeLiterature'.tr(),
+    'formTypeManga'.tr(),
+    'formTypeComic'.tr(),
+    'bookFinish'.tr(),
+    'bookNotFinish'.tr(),
+    'bookBuy'.tr(),
+    'bookNotBuy'.tr()
   ];
   List _selectedIndexs = [];
   final myTitleSearchController = TextEditingController();
@@ -116,7 +117,7 @@ class _BuildFilter extends State<BuildFilter> {
             Icon(Icons.tune, color: Colors.deepPurple),
             SizedBox(width: 15.0),
             Text(
-              Strings.filterCategory,
+              'filterCategory'.tr(),
               style: Theme.of(context)
                   .textTheme
                   .headline5
@@ -142,7 +143,7 @@ class _BuildFilter extends State<BuildFilter> {
                 autofocus: false,
                 controller: myTitleSearchController,
                 decoration: InputDecoration(
-                  hintText: Strings.homeSearchTitle,
+                  hintText: 'homeSearchTitle'.tr(),
                   hintStyle: TextStyle(
                     color: Colors.grey,
                     fontSize: 16,

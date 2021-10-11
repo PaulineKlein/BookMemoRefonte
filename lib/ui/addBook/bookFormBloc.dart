@@ -1,4 +1,5 @@
 import 'package:bookmemo/data/model/book.dart';
+import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter_form_bloc/flutter_form_bloc.dart';
 
 import '../../strings.dart';
@@ -24,16 +25,16 @@ class BookFormBloc extends FormBloc<String, String> {
 
   final selectType = SelectFieldBloc(
     items: [
-      Strings.formTypeManga,
-      Strings.formTypeLiterature,
-      Strings.formTypeComic
+      'formTypeManga'.tr(),
+      'formTypeLiterature'.tr(),
+      'formTypeComic'.tr()
     ],
-    initialValue: Strings.formTypeManga,
+    initialValue: 'formTypeManga'.tr(),
   );
 
   final selectIsfinished = SelectFieldBloc(
-    items: [Strings.bookNotFinish, Strings.bookFinish],
-    initialValue: Strings.bookNotFinish,
+    items: ['bookNotFinish'.tr(), 'bookFinish'.tr()],
+    initialValue: 'bookNotFinish'.tr(),
   );
 
   BookFormBloc(Book? book) {
@@ -51,7 +52,7 @@ class BookFormBloc extends FormBloc<String, String> {
       booleanBought.updateInitialValue(book.isBought);
       booleanFavorite.updateInitialValue(book.isFavorite);
       selectIsfinished.updateInitialValue(
-          book.isFinished ? Strings.bookFinish : Strings.bookNotFinish);
+          book.isFinished ? 'bookFinish'.tr() : 'bookNotFinish'.tr());
       selectType.updateInitialValue(book.getNameFromType());
     }
 
@@ -82,7 +83,7 @@ class BookFormBloc extends FormBloc<String, String> {
       if (books.isEmpty) {
         return null;
       } else {
-        return Strings.formTitleError;
+        return 'formTitleError'.tr();
       }
     }
   }
@@ -92,7 +93,7 @@ class BookFormBloc extends FormBloc<String, String> {
         value == false ||
         ((value is Iterable || value is String || value is Map) &&
             value.length == 0)) {
-      return Strings.formEmptyError;
+      return 'formEmptyError'.tr();
     }
     return null;
   }
@@ -107,7 +108,7 @@ class BookFormBloc extends FormBloc<String, String> {
           year: textYear.valueToInt,
           isBought: booleanBought.value != null ? booleanBought.value! : false,
           isFinished:
-              selectIsfinished.value == Strings.bookFinish ? true : false,
+              selectIsfinished.value == 'bookFinish'.tr() ? true : false,
           isFavorite:
               booleanFavorite.value != null ? booleanFavorite.value! : false,
           volume: textVolume.valueToInt != null ? textVolume.valueToInt! : 0,
@@ -144,7 +145,7 @@ class BookFormBloc extends FormBloc<String, String> {
     textDescription.clear();
     booleanBought.updateInitialValue(false);
     booleanFavorite.updateInitialValue(false);
-    selectType.updateInitialValue(Strings.formTypeManga);
-    selectIsfinished.updateInitialValue(Strings.bookNotFinish);
+    selectType.updateInitialValue('formTypeManga'.tr());
+    selectIsfinished.updateInitialValue('bookNotFinish'.tr());
   }
 }

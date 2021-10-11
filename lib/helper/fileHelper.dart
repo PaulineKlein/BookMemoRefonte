@@ -6,14 +6,13 @@ import 'package:bookmemo/data/model/book.dart';
 import 'package:bookmemo/data/model/bookRepository.dart';
 import 'package:bookmemo/helper/extension/stringExtension.dart';
 import 'package:csv/csv.dart';
+import 'package:easy_localization/src/public_ext.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_form_bloc/flutter_form_bloc.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:share_extend/share_extend.dart';
-
-import '../../strings.dart';
 
 class FileHelper {
   final BookRepository repository = BookRepository();
@@ -43,17 +42,17 @@ class FileHelper {
     // create rows with books informations :
     List<List<dynamic>> rows = <List<dynamic>>[];
     rows.add([
-      Strings.formType,
-      Strings.formTitle,
-      Strings.formAuthor,
-      Strings.formYear,
-      Strings.formIsBought,
-      Strings.formIsFinished,
-      Strings.formIsFavorite,
-      Strings.formVolume,
-      Strings.formChapter,
-      Strings.formEpisode,
-      Strings.formDescription
+      'formType'.tr(),
+      'formTitle'.tr(),
+      'formAuthor'.tr(),
+      'formYear'.tr(),
+      'formIsBought'.tr(),
+      'formIsFinished'.tr(),
+      'formIsFavorite'.tr(),
+      'formVolume'.tr(),
+      'formChapter'.tr(),
+      'formEpisode'.tr(),
+      'formDescription'.tr()
     ]);
 
     for (int i = 0; i < books.length; i++) {
@@ -62,13 +61,12 @@ class FileHelper {
       row.add(books[i].title.removeCsvDelimiter);
       row.add(books[i].author.removeCsvDelimiter);
       row.add(books[i].year ?? "");
-      row.add(
-          books[i].isBought == true ? Strings.genericYes : Strings.genericNo);
+      row.add(books[i].isBought == true ? 'genericYes'.tr() : 'genericNo'.tr());
       row.add(books[i].isFinished == true
-          ? Strings.bookFinish
-          : Strings.bookNotFinish);
+          ? 'bookFinish'.tr()
+          : 'bookNotFinish'.tr());
       row.add(
-          books[i].isFavorite == true ? Strings.genericYes : Strings.genericNo);
+          books[i].isFavorite == true ? 'genericYes'.tr() : 'genericNo'.tr());
       row.add(books[i].volume);
       row.add(books[i].chapter);
       row.add(books[i].episode);
@@ -101,9 +99,9 @@ class FileHelper {
               title: fields[i][1],
               author: fields[i][2],
               year: fields[i][3] == "" ? null : fields[i][3],
-              isBought: fields[i][4] == Strings.genericYes ? true : false,
-              isFinished: fields[i][5] == Strings.bookFinish ? true : false,
-              isFavorite: fields[i][6] == Strings.genericYes ? true : false,
+              isBought: fields[i][4] == 'genericYes'.tr() ? true : false,
+              isFinished: fields[i][5] == 'bookFinish'.tr() ? true : false,
+              isFavorite: fields[i][6] == 'genericYes'.tr() ? true : false,
               volume: fields[i][7] == "" ? 0 : fields[i][7],
               chapter: fields[i][8] == "" ? 0 : fields[i][8],
               episode: fields[i][9] == "" ? 0 : fields[i][9],

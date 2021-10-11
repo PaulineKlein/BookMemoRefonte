@@ -1,13 +1,13 @@
 import 'package:bookmemo/bloc/bookBloc.dart';
 import 'package:bookmemo/bloc/bookEvent.dart';
 import 'package:bookmemo/data/model/book.dart';
-import 'package:bookmemo/strings.dart';
 import 'package:bookmemo/ui/addBook/bookFormBloc.dart';
 import 'package:bookmemo/ui/addBook/buildBookForm.dart';
-import 'package:bookmemo/ui/generic/customFloatingActionButton.dart';
 import 'package:bookmemo/ui/generic/alertDialog.dart';
+import 'package:bookmemo/ui/generic/customFloatingActionButton.dart';
 import 'package:bookmemo/ui/generic/loadingDialog.dart';
 import 'package:bookmemo/ui/home/home.dart';
+import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_bloc/flutter_form_bloc.dart';
 
@@ -70,9 +70,9 @@ class _ModifyBookState extends State<ModifyBookPage> {
               ),
             ),
             child: Scaffold(
-              appBar: AppBar(title: Text(Strings.modifyBookTitle)),
+              appBar: AppBar(title: Text('modifyBookTitle'.tr())),
               floatingActionButton: customFloatingActionButton(
-                  isSmallFAB, Strings.modifyBookSend, () {
+                  isSmallFAB, 'modifyBookSend'.tr(), () {
                 return formBloc.submit;
               }),
               body: FormBlocListener<BookFormBloc, String, String>(
@@ -87,11 +87,11 @@ class _ModifyBookState extends State<ModifyBookPage> {
                     LoadingDialog.hide(context);
                     AlertDialogUtility.getInstance().showAlertDialogTwoChoices(
                         context: context,
-                        alertTitle: Strings.genericError,
-                        alertMessage: Strings.genericRetry,
-                        strCancelButton: Strings.genericYes,
+                        alertTitle: 'genericError'.tr(),
+                        alertMessage: 'genericRetry'.tr(),
+                        strCancelButton: 'genericYes'.tr(),
                         onCancelClick: _onCancelClick,
-                        strConfirmButton: Strings.genericNo,
+                        strConfirmButton: 'genericNo'.tr(),
                         onConfirmClick: _onConfirmClick);
                   },
                   child: BuildBookForm(

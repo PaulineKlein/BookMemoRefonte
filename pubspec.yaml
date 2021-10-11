@@ -55,6 +55,8 @@ dependencies:
   # Firebase
   firebase_core: ^1.7.0
   firebase_crashlytics: ^2.2.2
+  # traductions
+  easy_localization: ^3.0.0
 
 dev_dependencies:
   flutter_test:
@@ -75,6 +77,7 @@ flutter:
   assets:
      - assets/images/
      - assets/lotties/
+     - assets/translations/
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 

@@ -1,10 +1,10 @@
 import 'package:bookmemo/bloc/bookBloc.dart';
 import 'package:bookmemo/bloc/bookEvent.dart';
-import 'package:bookmemo/strings.dart';
-import 'package:bookmemo/ui/generic/customFloatingActionButton.dart';
 import 'package:bookmemo/ui/generic/alertDialog.dart';
+import 'package:bookmemo/ui/generic/customFloatingActionButton.dart';
 import 'package:bookmemo/ui/generic/loadingDialog.dart';
 import 'package:bookmemo/ui/home/home.dart';
+import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_bloc/flutter_form_bloc.dart';
 
@@ -60,9 +60,9 @@ class _AddBookState extends State<AddBookPage> {
               ),
             ),
             child: Scaffold(
-              appBar: AppBar(title: Text(Strings.addBookTitle)),
+              appBar: AppBar(title: Text('addBookTitle'.tr())),
               floatingActionButton: customFloatingActionButton(
-                  isSmallFAB, Strings.addBookSend, () {
+                  isSmallFAB, 'addBookSend'.tr(), () {
                 return formBloc.submit;
               }),
               body: FormBlocListener<BookFormBloc, String, String>(
@@ -73,22 +73,22 @@ class _AddBookState extends State<AddBookPage> {
                     LoadingDialog.hide(context);
                     AlertDialogUtility.getInstance().showAlertDialogTwoChoices(
                         context: context,
-                        alertTitle: Strings.alertDialogAddTitle,
-                        alertMessage: Strings.alertDialogAddMessage,
-                        strCancelButton: Strings.genericYes,
+                        alertTitle: 'alertDialogAddTitle'.tr(),
+                        alertMessage: 'alertDialogAddMessage'.tr(),
+                        strCancelButton: 'genericYes'.tr(),
                         onCancelClick: _onCancelClick,
-                        strConfirmButton: Strings.genericNo,
+                        strConfirmButton: 'genericNo'.tr(),
                         onConfirmClick: _onConfirmClick);
                   },
                   onFailure: (context, state) {
                     LoadingDialog.hide(context);
                     AlertDialogUtility.getInstance().showAlertDialogTwoChoices(
                         context: context,
-                        alertTitle: Strings.genericError,
-                        alertMessage: Strings.genericRetry,
-                        strCancelButton: Strings.genericYes,
+                        alertTitle: 'genericError'.tr(),
+                        alertMessage: 'genericRetry'.tr(),
+                        strCancelButton: 'genericYes'.tr(),
                         onCancelClick: _onCancelClick,
-                        strConfirmButton: Strings.genericNo,
+                        strConfirmButton: 'genericNo'.tr(),
                         onConfirmClick: _onConfirmClick);
                   },
                   child: BuildBookForm(

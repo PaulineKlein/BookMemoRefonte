@@ -1,7 +1,7 @@
 import 'package:bookmemo/ui/addBook/bookInteractor.dart';
+import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../strings.dart';
 import 'bookEvent.dart';
 import 'bookState.dart';
 
@@ -29,7 +29,7 @@ class BookBloc extends Bloc<BookEvent, BookState> {
     try {
       var books = await interactor.getBooks(null, null);
       if (books.isEmpty) {
-        yield BookNoData(Strings.homeEmptyList);
+        yield BookNoData('homeEmptyList'.tr());
       } else {
         yield BookHasData(books);
       }
@@ -42,7 +42,7 @@ class BookBloc extends Bloc<BookEvent, BookState> {
     try {
       var books = await interactor.getBooks(event.query, null);
       if (books.isEmpty) {
-        yield BookNoData(Strings.filterEmptyList);
+        yield BookNoData('filterEmptyList'.tr());
       } else {
         yield BookHasData(books);
       }
@@ -63,7 +63,7 @@ class BookBloc extends Bloc<BookEvent, BookState> {
   Stream<BookState> _mapRemoveBookToState(RemoveBook event) async* {
     try {
       if (event.book.id == null) {
-        yield BookError(Strings.genericError);
+        yield BookError('genericError'.tr());
       } else {
         await interactor.deleteBook(event.book.id!);
       }

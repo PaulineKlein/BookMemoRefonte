@@ -6,6 +6,7 @@ import 'package:bookmemo/helper/widgetHelper.dart';
 import 'package:bookmemo/ui/addBook/addBook.dart';
 import 'package:bookmemo/ui/generic/alertDialog.dart';
 import 'package:bookmemo/ui/modifyBook/modifyBook.dart';
+import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:home_widget/home_widget.dart';
@@ -13,7 +14,6 @@ import 'package:home_widget/home_widget.dart';
 import '../../bloc/bookBloc.dart';
 import '../../bloc/bookEvent.dart';
 import '../../bloc/bookState.dart';
-import '../../strings.dart';
 import 'buildListBooks.dart';
 
 class HomePage extends StatefulWidget {
@@ -66,18 +66,18 @@ class _HomePageState extends State<HomePage> {
     if (result == null || result == 0) {
       AlertDialogUtility.getInstance().showAlertDialogTwoChoices(
           context: context,
-          alertTitle: Strings.genericError,
-          alertMessage: Strings.genericRetry,
-          strCancelButton: Strings.genericYes,
+          alertTitle: 'genericError'.tr(),
+          alertMessage: 'genericRetry'.tr(),
+          strCancelButton: 'genericYes'.tr(),
           onCancelClick: _onConfirmClick,
-          strConfirmButton: Strings.genericNo,
+          strConfirmButton: 'genericNo'.tr(),
           onConfirmClick: _onCancelClick);
     } else if (result > 0) {
       AlertDialogUtility.getInstance().showPopup(
         context: context,
-        alertTitle: Strings.alertDialogImportTitle,
-        alertMessage: "${Strings.alertDialogImportMessage} $result",
-        strCancelButton: Strings.genericYes,
+        alertTitle: 'alertDialogImportTitle'.tr(),
+        alertMessage: "${'alertDialogImportMessage'.tr()} $result",
+        strCancelButton: 'genericYes'.tr(),
       );
       BlocProvider.of<BookBloc>(this.context).add(LoadBook());
     }
@@ -93,13 +93,10 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _handleMenuClick(String value) {
-    switch (value) {
-      case Strings.menuImport:
-        _importCsv();
-        break;
-      case Strings.menuExport:
-        FileHelper().createCsv();
-        break;
+    if (value == 'menuImport'.tr()) {
+      _importCsv();
+    } else if (value == 'menuExport'.tr()) {
+      FileHelper().createCsv();
     }
   }
 
@@ -107,13 +104,13 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(Strings.homeTitle),
+        title: Text('homeTitle'.tr()),
         centerTitle: true,
         actions: <Widget>[
           PopupMenuButton<String>(
             onSelected: _handleMenuClick,
             itemBuilder: (BuildContext context) {
-              return {Strings.menuImport, Strings.menuExport}
+              return {'menuImport'.tr(), 'menuExport'.tr()}
                   .map((String choice) {
                 return PopupMenuItem<String>(
                   value: choice,

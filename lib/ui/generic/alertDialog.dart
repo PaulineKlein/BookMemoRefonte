@@ -1,6 +1,5 @@
+import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/material.dart';
-
-import '../../strings.dart';
 
 class AlertDialogUtility {
   static AlertDialogUtility? alert;
@@ -65,19 +64,19 @@ class AlertDialogUtility {
       required Function() onEpisodeClick}) {
     // set up the buttons
     Widget volumeButton = TextButton(
-      child: Text(Strings.formVolume),
+      child: Text('formVolume'.tr()),
       onPressed: () {
         onVolumeClick();
       },
     );
     Widget chapterButton = TextButton(
-      child: Text(Strings.formChapter),
+      child: Text('formChapter'.tr()),
       onPressed: () {
         onChapterClick();
       },
     );
     Widget episodeButton = TextButton(
-      child: Text(Strings.formEpisode),
+      child: Text('formEpisode'.tr()),
       onPressed: () {
         onEpisodeClick();
       },
@@ -86,7 +85,7 @@ class AlertDialogUtility {
     _showDialog(
         context: context,
         alertTitle: alertTitle,
-        alertMessage: Strings.alertDialogAdvancementMessage,
+        alertMessage: 'alertDialogAdvancementMessage'.tr(),
         listButton: [volumeButton, chapterButton, episodeButton]);
   }
 

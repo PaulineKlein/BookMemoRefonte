@@ -1,3 +1,5 @@
+import 'package:easy_localization/src/public_ext.dart';
+
 import '../../strings.dart';
 
 enum BookType { literature, manga, comic }
@@ -33,22 +35,21 @@ class Book {
   String getNameFromType() {
     switch (this.bookType) {
       case BookType.manga:
-        return Strings.formTypeManga;
+        return 'formTypeManga'.tr();
       case BookType.comic:
-        return Strings.formTypeComic;
+        return 'formTypeComic'.tr();
       case BookType.literature:
-        return Strings.formTypeLiterature;
+        return 'formTypeLiterature'.tr();
     }
   }
 
   static BookType getTypeFromName(String? selectedValue) {
-    switch (selectedValue) {
-      case Strings.formTypeManga:
-        return BookType.manga;
-      case Strings.formTypeComic:
-        return BookType.comic;
-      default:
-        return BookType.literature;
+    if (selectedValue == 'formTypeManga'.tr()) {
+      return BookType.manga;
+    } else if (selectedValue == 'formTypeComic'.tr()) {
+      return BookType.comic;
+    } else {
+      return BookType.literature;
     }
   }
 
