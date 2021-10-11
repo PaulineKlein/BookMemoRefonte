@@ -29,8 +29,7 @@ class FileHelper {
         // enregistrement dans le bac à sable de l'applicatif iOS :
         directory = (await getApplicationDocumentsDirectory()).path;
       }
-      var today = DateFormat("dd-MM-yyyy").format(DateTime.now());
-      String path = join(directory, "Export_$today.csv");
+      String path = join(directory, "Export_BookMemo.csv");
 
       List<Book> books = await repository.getBooks(null, null);
       createFile(books, path);
