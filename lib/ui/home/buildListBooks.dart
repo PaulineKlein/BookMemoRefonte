@@ -8,7 +8,7 @@ import 'package:flutter/painting.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../strings.dart';
-import 'buildFilter.dart';
+import 'filter/buildFilter.dart';
 import 'buildListActions.dart';
 
 class BuildListBook extends StatefulWidget {

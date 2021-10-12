@@ -25,8 +25,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  Icon customIcon = const Icon(Icons.search);
   StreamSubscription? subscription;
+  int _selectedIndex = 0;
 
   @override
   initState() {
@@ -100,6 +100,12 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -129,17 +135,35 @@ class _HomePageState extends State<HomePage> {
           BlocProvider.of<BookBloc>(context).add(LoadBook());
         },
         child: BlocBuilder<BookBloc, BookState>(builder: (context, state) {
-          if (state is BookHasData) {
-            return BuildListBook(listBook: state.booksList);
-          } else if (state is BookNoData) {
-            return BuildListBook(listBook: [], message: state.message);
-          } else if (state is BookError) {
-            return BuildListBook(listBook: [], message: state.message);
+          if(_selectedIndex == 0) {
+            if (state is BookHasData) {
+              return BuildListBook(listBook: state.booksList);
+            } else if (state is BookNoData) {
+              return BuildListBook(listBook: [], message: state.message);
+            } else if (state is BookError) {
+              return BuildListBook(listBook: [], message: state.message);
+            } else {
+              return BuildListBook(listBook: [], message: "");
+            }
           } else {
-            return BuildListBook(listBook: [], message: "");
+            return Text("toto");
           }
         }),
       ),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _selectedIndex,
+        type: BottomNavigationBarType.fixed,
+        showSelectedLabels: false,
+        showUnselectedLabels: false,
+        items: [
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: ""),
+          BottomNavigationBarItem(icon: Icon(Icons.query_stats), label: "")
+        ],
+        onTap: (index) {
+          _onItemTapped(index);
+        },
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
         onPressed: _addBook,
         tooltip: 'AddBook',

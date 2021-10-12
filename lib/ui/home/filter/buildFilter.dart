@@ -5,7 +5,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../strings.dart';
+import '../../../strings.dart';
+import 'filterInteractor.dart';
 
 enum FilterType {
   literature, // 0
@@ -37,70 +38,12 @@ class _BuildFilter extends State<BuildFilter> {
     'bookBuy'.tr(), // 7
     'bookNotBuy'.tr(), // 8
   ];
-  List _selectedIndexs = [];
   final myTitleSearchController = TextEditingController();
-
-  String? _getFilterQuery() {
-    List<String> query = [];
-
-    // type query :
-    List<int> typeSelected = [];
-    for (var i = 0; i < 4; i++) {
-      if (_selectedIndexs.contains(i)) {
-        typeSelected.add(i);
-      }
-    }
-    if (typeSelected.isNotEmpty) {
-      query.add("${Strings.dbHasType} (${typeSelected.join(', ')})");
-    }
-
-    // isFavorite query :
-    if (_selectedIndexs.contains(FilterType.favorite.index)) {
-      query.add(Strings.dbIsFavorite);
-    }
-
-    // isFinished query :
-    List<int> isFinishedSelected = [];
-    if (_selectedIndexs.contains(FilterType.finish.index)) {
-      isFinishedSelected.add(1); // bookFinish
-    }
-    if (_selectedIndexs.contains(FilterType.notFinish.index)) {
-      isFinishedSelected.add(0); // bookNotFinish
-    }
-    if (isFinishedSelected.isNotEmpty) {
-      query.add("${Strings.dbIsFinished} (${isFinishedSelected.join(', ')})");
-    }
-
-    // isBought query :
-    List<int> isBoughtSelected = [];
-    if (_selectedIndexs.contains(FilterType.bought.index)) {
-      isBoughtSelected.add(1); // bookBought
-    }
-    if (_selectedIndexs.contains(FilterType.notBought.index)) {
-      isBoughtSelected.add(0); // bookNotBought
-    }
-    if (isBoughtSelected.isNotEmpty) {
-      query.add("${Strings.dbIsBought} (${isBoughtSelected.join(', ')})");
-    }
-
-    // title query :
-    if (myTitleSearchController.text.isNotEmpty) {
-      String search = myTitleSearchController.text.toLowerCase();
-      query.add(
-          "${Strings.dbHasTitle} \"%$search%\" OR ${Strings.dbHasAuthor} \"%$search%\"");
-    }
-
-    // final query :
-    if (query.isNotEmpty) {
-      String lastQuery = query.join(' AND ');
-      return lastQuery;
-    } else {
-      return null;
-    }
-  }
+  final interactor = FilterInteractor();
+  List<int> _selectedIndexs = [];
 
   void _filterList() {
-    String? query = _getFilterQuery();
+    String? query = interactor.getFilterQuery(_selectedIndexs, myTitleSearchController.text);
     BlocProvider.of<BookBloc>(context).add(FilterBook(query));
   }
 
@@ -108,6 +51,10 @@ class _BuildFilter extends State<BuildFilter> {
   initState() {
     super.initState();
     myTitleSearchController.addListener(_filterList);
+    WidgetsBinding.instance!.addPostFrameCallback((_) async {
+      _selectedIndexs = await interactor.getSelectedIndex();
+      _filterList();
+    });
   }
 
   @override
@@ -187,9 +134,11 @@ class _BuildFilter extends State<BuildFilter> {
                       setState(() {
                         if (_isSelected) {
                           _selectedIndexs.remove(i);
+                          interactor.setSelectedIndex(_selectedIndexs);
                           _filterList();
                         } else {
                           _selectedIndexs.add(i);
+                          interactor.setSelectedIndex(_selectedIndexs);
                           _filterList();
                         }
                       });
