@@ -102,6 +102,19 @@ class BookFormBloc extends FormBloc<String, String> {
   @override
   void onSubmitting() async {
     try {
+
+      int volume = 0;
+      int episode = 0;
+      if(Book.getTypeFromName(selectType.value) != BookType.movie) {
+        // it is a book, at least volume should be 1 :
+        volume = textVolume.valueToInt != null ? textVolume.valueToInt! : 1;
+        episode = textEpisode.valueToInt != null ? textEpisode.valueToInt! : 0;
+      } else {
+        // it is a movie, at least episode should be 1
+        volume = textVolume.valueToInt != null ? textVolume.valueToInt! : 0;
+        episode = textEpisode.valueToInt != null ? textEpisode.valueToInt! : 1;
+      }
+
       var book = Book(
           bookType: Book.getTypeFromName(selectType.value),
           title: textTitle.value != null ? textTitle.value! : "",
@@ -112,9 +125,9 @@ class BookFormBloc extends FormBloc<String, String> {
               selectIsfinished.value == 'bookFinish'.tr() ? true : false,
           isFavorite:
               booleanFavorite.value != null ? booleanFavorite.value! : false,
-          volume: textVolume.valueToInt != null ? textVolume.valueToInt! : 0,
+          volume: volume,
           chapter: textChapter.valueToInt != null ? textChapter.valueToInt! : 0,
-          episode: textEpisode.valueToInt != null ? textEpisode.valueToInt! : 0,
+          episode: episode,
           description: textDescription.value);
 
       var result = 0;
