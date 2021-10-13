@@ -47,5 +47,11 @@
   "alertDialogImportTitle": "Import en succès",
   "alertDialogImportMessage": "Nombre de lignes récupérées :",
   "menuImport": "Importer un CSV",
-  "menuExport": "Exporter en CSV"
+  "menuExport": "Exporter en CSV",
+  "chartTitle": "Statistiques",
+  "chartExplanation": "Adaptez vos filtres dans votre bibliothèque et les graphiques se mettront à jour en fonction de votre sélection choisie",
+  "pieChartTitle": "Nombre d'ouvrages par type",
+  "barChartTitleIsFinish": "Ouvrages en cours",
+  "barChartTitleIsBought": "Ouvrages possédés",
+  "barChartTitleCount": "Volumétrie"
 }

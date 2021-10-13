@@ -5,6 +5,7 @@ import 'package:bookmemo/helper/fileHelper.dart';
 import 'package:bookmemo/helper/widgetHelper.dart';
 import 'package:bookmemo/ui/addBook/addBook.dart';
 import 'package:bookmemo/ui/generic/alertDialog.dart';
+import 'package:bookmemo/ui/home/statistics/buildStatistics.dart';
 import 'package:bookmemo/ui/modifyBook/modifyBook.dart';
 import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +15,7 @@ import 'package:home_widget/home_widget.dart';
 import '../../bloc/bookBloc.dart';
 import '../../bloc/bookEvent.dart';
 import '../../bloc/bookState.dart';
-import 'buildListBooks.dart';
+import 'listBooks/buildListBooks.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key? key}) : super(key: key);
@@ -110,7 +111,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('homeTitle'.tr()),
+        title: homeTitle(),
         centerTitle: true,
         actions: <Widget>[
           PopupMenuButton<String>(
@@ -135,7 +136,7 @@ class _HomePageState extends State<HomePage> {
           BlocProvider.of<BookBloc>(context).add(LoadBook());
         },
         child: BlocBuilder<BookBloc, BookState>(builder: (context, state) {
-          if(_selectedIndex == 0) {
+          if (_selectedIndex == 0) {
             if (state is BookHasData) {
               return BuildListBook(listBook: state.booksList);
             } else if (state is BookNoData) {
@@ -146,7 +147,11 @@ class _HomePageState extends State<HomePage> {
               return BuildListBook(listBook: [], message: "");
             }
           } else {
-            return Text("toto");
+            if (state is BookHasData) {
+              return BuildStatistics(listBook: state.booksList);
+            } else {
+              return BuildStatistics(listBook: []);
+            }
           }
         }),
       ),
@@ -170,5 +175,13 @@ class _HomePageState extends State<HomePage> {
         child: Icon(Icons.add),
       ),
     );
+  }
+
+  Widget homeTitle() {
+    if (_selectedIndex == 0) {
+      return Text('homeTitle'.tr());
+    } else {
+      return Text('chartTitle'.tr());
+    }
   }
 }

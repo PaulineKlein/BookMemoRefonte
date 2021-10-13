@@ -8,7 +8,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../strings.dart';
+import '../../../strings.dart';
 
 class BuildListActions extends StatefulWidget {
   BuildListActions(

@@ -57,6 +57,8 @@ dependencies:
   firebase_crashlytics: ^2.2.2
   # traductions
   easy_localization: ^3.0.0
+  # graphics
+  fl_chart: ^0.40.0
 
 dev_dependencies:
   flutter_test:
