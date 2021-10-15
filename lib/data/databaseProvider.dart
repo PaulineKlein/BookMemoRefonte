@@ -47,7 +47,8 @@ class DatabaseProvider {
         "${Strings.columnVolume} INTEGER, "
         "${Strings.columnChapter} INTEGER, "
         "${Strings.columnEpisode} INTEGER, "
-        "${Strings.columnDescription} TEXT "
+        "${Strings.columnDescription} TEXT, "
+        "${Strings.columnImagePath} TEXT "
         ")");
   }
 }

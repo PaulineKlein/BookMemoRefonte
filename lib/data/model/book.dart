@@ -17,6 +17,7 @@ class Book {
   int chapter = 0;
   int episode = 0;
   String? description;
+  String? imagePath;
 
   Book(
       {this.id,
@@ -30,7 +31,8 @@ class Book {
       required this.volume,
       required this.chapter,
       required this.episode,
-      this.description});
+      this.description,
+      this.imagePath});
 
   String getNameFromType() {
     switch (this.bookType) {
@@ -70,6 +72,7 @@ class Book {
       Strings.columnChapter: chapter,
       Strings.columnEpisode: episode,
       Strings.columnDescription: description,
+      Strings.columnImagePath: imagePath
     };
 
     if (id != null) map[Strings.columnId] = id;
@@ -88,7 +91,8 @@ class Book {
       volume: map[Strings.columnVolume],
       chapter: map[Strings.columnChapter],
       episode: map[Strings.columnEpisode],
-      description: map[Strings.columnDescription]);
+      description: map[Strings.columnDescription],
+      imagePath: map[Strings.columnImagePath]);
 
   factory Book.fromMapOldDatabase(Map<String, dynamic> map) {
     var bookTypeOld = BookType.comic;

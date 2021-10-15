@@ -1,10 +1,10 @@
+import 'dart:io';
+
 import 'package:bookmemo/bloc/bookBloc.dart';
 import 'package:bookmemo/bloc/bookEvent.dart';
 import 'package:bookmemo/data/model/book.dart';
 import 'package:easy_localization/src/public_ext.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../strings.dart';
@@ -84,11 +84,23 @@ class _BuildListBookState extends State<BuildListBook> {
   }
 
   Widget _buildTitleTile(int pos) {
+    String? path = widget.listBook[pos].imagePath;
+    File? _image;
+    if (path != null && File(path).existsSync()) {
+      _image = File(path);
+    }
+
     return Row(children: <Widget>[
-      Image.asset(
-        "assets/images/icon_${widget.listBook[pos].bookType.index}.png",
-        width: 50,
-      ),
+      (_image != null)
+          ? Image.file(
+              _image,
+              width: 50,
+              fit: BoxFit.cover,
+            )
+          : Image.asset(
+              "assets/images/icon_${widget.listBook[pos].bookType.index}.png",
+              width: 50,
+            ),
       SizedBox(width: 10),
       Flexible(
           child: Text(

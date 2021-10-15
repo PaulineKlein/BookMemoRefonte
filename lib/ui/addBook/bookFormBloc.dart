@@ -8,6 +8,7 @@ import 'bookInteractor.dart';
 class BookFormBloc extends FormBloc<String, String> {
   bool isUpdating = false;
   int? idUpdating;
+  String? imagePath;
 
   final interactor = BookInteractor();
   final textTitle = TextFieldBloc(
@@ -55,6 +56,7 @@ class BookFormBloc extends FormBloc<String, String> {
       selectIsfinished.updateInitialValue(
           book.isFinished ? 'bookFinish'.tr() : 'bookNotFinish'.tr());
       selectType.updateInitialValue(book.getNameFromType());
+      imagePath = book.imagePath;
     }
 
     addFieldBlocs(fieldBlocs: [
@@ -102,10 +104,9 @@ class BookFormBloc extends FormBloc<String, String> {
   @override
   void onSubmitting() async {
     try {
-
       int volume = 0;
       int episode = 0;
-      if(Book.getTypeFromName(selectType.value) != BookType.movie) {
+      if (Book.getTypeFromName(selectType.value) != BookType.movie) {
         // it is a book, at least volume should be 1 :
         volume = textVolume.valueToInt != null ? textVolume.valueToInt! : 1;
         episode = textEpisode.valueToInt != null ? textEpisode.valueToInt! : 0;
@@ -128,7 +129,8 @@ class BookFormBloc extends FormBloc<String, String> {
           volume: volume,
           chapter: textChapter.valueToInt != null ? textChapter.valueToInt! : 0,
           episode: episode,
-          description: textDescription.value);
+          description: textDescription.value,
+          imagePath: imagePath);
 
       var result = 0;
       if (isUpdating) {
@@ -161,5 +163,6 @@ class BookFormBloc extends FormBloc<String, String> {
     booleanFavorite.updateInitialValue(false);
     selectType.updateInitialValue('formTypeManga'.tr());
     selectIsfinished.updateInitialValue('bookNotFinish'.tr());
+    imagePath = null;
   }
 }

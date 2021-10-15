@@ -1,40 +1,41 @@
+import 'dart:io';
+
+import 'package:bookmemo/helper/fileHelper.dart';
 import 'package:easy_localization/src/public_ext.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_bloc/flutter_form_bloc.dart';
 
 import 'bookFormBloc.dart';
 
-class BuildBookForm extends StatelessWidget {
-  const BuildBookForm(
-      {Key? key, required this.formBloc, required this.scrollController})
+class BuildBookForm extends StatefulWidget {
+  BuildBookForm(
+      {Key? key,
+      required this.formBloc,
+      required this.scrollController,
+      this.image})
       : super(key: key);
 
   final BookFormBloc formBloc;
   final ScrollController scrollController;
+  File? image;
 
+  @override
+  _BuildBookFormState createState() => _BuildBookFormState();
+}
+
+class _BuildBookFormState extends State<BuildBookForm> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      controller: scrollController,
+      controller: widget.scrollController,
       physics: ClampingScrollPhysics(),
       child: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Column(
           children: <Widget>[
+            displaySearch(),
             TextFieldBlocBuilder(
-              textFieldBloc: formBloc.textTitle,
-              textInputAction: TextInputAction.next,
-              decoration: InputDecoration(
-                labelText: 'formTitle'.tr(),
-                labelStyle: TextStyle(fontSize: 18.0),
-                prefixIcon: Icon(Icons.text_fields),
-                fillColor: Colors.white,
-                filled: true,
-              ),
-            ),
-            TextFieldBlocBuilder(
-              textFieldBloc: formBloc.textAuthor,
+              textFieldBloc: widget.formBloc.textAuthor,
               textInputAction: TextInputAction.next,
               decoration: InputDecoration(
                 labelText: 'formAuthor'.tr(),
@@ -45,7 +46,7 @@ class BuildBookForm extends StatelessWidget {
               ),
             ),
             TextFieldBlocBuilder(
-              textFieldBloc: formBloc.textYear,
+              textFieldBloc: widget.formBloc.textYear,
               textInputAction: TextInputAction.next,
               keyboardType: TextInputType.number,
               decoration: InputDecoration(
@@ -57,7 +58,7 @@ class BuildBookForm extends StatelessWidget {
               ),
             ),
             TextFieldBlocBuilder(
-              textFieldBloc: formBloc.textDescription,
+              textFieldBloc: widget.formBloc.textDescription,
               textInputAction: TextInputAction.next,
               decoration: InputDecoration(
                 labelText: 'formDescription'.tr(),
@@ -82,7 +83,7 @@ class BuildBookForm extends StatelessWidget {
                               style: TextStyle(
                                   fontSize: 18.0, color: Colors.blue)),
                           TextFieldBlocBuilder(
-                            textFieldBloc: formBloc.textVolume,
+                            textFieldBloc: widget.formBloc.textVolume,
                             keyboardType: TextInputType.number,
                             textInputAction: TextInputAction.next,
                             decoration: InputDecoration(
@@ -93,7 +94,7 @@ class BuildBookForm extends StatelessWidget {
                             ),
                           ),
                           TextFieldBlocBuilder(
-                            textFieldBloc: formBloc.textChapter,
+                            textFieldBloc: widget.formBloc.textChapter,
                             keyboardType: TextInputType.number,
                             textInputAction: TextInputAction.next,
                             decoration: InputDecoration(
@@ -104,7 +105,7 @@ class BuildBookForm extends StatelessWidget {
                             ),
                           ),
                           TextFieldBlocBuilder(
-                            textFieldBloc: formBloc.textEpisode,
+                            textFieldBloc: widget.formBloc.textEpisode,
                             keyboardType: TextInputType.number,
                             textInputAction: TextInputAction.next,
                             decoration: InputDecoration(
@@ -116,7 +117,7 @@ class BuildBookForm extends StatelessWidget {
                           ),
                         ]))),
             RadioButtonGroupFieldBlocBuilder<String>(
-              selectFieldBloc: formBloc.selectType,
+              selectFieldBloc: widget.formBloc.selectType,
               decoration: InputDecoration(
                   labelText: 'formType'.tr(),
                   labelStyle: TextStyle(fontSize: 20.0, color: Colors.blue),
@@ -125,7 +126,7 @@ class BuildBookForm extends StatelessWidget {
               itemBuilder: (context, item) => item,
             ),
             RadioButtonGroupFieldBlocBuilder<String>(
-              selectFieldBloc: formBloc.selectIsfinished,
+              selectFieldBloc: widget.formBloc.selectIsfinished,
               decoration: InputDecoration(
                   labelText: 'formIsFinished'.tr(),
                   labelStyle: TextStyle(fontSize: 20.0, color: Colors.blue),
@@ -134,14 +135,14 @@ class BuildBookForm extends StatelessWidget {
               itemBuilder: (context, item) => item,
             ),
             SwitchFieldBlocBuilder(
-              booleanFieldBloc: formBloc.booleanBought,
+              booleanFieldBloc: widget.formBloc.booleanBought,
               body: Container(
                 alignment: Alignment.centerLeft,
                 child: Text('formIsBought'.tr()),
               ),
             ),
             SwitchFieldBlocBuilder(
-              booleanFieldBloc: formBloc.booleanFavorite,
+              booleanFieldBloc: widget.formBloc.booleanFavorite,
               body: Container(
                 alignment: Alignment.centerLeft,
                 child: Text('formIsFavorite'.tr()),
@@ -151,5 +152,81 @@ class BuildBookForm extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Widget displaySearch() {
+    return Card(
+      elevation: 0,
+      color: Colors.blue[100],
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+          side: BorderSide(color: Colors.blue)),
+      child: Padding(
+        padding: EdgeInsets.all(15),
+        child: Column(
+          children: <Widget>[
+            TextFieldBlocBuilder(
+              textFieldBloc: widget.formBloc.textTitle,
+              textInputAction: TextInputAction.next,
+              decoration: InputDecoration(
+                labelText: 'formTitle'.tr(),
+                labelStyle: TextStyle(fontSize: 18.0),
+                prefixIcon: Icon(Icons.text_fields),
+                fillColor: Colors.white,
+                filled: true,
+              ),
+            ),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                InkWell(
+                  onTap: addImage,
+                  child: (widget.image != null)
+                      ? Image.file(
+                          widget.image!,
+                          width: 80,
+                          fit: BoxFit.cover,
+                        )
+                      : Image.asset('assets/images/add_image.png'),
+                ),
+                SizedBox(width: 30),
+                Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      ElevatedButton(
+                          onPressed: searchTitle,
+                          child: Text('searchMangaButton'.tr())),
+                      ElevatedButton(
+                          onPressed: searchTitle,
+                          child: Text('searchAnimeButton'.tr())),
+                      ElevatedButton(
+                          onPressed: deleteImage,
+                          child: Text('deleteImageButton'.tr())),
+                    ])
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void searchTitle() {}
+
+  void deleteImage() {
+    setState(() {
+      widget.image = null;
+      widget.formBloc.imagePath = null;
+    });
+  }
+
+  void addImage() async {
+    String path = await FileHelper().getPathPicker(["jpg", "png", "jpeg"]);
+    if (path != "") {
+      setState(() {
+        widget.image = File(path);
+        widget.formBloc.imagePath = path;
+      });
+    }
   }
 }

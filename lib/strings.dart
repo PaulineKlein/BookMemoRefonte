@@ -13,6 +13,7 @@ class Strings {
   static const String columnChapter = 'chapter';
   static const String columnEpisode = 'episode';
   static const String columnDescription = 'description';
+  static const String columnImagePath = 'imagePath';
   static const String dbCompareTitle = "lower(title) = ?";
   static const String dbHasTitle = "lower(title) LIKE ";
   static const String dbHasAuthor = "lower(author) LIKE ";

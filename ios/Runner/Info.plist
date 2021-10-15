@@ -27,7 +27,7 @@
     <key>FirebaseCrashlyticsCollectionEnabled</key>
     <true/>
     <key>NSPhotoLibraryAddUsageDescription</key>
-    <string>Permet l import / export de votre bibliotheque sous format CSV</string>
+    <string>Permet l import / export de votre bibliotheque sous format CSV et l'ajout d'une image pour illustrer vos livres</string>
     <key>CFBundleLocalizations</key>
     <array>
     	<string>en</string>

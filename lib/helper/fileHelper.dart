@@ -8,7 +8,6 @@ import 'package:bookmemo/helper/extension/stringExtension.dart';
 import 'package:csv/csv.dart';
 import 'package:easy_localization/src/public_ext.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:flutter_form_bloc/flutter_form_bloc.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -81,7 +80,7 @@ class FileHelper {
   }
 
   Future<int?> importCsv() async {
-    String path = await getPathPicker('csv');
+    String path = await getPathPicker(['csv']);
 
     if (path.isNotEmpty) {
       final input = File(path).openRead();
@@ -126,11 +125,11 @@ class FileHelper {
     return status;
   }
 
-  Future<String> getPathPicker(String fileType) async {
+  Future<String> getPathPicker(List<String> fileType) async {
     // choose the csv file :
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
-      allowedExtensions: [fileType],
+      allowedExtensions: fileType,
     );
     return result?.files.single.path ?? "";
   }

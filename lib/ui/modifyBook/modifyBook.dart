@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:bookmemo/bloc/bookBloc.dart';
 import 'package:bookmemo/bloc/bookEvent.dart';
 import 'package:bookmemo/data/model/book.dart';
@@ -95,7 +97,9 @@ class _ModifyBookState extends State<ModifyBookPage> {
                         onConfirmClick: _onConfirmClick);
                   },
                   child: BuildBookForm(
-                      formBloc: formBloc, scrollController: _scrollController)),
+                      formBloc: formBloc,
+                      scrollController: _scrollController,
+                      image: _getImageFileFromBook(arguments.book))),
             ),
           );
         },
@@ -113,5 +117,10 @@ class _ModifyBookState extends State<ModifyBookPage> {
           context, HomePage.routeName, (Route<dynamic> route) => false);
       BlocProvider.of<BookBloc>(context).add(LoadBook());
     });
+  }
+
+  File? _getImageFileFromBook(Book book) {
+    if (book.imagePath != null && File(book.imagePath!).existsSync())
+      return File(book.imagePath!);
   }
 }

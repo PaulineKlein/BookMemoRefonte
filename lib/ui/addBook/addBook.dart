@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:bookmemo/bloc/bookBloc.dart';
 import 'package:bookmemo/bloc/bookEvent.dart';
 import 'package:bookmemo/ui/generic/alertDialog.dart';
@@ -22,6 +24,7 @@ class AddBookPage extends StatefulWidget {
 class _AddBookState extends State<AddBookPage> {
   bool isSmallFAB = false;
   ScrollController _scrollController = new ScrollController();
+  File? _image;
 
   @override
   initState() {
@@ -79,7 +82,7 @@ class _AddBookState extends State<AddBookPage> {
                               alertTitle: 'alertDialogAddTitle'.tr(),
                               alertMessage: 'alertDialogAddMessage'.tr(),
                               strCancelButton: 'genericYes'.tr(),
-                              onCancelClick: _onCancelClick,
+                              onCancelClick: _onCancelClickSuccess,
                               strConfirmButton: 'genericNo'.tr(),
                               onConfirmClick: _onConfirmClick);
                     },
@@ -91,13 +94,14 @@ class _AddBookState extends State<AddBookPage> {
                               alertTitle: 'genericError'.tr(),
                               alertMessage: 'genericRetry'.tr(),
                               strCancelButton: 'genericYes'.tr(),
-                              onCancelClick: _onCancelClick,
+                              onCancelClick: _onCancelClickFailure,
                               strConfirmButton: 'genericNo'.tr(),
                               onConfirmClick: _onConfirmClick);
                     },
                     child: BuildBookForm(
                         formBloc: formBloc,
-                        scrollController: _scrollController)),
+                        scrollController: _scrollController,
+                        image: _image)),
               ),
             ),
           );
@@ -106,7 +110,14 @@ class _AddBookState extends State<AddBookPage> {
     );
   }
 
-  void _onCancelClick() {
+  void _onCancelClickSuccess() {
+    Navigator.pop(context);
+    setState(() {
+      _image = null;
+    });
+  }
+
+  void _onCancelClickFailure() {
     Navigator.pop(context);
   }
 
