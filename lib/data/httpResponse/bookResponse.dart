@@ -29,10 +29,13 @@ class BookResponse {
       }
       var listIncluded = json["included"];
       if (listIncluded is List<dynamic> && listIncluded.length > 0) {
+        int limitNb = 0;
         for (var i = 0; i < listIncluded.length; i++) {
           if (listIncluded[i]["type"] == "people" &&
-              listIncluded[i]["attributes"] != null) {
+              listIncluded[i]["attributes"] != null &&
+              limitNb < 3) {
             authorList.add(listIncluded[i]["attributes"]["name"]);
+            limitNb += 1; // limit nb of author to 3 persons
           }
         }
         author = authorList.join(", ");
