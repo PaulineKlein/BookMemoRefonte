@@ -22,7 +22,7 @@ class Strings {
   static const String dbIsBought = "isBought IN ";
   static const String dbIsFavorite = "isFavorite = 1 ";
 
-  // -- API REQUEST
+  // -- API REQUEST MANGA / ANIME
   static const String serverURL = "kitsu.io";
   static const String headerAccept = "Accept";
   static const String headerAcceptValue = "application/vnd.api+json";
@@ -38,4 +38,11 @@ class Strings {
   static const String pathGetPageLimitValue = "1";
   static const String pathGetPageOffset = "page[offset]";
   static const String pathGetPageOffsetValue = "0";
+
+// -- API REQUEST BOOK / COMIC
+  static const String serverURL2 = "openlibrary.org";
+  static const String pathEndpoint2 = "/search.json";
+  static const String pathGetTitle2 = "title";
+  static const String pathGetLimit2 = "limit";
+  static const String pathGetLimitValue2 = "1";
 }

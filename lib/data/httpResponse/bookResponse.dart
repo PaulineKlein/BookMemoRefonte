@@ -1,44 +1,41 @@
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/cupertino.dart';
 
-class BookResponse {
+import 'apiResponse.dart';
+
+class BookResponse implements ApiResponse {
   final String? title;
   final String? startDate;
-  final String? imagePath;
   final String? author;
 
-  BookResponse({this.title, this.startDate, this.imagePath, this.author});
+  @override
+  String? get imagePath => null;
+
+  BookResponse({this.title, this.startDate, this.author});
 
   factory BookResponse.fromJson(Map<String, dynamic> json) {
     String? title;
     String? startDate;
-    String? imagePath;
     String? author;
     List<String?> authorList = [];
 
     try {
-      var listData = json["data"];
+      var listData = json["docs"];
       if (listData is List<dynamic> && listData.length > 0) {
-        if (listData[0]["attributes"] != null) {
-          title = listData[0]["attributes"]["canonicalTitle"];
-          startDate = listData[0]["attributes"]["startDate"].substring(0, 4);
-          if (listData[0]["attributes"]["posterImage"] != null) {
-            imagePath = listData[0]["attributes"]["posterImage"]["tiny"];
+        title = listData[0]["title"];
+        startDate = listData[0]["first_publish_year"].toString();
+
+        var listAuthor = listData[0]["author_name"];
+        if (listAuthor is List<dynamic> && listAuthor.length > 0) {
+          int limitNb = 0;
+          for (var i = 0; i < listAuthor.length; i++) {
+            if (limitNb < 3) {
+              authorList.add(listAuthor[i]);
+              limitNb += 1; // limit nb of author to 3 persons
+            }
           }
+          author = authorList.join(", ");
         }
-      }
-      var listIncluded = json["included"];
-      if (listIncluded is List<dynamic> && listIncluded.length > 0) {
-        int limitNb = 0;
-        for (var i = 0; i < listIncluded.length; i++) {
-          if (listIncluded[i]["type"] == "people" &&
-              listIncluded[i]["attributes"] != null &&
-              limitNb < 3) {
-            authorList.add(listIncluded[i]["attributes"]["name"]);
-            limitNb += 1; // limit nb of author to 3 persons
-          }
-        }
-        author = authorList.join(", ");
       }
     } catch (exception) {
       debugPrint('Error API request Json. $exception');
@@ -49,7 +46,6 @@ class BookResponse {
     return BookResponse(
       title: title,
       startDate: startDate,
-      imagePath: imagePath,
       author: author,
     );
   }

@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:bookmemo/data/httpResponse/bookResponse.dart';
+import 'package:bookmemo/data/httpResponse/apiResponse.dart';
 import 'package:bookmemo/data/model/book.dart';
 import 'package:bookmemo/helper/apiHelper.dart';
 import 'package:bookmemo/helper/fileHelper.dart';
@@ -20,7 +20,7 @@ class BuildBookForm extends StatefulWidget {
 
   final BookFormBloc formBloc;
   final ScrollController scrollController;
-  BookResponse? bookResponse;
+  ApiResponse? apiResponse;
 
   @override
   _BuildBookFormState createState() => _BuildBookFormState();
@@ -182,23 +182,38 @@ class _BuildBookFormState extends State<BuildBookForm> {
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                InkWell(
-                  onTap: addImage,
-                  child: _displayImage(),
+                Column(
+                  children: <Widget>[
+                    InkWell(
+                      onTap: addImage,
+                      child: _displayImage(),
+                    ),
+                    ElevatedButton(
+                        onPressed: widget.formBloc.imagePath != null
+                            ? deleteImage
+                            : null,
+                        child: Text('deleteImageButton'.tr())),
+                  ],
                 ),
-                SizedBox(width: 30),
+                SizedBox(width: 15),
                 Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       ElevatedButton(
+                          onPressed: searchBook,
+                          style: ElevatedButton.styleFrom(
+                              fixedSize: const Size(200, 30)),
+                          child: Text('searchBookButton'.tr())),
+                      ElevatedButton(
                           onPressed: searchManga,
+                          style: ElevatedButton.styleFrom(
+                              fixedSize: const Size(200, 30)),
                           child: Text('searchMangaButton'.tr())),
                       ElevatedButton(
                           onPressed: searchAnime,
+                          style: ElevatedButton.styleFrom(
+                              fixedSize: const Size(200, 30)),
                           child: Text('searchAnimeButton'.tr())),
-                      ElevatedButton(
-                          onPressed: deleteImage,
-                          child: Text('deleteImageButton'.tr())),
                     ])
               ],
             ),
@@ -206,6 +221,13 @@ class _BuildBookFormState extends State<BuildBookForm> {
         ),
       ),
     );
+  }
+
+  void searchBook() {
+    setState(() {
+      widget.formBloc.selectType.updateInitialValue('formTypeLiterature'.tr());
+    });
+    return searchTitle(BookType.literature);
   }
 
   void searchManga() {
@@ -226,20 +248,25 @@ class _BuildBookFormState extends State<BuildBookForm> {
     if (widget.formBloc.textTitle.value != null &&
         widget.formBloc.textTitle.value!.isNotEmpty) {
       LoadingDialog.show(context);
-      widget.bookResponse = await ApiHelper.getInformationFromApi(
-          bookType, widget.formBloc.textTitle.value!);
+      if (bookType == BookType.manga || bookType == BookType.movie) {
+        widget.apiResponse = await ApiHelper.getInformationFromMangaApi(
+            bookType, widget.formBloc.textTitle.value!);
+      } else {
+        widget.apiResponse = await ApiHelper.getInformationFromBookApi(
+            widget.formBloc.textTitle.value!);
+      }
       LoadingDialog.hide(context);
 
-      if (widget.bookResponse != null && widget.bookResponse?.title != "") {
+      if (widget.apiResponse != null && widget.apiResponse?.title != "") {
         String message =
-            "${'formTitle'.tr()} = ${widget.bookResponse?.title ?? 'genericErrorLabel'.tr()}"
-            "\n${'formAuthor'.tr()} = ${widget.bookResponse?.author ?? 'genericErrorLabel'.tr()}"
-            "\n${'formYear'.tr()} = ${widget.bookResponse?.startDate ?? 'genericErrorLabel'.tr()}";
+            "${'formTitle'.tr()} = ${widget.apiResponse?.title ?? 'genericErrorLabel'.tr()}"
+            "\n${'formAuthor'.tr()} = ${widget.apiResponse?.author ?? 'genericErrorLabel'.tr()}"
+            "\n${'formYear'.tr()} = ${widget.apiResponse?.startDate ?? 'genericErrorLabel'.tr()}";
         AlertDialogUtility().showCustomImageDialog(
             context: context,
             alertTitle: 'alertDialogSearchMessageSuccess'.tr(),
             alertMessage: message,
-            imagePath: widget.bookResponse?.imagePath,
+            imagePath: widget.apiResponse?.imagePath,
             onCancelClick: null,
             onConfirmClick: _updateDataFromApi);
       } else {
@@ -258,12 +285,11 @@ class _BuildBookFormState extends State<BuildBookForm> {
 
   void _updateDataFromApi() {
     setState(() {
-      widget.formBloc.textTitle.updateInitialValue(widget.bookResponse?.title);
-      widget.formBloc.textAuthor
-          .updateInitialValue(widget.bookResponse?.author);
+      widget.formBloc.textTitle.updateInitialValue(widget.apiResponse?.title);
+      widget.formBloc.textAuthor.updateInitialValue(widget.apiResponse?.author);
       widget.formBloc.textYear
-          .updateInitialValue(widget.bookResponse?.startDate);
-      widget.formBloc.imagePath = widget.bookResponse?.imagePath;
+          .updateInitialValue(widget.apiResponse?.startDate);
+      widget.formBloc.imagePath = widget.apiResponse?.imagePath;
     });
   }
 
