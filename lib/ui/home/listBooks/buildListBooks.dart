@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:bookmemo/bloc/bookBloc.dart';
 import 'package:bookmemo/bloc/bookEvent.dart';
 import 'package:bookmemo/data/model/book.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -84,23 +85,8 @@ class _BuildListBookState extends State<BuildListBook> {
   }
 
   Widget _buildTitleTile(int pos) {
-    String? path = widget.listBook[pos].imagePath;
-    File? _image;
-    if (path != null && File(path).existsSync()) {
-      _image = File(path);
-    }
-
     return Row(children: <Widget>[
-      (_image != null)
-          ? Image.file(
-              _image,
-              width: 50,
-              fit: BoxFit.cover,
-            )
-          : Image.asset(
-              "assets/images/icon_${widget.listBook[pos].bookType.index}.png",
-              width: 50,
-            ),
+      _displayImage(pos),
       SizedBox(width: 10),
       Flexible(
           child: Text(
@@ -296,5 +282,29 @@ class _BuildListBookState extends State<BuildListBook> {
             });
           }),
     );
+  }
+
+  Widget _displayImage(int pos) {
+    String? path = widget.listBook[pos].imagePath;
+    if (path != null) {
+      if (path.contains("https") == true && Uri.parse(path).isAbsolute) {
+        return CachedNetworkImage(
+          imageUrl: path,
+          width: 50,
+          fit: BoxFit.cover,
+          placeholder: (context, url) => CircularProgressIndicator(),
+          errorWidget: (context, url, error) => Image.asset(
+              "assets/images/icon_${widget.listBook[pos].bookType.index}.png",
+              width: 50),
+        );
+      } else {
+        if (File(path).existsSync()) {
+          return Image.file(File(path), width: 50, fit: BoxFit.cover);
+        }
+      }
+    }
+    return Image.asset(
+        "assets/images/icon_${widget.listBook[pos].bookType.index}.png",
+        width: 50);
   }
 }

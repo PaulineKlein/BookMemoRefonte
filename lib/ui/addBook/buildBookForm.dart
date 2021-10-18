@@ -1,6 +1,12 @@
 import 'dart:io';
 
+import 'package:bookmemo/data/httpResponse/bookResponse.dart';
+import 'package:bookmemo/data/model/book.dart';
+import 'package:bookmemo/helper/ApiHelper.dart';
 import 'package:bookmemo/helper/fileHelper.dart';
+import 'package:bookmemo/ui/generic/alertDialog.dart';
+import 'package:bookmemo/ui/generic/loadingDialog.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_bloc/flutter_form_bloc.dart';
@@ -12,12 +18,13 @@ class BuildBookForm extends StatefulWidget {
       {Key? key,
       required this.formBloc,
       required this.scrollController,
-      this.image})
+      this.imagePath})
       : super(key: key);
 
   final BookFormBloc formBloc;
   final ScrollController scrollController;
-  File? image;
+  String? imagePath;
+  BookResponse? bookResponse;
 
   @override
   _BuildBookFormState createState() => _BuildBookFormState();
@@ -181,23 +188,17 @@ class _BuildBookFormState extends State<BuildBookForm> {
               children: <Widget>[
                 InkWell(
                   onTap: addImage,
-                  child: (widget.image != null)
-                      ? Image.file(
-                          widget.image!,
-                          width: 80,
-                          fit: BoxFit.cover,
-                        )
-                      : Image.asset('assets/images/add_image.png'),
+                  child: _displayImage(),
                 ),
                 SizedBox(width: 30),
                 Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       ElevatedButton(
-                          onPressed: searchTitle,
+                          onPressed: searchManga,
                           child: Text('searchMangaButton'.tr())),
                       ElevatedButton(
-                          onPressed: searchTitle,
+                          onPressed: searchAnime,
                           child: Text('searchAnimeButton'.tr())),
                       ElevatedButton(
                           onPressed: deleteImage,
@@ -211,11 +212,69 @@ class _BuildBookFormState extends State<BuildBookForm> {
     );
   }
 
-  void searchTitle() {}
+  void searchManga() {
+    setState(() {
+      widget.formBloc.selectType.updateInitialValue('formTypeManga'.tr());
+    });
+    return searchTitle(BookType.manga);
+  }
+
+  void searchAnime() {
+    setState(() {
+      widget.formBloc.selectType.updateInitialValue('formTypeMovie'.tr());
+    });
+    return searchTitle(BookType.movie);
+  }
+
+  void searchTitle(BookType bookType) async {
+    if (widget.formBloc.textTitle.value != null &&
+        widget.formBloc.textTitle.value!.isNotEmpty) {
+      LoadingDialog.show(context);
+      widget.bookResponse = await ApiHelper.getInformationFromApi(
+          bookType, widget.formBloc.textTitle.value!);
+      LoadingDialog.hide(context);
+
+      if (widget.bookResponse != null && widget.bookResponse?.title != "") {
+        String message =
+            "${'formTitle'.tr()} = ${widget.bookResponse?.title ?? 'genericErrorLabel'.tr()}"
+            "\n${'formAuthor'.tr()} = ${widget.bookResponse?.author ?? 'genericErrorLabel'.tr()}"
+            "\n${'formYear'.tr()} = ${widget.bookResponse?.startDate ?? 'genericErrorLabel'.tr()}";
+        AlertDialogUtility().showCustomImageDialog(
+            context: context,
+            alertTitle: 'alertDialogSearchMessageSuccess'.tr(),
+            alertMessage: message,
+            imagePath: widget.bookResponse?.imagePath,
+            onCancelClick: null,
+            onConfirmClick: _updateDataFromApi);
+      } else {
+        AlertDialogUtility().showPopup(
+            context: context,
+            alertTitle: 'genericError'.tr(),
+            alertMessage: 'alertDialogSearchMessageError'.tr());
+      }
+    } else {
+      AlertDialogUtility().showPopup(
+          context: context,
+          alertTitle: 'genericError'.tr(),
+          alertMessage: 'alertDialogSearchMessageEmpty'.tr());
+    }
+  }
+
+  void _updateDataFromApi() {
+    setState(() {
+      widget.formBloc.textTitle.updateInitialValue(widget.bookResponse?.title);
+      widget.formBloc.textAuthor
+          .updateInitialValue(widget.bookResponse?.author);
+      widget.formBloc.textYear
+          .updateInitialValue(widget.bookResponse?.startDate);
+      widget.imagePath = widget.bookResponse?.imagePath;
+      widget.formBloc.imagePath = widget.bookResponse?.imagePath;
+    });
+  }
 
   void deleteImage() {
     setState(() {
-      widget.image = null;
+      widget.imagePath = null;
       widget.formBloc.imagePath = null;
     });
   }
@@ -224,9 +283,31 @@ class _BuildBookFormState extends State<BuildBookForm> {
     String path = await FileHelper().getPathPicker(["jpg", "png", "jpeg"]);
     if (path != "") {
       setState(() {
-        widget.image = File(path);
+        widget.imagePath = path;
         widget.formBloc.imagePath = path;
       });
     }
+  }
+
+  Widget _displayImage() {
+    if (widget.imagePath != null) {
+      if (widget.imagePath?.contains("https") == true &&
+          Uri.parse(widget.imagePath ?? "").isAbsolute) {
+        return CachedNetworkImage(
+          imageUrl: widget.imagePath!,
+          width: 80,
+          fit: BoxFit.cover,
+          placeholder: (context, url) => CircularProgressIndicator(),
+          errorWidget: (context, url, error) =>
+              Image.asset('assets/images/add_image.png'),
+        );
+      } else {
+        if (File(widget.imagePath!).existsSync()) {
+          return Image.file(File(widget.imagePath!),
+              width: 80, fit: BoxFit.cover);
+        }
+      }
+    }
+    return Image.asset('assets/images/add_image.png');
   }
 }

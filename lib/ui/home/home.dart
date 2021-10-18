@@ -78,7 +78,6 @@ class _HomePageState extends State<HomePage> {
         context: context,
         alertTitle: 'alertDialogImportTitle'.tr(),
         alertMessage: "${'alertDialogImportMessage'.tr()} $result",
-        strCancelButton: 'genericYes'.tr(),
       );
       BlocProvider.of<BookBloc>(this.context).add(LoadBook());
     }

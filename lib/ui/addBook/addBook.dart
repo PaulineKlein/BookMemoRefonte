@@ -24,7 +24,7 @@ class AddBookPage extends StatefulWidget {
 class _AddBookState extends State<AddBookPage> {
   bool isSmallFAB = false;
   ScrollController _scrollController = new ScrollController();
-  File? _image;
+  String? _imagePath;
 
   @override
   initState() {
@@ -101,7 +101,7 @@ class _AddBookState extends State<AddBookPage> {
                     child: BuildBookForm(
                         formBloc: formBloc,
                         scrollController: _scrollController,
-                        image: _image)),
+                        imagePath: _imagePath)),
               ),
             ),
           );
@@ -113,7 +113,7 @@ class _AddBookState extends State<AddBookPage> {
   void _onCancelClickSuccess() {
     Navigator.pop(context);
     setState(() {
-      _image = null;
+      _imagePath = null;
     });
   }
 

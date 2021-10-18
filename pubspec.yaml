@@ -59,6 +59,9 @@ dependencies:
   easy_localization: ^3.0.0
   # graphics
   fl_chart: ^0.40.0
+  # HTTP request
+  http: ^0.13.4
+  cached_network_image: ^3.1.0
 
 dev_dependencies:
   flutter_test:
