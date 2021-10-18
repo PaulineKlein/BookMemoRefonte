@@ -205,6 +205,11 @@ class _BuildBookFormState extends State<BuildBookForm> {
                               fixedSize: const Size(200, 30)),
                           child: Text('searchBookButton'.tr())),
                       ElevatedButton(
+                          onPressed: searchComic,
+                          style: ElevatedButton.styleFrom(
+                              fixedSize: const Size(200, 30)),
+                          child: Text('searchComicButton'.tr())),
+                      ElevatedButton(
                           onPressed: searchManga,
                           style: ElevatedButton.styleFrom(
                               fixedSize: const Size(200, 30)),
@@ -228,6 +233,13 @@ class _BuildBookFormState extends State<BuildBookForm> {
       widget.formBloc.selectType.updateInitialValue('formTypeLiterature'.tr());
     });
     return searchTitle(BookType.literature);
+  }
+
+  void searchComic() {
+    setState(() {
+      widget.formBloc.selectType.updateInitialValue('formTypeComic'.tr());
+    });
+    return searchTitle(BookType.comic);
   }
 
   void searchManga() {
