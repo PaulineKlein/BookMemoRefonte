@@ -15,15 +15,11 @@ import 'bookFormBloc.dart';
 
 class BuildBookForm extends StatefulWidget {
   BuildBookForm(
-      {Key? key,
-      required this.formBloc,
-      required this.scrollController,
-      this.imagePath})
+      {Key? key, required this.formBloc, required this.scrollController})
       : super(key: key);
 
   final BookFormBloc formBloc;
   final ScrollController scrollController;
-  String? imagePath;
   BookResponse? bookResponse;
 
   @override
@@ -267,14 +263,12 @@ class _BuildBookFormState extends State<BuildBookForm> {
           .updateInitialValue(widget.bookResponse?.author);
       widget.formBloc.textYear
           .updateInitialValue(widget.bookResponse?.startDate);
-      widget.imagePath = widget.bookResponse?.imagePath;
       widget.formBloc.imagePath = widget.bookResponse?.imagePath;
     });
   }
 
   void deleteImage() {
     setState(() {
-      widget.imagePath = null;
       widget.formBloc.imagePath = null;
     });
   }
@@ -283,18 +277,17 @@ class _BuildBookFormState extends State<BuildBookForm> {
     String path = await FileHelper().getPathPicker(["jpg", "png", "jpeg"]);
     if (path != "") {
       setState(() {
-        widget.imagePath = path;
         widget.formBloc.imagePath = path;
       });
     }
   }
 
   Widget _displayImage() {
-    if (widget.imagePath != null) {
-      if (widget.imagePath?.contains("https") == true &&
-          Uri.parse(widget.imagePath ?? "").isAbsolute) {
+    if (widget.formBloc.imagePath != null) {
+      if (widget.formBloc.imagePath?.contains("https") == true &&
+          Uri.parse(widget.formBloc.imagePath ?? "").isAbsolute) {
         return CachedNetworkImage(
-          imageUrl: widget.imagePath!,
+          imageUrl: widget.formBloc.imagePath!,
           width: 80,
           fit: BoxFit.cover,
           placeholder: (context, url) => CircularProgressIndicator(),
@@ -302,8 +295,8 @@ class _BuildBookFormState extends State<BuildBookForm> {
               Image.asset('assets/images/add_image.png'),
         );
       } else {
-        if (File(widget.imagePath!).existsSync()) {
-          return Image.file(File(widget.imagePath!),
+        if (File(widget.formBloc.imagePath!).existsSync()) {
+          return Image.file(File(widget.formBloc.imagePath!),
               width: 80, fit: BoxFit.cover);
         }
       }

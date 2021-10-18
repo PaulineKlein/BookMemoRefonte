@@ -95,9 +95,7 @@ class _ModifyBookState extends State<ModifyBookPage> {
                         onConfirmClick: _onConfirmClick);
                   },
                   child: BuildBookForm(
-                      formBloc: formBloc,
-                      scrollController: _scrollController,
-                      imagePath: arguments.book.imagePath)),
+                      formBloc: formBloc, scrollController: _scrollController)),
             ),
           );
         },

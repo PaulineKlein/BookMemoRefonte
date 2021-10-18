@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:bookmemo/bloc/bookBloc.dart';
 import 'package:bookmemo/bloc/bookEvent.dart';
 import 'package:bookmemo/ui/generic/alertDialog.dart';
@@ -24,7 +22,6 @@ class AddBookPage extends StatefulWidget {
 class _AddBookState extends State<AddBookPage> {
   bool isSmallFAB = false;
   ScrollController _scrollController = new ScrollController();
-  String? _imagePath;
 
   @override
   initState() {
@@ -82,7 +79,7 @@ class _AddBookState extends State<AddBookPage> {
                               alertTitle: 'alertDialogAddTitle'.tr(),
                               alertMessage: 'alertDialogAddMessage'.tr(),
                               strCancelButton: 'genericYes'.tr(),
-                              onCancelClick: _onCancelClickSuccess,
+                              onCancelClick: _onCancelClick,
                               strConfirmButton: 'genericNo'.tr(),
                               onConfirmClick: _onConfirmClick);
                     },
@@ -94,14 +91,13 @@ class _AddBookState extends State<AddBookPage> {
                               alertTitle: 'genericError'.tr(),
                               alertMessage: 'genericRetry'.tr(),
                               strCancelButton: 'genericYes'.tr(),
-                              onCancelClick: _onCancelClickFailure,
+                              onCancelClick: _onCancelClick,
                               strConfirmButton: 'genericNo'.tr(),
                               onConfirmClick: _onConfirmClick);
                     },
                     child: BuildBookForm(
                         formBloc: formBloc,
-                        scrollController: _scrollController,
-                        imagePath: _imagePath)),
+                        scrollController: _scrollController)),
               ),
             ),
           );
@@ -110,14 +106,7 @@ class _AddBookState extends State<AddBookPage> {
     );
   }
 
-  void _onCancelClickSuccess() {
-    Navigator.pop(context);
-    setState(() {
-      _imagePath = null;
-    });
-  }
-
-  void _onCancelClickFailure() {
+  void _onCancelClick() {
     Navigator.pop(context);
   }
 
