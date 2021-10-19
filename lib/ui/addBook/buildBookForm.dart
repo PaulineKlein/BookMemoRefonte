@@ -8,7 +8,10 @@ import 'package:bookmemo/ui/generic/alertDialog.dart';
 import 'package:bookmemo/ui/generic/loadingDialog.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/src/public_ext.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter_form_bloc/flutter_form_bloc.dart';
 
 import 'bookFormBloc.dart';
@@ -27,6 +30,8 @@ class BuildBookForm extends StatefulWidget {
 }
 
 class _BuildBookFormState extends State<BuildBookForm> {
+  get exception => null;
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -36,6 +41,11 @@ class _BuildBookFormState extends State<BuildBookForm> {
         padding: const EdgeInsets.all(20.0),
         child: Column(
           children: <Widget>[
+            ElevatedButton(
+                onPressed: scanBook,
+                style: ElevatedButton.styleFrom(fixedSize: const Size(250, 50)),
+                child: Text('Scanner un code barre')),
+            SizedBox(height: 15),
             displaySearch(),
             TextFieldBlocBuilder(
               textFieldBloc: widget.formBloc.textAuthor,
@@ -228,35 +238,56 @@ class _BuildBookFormState extends State<BuildBookForm> {
     );
   }
 
-  void searchBook() {
+  Future<void> scanBook() async {
+    try {
+      String barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
+          '#ff6666', 'genericCancel'.tr(), true, ScanMode.BARCODE);
+      if (barcodeScanRes.isNotEmpty && barcodeScanRes != "-1") {
+        searchBarCode(barcodeScanRes);
+      }
+    } on PlatformException {
+      debugPrint('Error scanBarcode PlatformException. $exception');
+      FirebaseCrashlytics.instance.recordError(exception, null,
+          reason: 'non-fatal error : scanBarcode PlatformException');
+    }
+  }
+
+  Future<void> searchBarCode(String barCode) async {
+    LoadingDialog.show(context);
+    widget.apiResponse = await ApiHelper.getInformationFromBarCodeApi(barCode);
+    LoadingDialog.hide(context);
+    _displayApiResponse();
+  }
+
+  Future<void> searchBook() {
     setState(() {
       widget.formBloc.selectType.updateInitialValue('formTypeLiterature'.tr());
     });
     return searchTitle(BookType.literature);
   }
 
-  void searchComic() {
+  Future<void> searchComic() {
     setState(() {
       widget.formBloc.selectType.updateInitialValue('formTypeComic'.tr());
     });
     return searchTitle(BookType.comic);
   }
 
-  void searchManga() {
+  Future<void> searchManga() {
     setState(() {
       widget.formBloc.selectType.updateInitialValue('formTypeManga'.tr());
     });
     return searchTitle(BookType.manga);
   }
 
-  void searchAnime() {
+  Future<void> searchAnime() {
     setState(() {
       widget.formBloc.selectType.updateInitialValue('formTypeMovie'.tr());
     });
     return searchTitle(BookType.movie);
   }
 
-  void searchTitle(BookType bookType) async {
+  Future<void> searchTitle(BookType bookType) async {
     if (widget.formBloc.textTitle.value != null &&
         widget.formBloc.textTitle.value!.isNotEmpty) {
       LoadingDialog.show(context);
@@ -268,30 +299,33 @@ class _BuildBookFormState extends State<BuildBookForm> {
             widget.formBloc.textTitle.value!);
       }
       LoadingDialog.hide(context);
-
-      if (widget.apiResponse != null && widget.apiResponse?.title != "") {
-        String message =
-            "${'formTitle'.tr()} = ${widget.apiResponse?.title ?? 'genericErrorLabel'.tr()}"
-            "\n${'formAuthor'.tr()} = ${widget.apiResponse?.author ?? 'genericErrorLabel'.tr()}"
-            "\n${'formYear'.tr()} = ${widget.apiResponse?.startDate ?? 'genericErrorLabel'.tr()}";
-        AlertDialogUtility().showCustomImageDialog(
-            context: context,
-            alertTitle: 'alertDialogSearchMessageSuccess'.tr(),
-            alertMessage: message,
-            imagePath: widget.apiResponse?.imagePath,
-            onCancelClick: null,
-            onConfirmClick: _updateDataFromApi);
-      } else {
-        AlertDialogUtility().showPopup(
-            context: context,
-            alertTitle: 'genericError'.tr(),
-            alertMessage: 'alertDialogSearchMessageError'.tr());
-      }
+      _displayApiResponse();
     } else {
       AlertDialogUtility().showPopup(
           context: context,
           alertTitle: 'genericError'.tr(),
           alertMessage: 'alertDialogSearchMessageEmpty'.tr());
+    }
+  }
+
+  void _displayApiResponse() {
+    if (widget.apiResponse != null && widget.apiResponse?.title != "") {
+      String message =
+          "${'formTitle'.tr()} = ${widget.apiResponse?.title ?? 'genericErrorLabel'.tr()}"
+          "\n${'formAuthor'.tr()} = ${widget.apiResponse?.author ?? 'genericErrorLabel'.tr()}"
+          "\n${'formYear'.tr()} = ${widget.apiResponse?.startDate ?? 'genericErrorLabel'.tr()}";
+      AlertDialogUtility().showCustomImageDialog(
+          context: context,
+          alertTitle: 'alertDialogSearchMessageSuccess'.tr(),
+          alertMessage: message,
+          imagePath: widget.apiResponse?.imagePath,
+          onCancelClick: null,
+          onConfirmClick: _updateDataFromApi);
+    } else {
+      AlertDialogUtility().showPopup(
+          context: context,
+          alertTitle: 'genericError'.tr(),
+          alertMessage: 'alertDialogSearchMessageError'.tr());
     }
   }
 

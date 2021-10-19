@@ -62,6 +62,8 @@ dependencies:
   # HTTP request
   http: ^0.13.4
   cached_network_image: ^3.1.0
+  # barcode scanner
+  flutter_barcode_scanner: ^2.0.0
 
 dev_dependencies:
   flutter_test:

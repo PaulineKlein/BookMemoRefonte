@@ -19,6 +19,7 @@
   "genericYes":"Yes",
   "genericNo":"No",
   "genericOk":"OK",
+  "genericCancel":"Cancel",
   "addBookTitle":"Add book",
   "addBookSend":"Add",
   "modifyBookTitle":"Modify",

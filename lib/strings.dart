@@ -42,6 +42,7 @@ class Strings {
 // -- API REQUEST BOOK / COMIC
   static const String serverURL2 = "openlibrary.org";
   static const String pathEndpoint2 = "/search.json";
+  static const String pathGetQuery2 = "q";
   static const String pathGetTitle2 = "title";
   static const String pathGetLimit2 = "limit";
   static const String pathGetLimitValue2 = "1";

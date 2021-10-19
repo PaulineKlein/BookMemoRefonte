@@ -71,4 +71,33 @@ class ApiHelper {
       client.close();
     }
   }
+
+  static Future<BookResponse?> getInformationFromBarCodeApi(
+      String searchInput) async {
+    var client = http.Client();
+
+    var url = Uri.https(Strings.serverURL2, Strings.pathEndpoint2, {
+      Strings.pathGetQuery2: searchInput,
+      Strings.pathGetLimit2: Strings.pathGetLimitValue2
+    });
+
+    try {
+      var uriResponse = await client.get(url, headers: <String, String>{
+        Strings.headerAccept: Strings.headerAcceptValue,
+        Strings.headerContentType: Strings.headerContentTypeValue,
+      });
+
+      if (uriResponse.statusCode == 200) {
+        return BookResponse.fromJson(jsonDecode(uriResponse.body));
+      }
+    } catch (exception) {
+      debugPrint('Error getInformationFromBarCodeApi request Json. $exception');
+      FirebaseCrashlytics.instance.recordError(exception, null,
+          reason:
+              'non-fatal error : getInformationFromBarCodeApi request Json');
+      return null;
+    } finally {
+      client.close();
+    }
+  }
 }
