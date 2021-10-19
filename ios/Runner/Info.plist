@@ -26,6 +26,8 @@
     <true/>
     <key>FirebaseCrashlyticsCollectionEnabled</key>
     <true/>
+    <key>NSCameraUsageDescription</key>
+    <string>Camera permission is required for barcode scanning.</string>
     <key>NSPhotoLibraryAddUsageDescription</key>
     <string>Permet l import / export de votre bibliotheque sous format CSV et l'ajout d'une image pour illustrer vos livres</string>
     <key>CFBundleLocalizations</key>

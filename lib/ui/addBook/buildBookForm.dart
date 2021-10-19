@@ -206,9 +206,10 @@ class _BuildBookFormState extends State<BuildBookForm> {
                   ],
                 ),
                 SizedBox(width: 15),
-                Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
+                Expanded(
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
                       ElevatedButton(
                           onPressed: searchBook,
                           style: ElevatedButton.styleFrom(
@@ -229,7 +230,7 @@ class _BuildBookFormState extends State<BuildBookForm> {
                           style: ElevatedButton.styleFrom(
                               fixedSize: const Size(200, 30)),
                           child: Text('searchAnimeButton'.tr())),
-                    ])
+                    ])),
               ],
             ),
           ],
