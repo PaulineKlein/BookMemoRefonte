@@ -69,6 +69,7 @@ class FileHelper {
       row.add(books[i].chapter);
       row.add(books[i].episode);
       row.add(books[i].description?.removeCsvDelimiter ?? "");
+      row.add(books[i].imagePath?.removeCsvDelimiter ?? "");
       rows.add(row);
     }
 
@@ -91,7 +92,7 @@ class FileHelper {
 
       int nbRows = 0;
       for (int i = 1; i < fields.length; i++) {
-        if (fields[i].length == 11) {
+        if (fields[i].length == 12) {
           Book book = Book(
               bookType: Book.getTypeFromName(fields[i][0]),
               title: fields[i][1],
@@ -103,7 +104,8 @@ class FileHelper {
               volume: fields[i][7] == "" ? 0 : fields[i][7],
               chapter: fields[i][8] == "" ? 0 : fields[i][8],
               episode: fields[i][9] == "" ? 0 : fields[i][9],
-              description: fields[i][10]);
+              description: fields[i][10],
+              imagePath: fields[i][11]);
 
           repository.insertBook(book);
           nbRows += 1;
