@@ -1,11 +1,9 @@
 import 'package:bookmemo/bloc/bookBloc.dart';
 import 'package:bookmemo/bloc/bookEvent.dart';
 import 'package:easy_localization/src/public_ext.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../strings.dart';
 import 'filterInteractor.dart';
 
 enum FilterType {
@@ -43,7 +41,8 @@ class _BuildFilter extends State<BuildFilter> {
   List<int> _selectedIndexs = [];
 
   void _filterList() {
-    String? query = interactor.getFilterQuery(_selectedIndexs, myTitleSearchController.text);
+    String? query = interactor.getFilterQuery(
+        _selectedIndexs, myTitleSearchController.text);
     BlocProvider.of<BookBloc>(context).add(FilterBook(query));
   }
 
@@ -90,7 +89,7 @@ class _BuildFilter extends State<BuildFilter> {
                   ?.apply(color: Colors.deepPurple),
             ),
           ]),
-          SizedBox(height: 9.0),
+          SizedBox(height: 5.0),
           Container(
             alignment: Alignment.center,
             decoration: BoxDecoration(
@@ -123,7 +122,7 @@ class _BuildFilter extends State<BuildFilter> {
           ),
           SizedBox(height: 9.0),
           Container(
-            height: 35,
+            height: 42,
             child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 itemCount: _categories.length,
@@ -151,8 +150,8 @@ class _BuildFilter extends State<BuildFilter> {
                       },
                       child: Container(
                         key: ValueKey<int>(_isSelected ? 1 : 0),
-                        padding: const EdgeInsets.all(7.5),
-                        margin: const EdgeInsets.only(right: 16.0),
+                        padding: const EdgeInsets.symmetric(vertical: 7.5, horizontal: 10),
+                        margin: const EdgeInsets.only(right: 7.0),
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
                           color: _isSelected ? Colors.deepPurple : null,
