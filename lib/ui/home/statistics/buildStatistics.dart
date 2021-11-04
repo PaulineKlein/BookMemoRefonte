@@ -1,7 +1,6 @@
 import 'package:bookmemo/data/model/book.dart';
 import 'package:bookmemo/ui/home/statistics/buildPieChart.dart';
 import 'package:easy_localization/src/public_ext.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'buildBarChart.dart';
