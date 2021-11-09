@@ -1,11 +1,13 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:bookmemo/ui/splashInteractor.dart';
+import 'package:bookmemo/data/model/bookRepository.dart';
 import 'package:bookmemo/helper/widgetHelper.dart';
+import 'package:bookmemo/ui/splashInteractor.dart';
 import 'package:flutter/material.dart';
 import 'package:home_widget/home_widget.dart';
 import 'package:lottie/lottie.dart';
+import 'package:provider/provider.dart';
 
 import 'home/home.dart';
 import 'modifyBook/modifyBook.dart';
@@ -19,11 +21,17 @@ class SplashPage extends StatefulWidget {
 
 class _SplashPageState extends State<SplashPage> {
   StreamSubscription? subscription;
-  final interactor = SplashInteractor();
+  late SplashInteractor interactor;
+  late WidgetHelper widgetHelper;
 
   @override
   initState() {
     WidgetsFlutterBinding.ensureInitialized();
+    BookRepository repository =
+        Provider.of<BookRepository>(context, listen: false);
+    widgetHelper = WidgetHelper(repository: repository);
+    interactor =
+        SplashInteractor(widgetHelper: widgetHelper, repository: repository);
     interactor.migrateOldDatabase(context);
     interactor.initializeFlutterFire();
     WidgetsBinding.instance!.addPostFrameCallback((_) async {
@@ -45,7 +53,7 @@ class _SplashPageState extends State<SplashPage> {
 
   void _launchedFromWidget(var uri) {
     Future.delayed(const Duration(milliseconds: 2000), () {
-      WidgetHelper().launchedFromWidget(uri).then((value) => {
+      widgetHelper.launchedFromWidget(uri).then((value) => {
             if (value != null)
               {
                 Navigator.pushReplacementNamed(

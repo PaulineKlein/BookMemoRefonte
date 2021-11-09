@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:synchronized/synchronized.dart';
 
 import '../strings.dart';
 
@@ -14,10 +15,14 @@ class DatabaseProvider {
   static Database? _database;
   static final _databaseName = "bookMemo.db";
   static final _databaseVersion = 1;
+  static var lock = Lock();
 
   Future<Database> get database async {
     if (_database != null) return _database!;
-    _database = await createDatabase();
+    // Use lock to ensure that only one process can be in this section of code at a time
+    await lock.synchronized(() async {
+      _database = await createDatabase();
+    });
     return _database!;
   }
 
@@ -50,5 +55,9 @@ class DatabaseProvider {
         "${Strings.columnDescription} TEXT, "
         "${Strings.columnImagePath} TEXT "
         ")");
+  }
+
+  void close() {
+    _database?.close();
   }
 }

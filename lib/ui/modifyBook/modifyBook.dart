@@ -1,7 +1,10 @@
 import 'package:bookmemo/bloc/bookBloc.dart';
 import 'package:bookmemo/bloc/bookEvent.dart';
 import 'package:bookmemo/data/model/book.dart';
+import 'package:bookmemo/data/model/bookRepository.dart';
+import 'package:bookmemo/helper/widgetHelper.dart';
 import 'package:bookmemo/ui/addBook/bookFormBloc.dart';
+import 'package:bookmemo/ui/addBook/bookInteractor.dart';
 import 'package:bookmemo/ui/addBook/buildBookForm.dart';
 import 'package:bookmemo/ui/generic/alertDialog.dart';
 import 'package:bookmemo/ui/generic/customFloatingActionButton.dart';
@@ -10,6 +13,7 @@ import 'package:bookmemo/ui/home/home.dart';
 import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_bloc/flutter_form_bloc.dart';
+import 'package:provider/provider.dart';
 
 class ModifyBookArguments {
   final Book book;
@@ -50,9 +54,17 @@ class _ModifyBookState extends State<ModifyBookPage> {
     // Extract the arguments from the current ModalRoute
     final arguments =
         ModalRoute.of(context)!.settings.arguments as ModifyBookArguments;
+    final BookRepository repository =
+        Provider.of<BookRepository>(context, listen: false);
 
     return BlocProvider(
-      create: (context) => BookFormBloc(arguments.book),
+      create: (context) => BookFormBloc(
+        arguments.book,
+        BookInteractor(
+          repository: repository,
+          widgetHelper: WidgetHelper(repository: repository),
+        ),
+      ),
       child: Builder(
         builder: (context) {
           final formBloc = BlocProvider.of<BookFormBloc>(context);
@@ -95,7 +107,9 @@ class _ModifyBookState extends State<ModifyBookPage> {
                         onConfirmClick: _onConfirmClick);
                   },
                   child: BuildBookForm(
-                      formBloc: formBloc, scrollController: _scrollController)),
+                      formBloc: formBloc,
+                      scrollController: _scrollController,
+                      repository: repository)),
             ),
           );
         },

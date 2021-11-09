@@ -3,8 +3,10 @@ import 'package:bookmemo/data/model/bookRepository.dart';
 import 'package:bookmemo/helper/widgetHelper.dart';
 
 class BookInteractor {
-  final BookRepository repository = BookRepository();
-  final WidgetHelper widgetHelper = WidgetHelper();
+  final WidgetHelper widgetHelper;
+  final BookRepository repository;
+
+  BookInteractor({required this.widgetHelper, required this.repository});
 
   Future<int> insertBook(Book book) {
     var response = repository.insertBook(book);

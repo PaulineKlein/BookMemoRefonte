@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:bookmemo/data/model/bookRepository.dart';
 import 'package:bookmemo/helper/fileHelper.dart';
 import 'package:bookmemo/helper/widgetHelper.dart';
 import 'package:bookmemo/ui/addBook/addBook.dart';
@@ -11,6 +12,7 @@ import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:home_widget/home_widget.dart';
+import 'package:provider/provider.dart';
 
 import '../../bloc/bookBloc.dart';
 import '../../bloc/bookEvent.dart';
@@ -28,11 +30,13 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   StreamSubscription? subscription;
   int _selectedIndex = 0;
+  late BookRepository repository;
 
   @override
   initState() {
     super.initState();
     BlocProvider.of<BookBloc>(this.context).add(LoadBook());
+    repository = Provider.of<BookRepository>(context, listen: false);
     if (Platform.isAndroid) {
       subscription = HomeWidget.widgetClicked.listen(_launchedFromWidget);
     }
@@ -51,18 +55,20 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _launchedFromWidget(var uri) {
-    WidgetHelper().launchedFromWidget(uri).then((value) => {
-          if (value != null)
-            {
-              Navigator.pushReplacementNamed(
-                  this.context, ModifyBookPage.routeName,
-                  arguments: ModifyBookArguments(book: value))
-            }
-        });
+    WidgetHelper(repository: repository)
+        .launchedFromWidget(uri)
+        .then((value) => {
+              if (value != null)
+                {
+                  Navigator.pushReplacementNamed(
+                      this.context, ModifyBookPage.routeName,
+                      arguments: ModifyBookArguments(book: value))
+                }
+            });
   }
 
   Future<void> _importCsv() async {
-    int? result = await FileHelper().importCsv();
+    int? result = await FileHelper(repository: repository).importCsv();
 
     if (result == null || result == 0) {
       AlertDialogUtility.getInstance().showAlertDialogTwoChoices(
@@ -96,7 +102,7 @@ class _HomePageState extends State<HomePage> {
     if (value == 'menuImport'.tr()) {
       _importCsv();
     } else if (value == 'menuExport'.tr()) {
-      FileHelper().createCsv();
+      FileHelper(repository: repository).createCsv();
     }
   }
 

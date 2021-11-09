@@ -17,4 +17,6 @@ class BookRepository {
       bookDao.getBooks(whereQuery, whereArg);
 
   Future<bool> hasMigrateOldDatabase() => bookDao.hasMigrateOldDatabase();
+
+  void close() => bookDao.close();
 }

@@ -1,5 +1,7 @@
 import 'package:bookmemo/bloc/bookBloc.dart';
 import 'package:bookmemo/bloc/bookEvent.dart';
+import 'package:bookmemo/data/model/bookRepository.dart';
+import 'package:bookmemo/helper/widgetHelper.dart';
 import 'package:bookmemo/ui/generic/alertDialog.dart';
 import 'package:bookmemo/ui/generic/customFloatingActionButton.dart';
 import 'package:bookmemo/ui/generic/loadingDialog.dart';
@@ -7,8 +9,10 @@ import 'package:bookmemo/ui/home/home.dart';
 import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_bloc/flutter_form_bloc.dart';
+import 'package:provider/provider.dart';
 
 import 'bookFormBloc.dart';
+import 'bookInteractor.dart';
 import 'buildBookForm.dart';
 
 class AddBookPage extends StatefulWidget {
@@ -41,8 +45,16 @@ class _AddBookState extends State<AddBookPage> {
 
   @override
   Widget build(BuildContext context) {
+    final BookRepository repository =
+        Provider.of<BookRepository>(context, listen: false);
     return BlocProvider(
-      create: (context) => BookFormBloc(null),
+      create: (context) => BookFormBloc(
+        null,
+        BookInteractor(
+          repository: repository,
+          widgetHelper: WidgetHelper(repository: repository),
+        ),
+      ),
       child: Builder(
         builder: (context) {
           final formBloc = BlocProvider.of<BookFormBloc>(context);
@@ -96,8 +108,10 @@ class _AddBookState extends State<AddBookPage> {
                               onConfirmClick: _onConfirmClick);
                     },
                     child: BuildBookForm(
-                        formBloc: formBloc,
-                        scrollController: _scrollController)),
+                      formBloc: formBloc,
+                      scrollController: _scrollController,
+                      repository: repository,
+                    )),
               ),
             ),
           );

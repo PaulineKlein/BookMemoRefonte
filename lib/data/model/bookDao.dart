@@ -91,4 +91,8 @@ class BookDao {
     }
     return false;
   }
+
+  void close() {
+    dbProvider.close();
+  }
 }

@@ -10,7 +10,9 @@ import 'package:home_widget/home_widget.dart';
 import '../../strings.dart';
 
 class WidgetHelper {
-  final BookRepository repository = BookRepository();
+  final BookRepository repository;
+
+  WidgetHelper({required this.repository});
 
   Future<List<bool?>?> _sendData(List<String> mListTitle,
       List<String> mListInfo, List<int> mListId) async {

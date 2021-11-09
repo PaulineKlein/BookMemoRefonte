@@ -14,7 +14,9 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:share_extend/share_extend.dart';
 
 class FileHelper {
-  final BookRepository repository = BookRepository();
+  final BookRepository repository;
+
+  FileHelper({required this.repository});
 
   Future<void> createCsv() async {
     var status = await getStoragePermission();

@@ -442,7 +442,7 @@ packages:
     source: hosted
     version: "4.2.3"
   provider:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: provider
       url: "https://pub.dartlang.org"
@@ -559,7 +559,7 @@ packages:
     source: hosted
     version: "1.1.0"
   synchronized:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: synchronized
       url: "https://pub.dartlang.org"

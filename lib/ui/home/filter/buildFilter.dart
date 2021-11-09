@@ -1,8 +1,10 @@
 import 'package:bookmemo/bloc/bookBloc.dart';
 import 'package:bookmemo/bloc/bookEvent.dart';
+import 'package:bookmemo/data/model/bookRepository.dart';
 import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
 
 import 'filterInteractor.dart';
 
@@ -37,7 +39,7 @@ class _BuildFilter extends State<BuildFilter> {
     'bookNotBuy'.tr(), // 8
   ];
   final myTitleSearchController = TextEditingController();
-  final interactor = FilterInteractor();
+  late FilterInteractor interactor;
   List<int> _selectedIndexs = [];
 
   void _filterList() {
@@ -49,6 +51,8 @@ class _BuildFilter extends State<BuildFilter> {
   @override
   initState() {
     super.initState();
+    interactor = FilterInteractor(
+        repository: Provider.of<BookRepository>(context, listen: false));
     myTitleSearchController.addListener(_filterList);
     WidgetsBinding.instance!.addPostFrameCallback((_) async {
       _selectedIndexs = await interactor.getSelectedIndex();
@@ -150,7 +154,8 @@ class _BuildFilter extends State<BuildFilter> {
                       },
                       child: Container(
                         key: ValueKey<int>(_isSelected ? 1 : 0),
-                        padding: const EdgeInsets.symmetric(vertical: 7.5, horizontal: 10),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 7.5, horizontal: 10),
                         margin: const EdgeInsets.only(right: 7.0),
                         alignment: Alignment.center,
                         decoration: BoxDecoration(

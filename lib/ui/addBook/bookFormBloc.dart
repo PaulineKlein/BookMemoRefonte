@@ -10,7 +10,7 @@ class BookFormBloc extends FormBloc<String, String> {
   int? idUpdating;
   String? imagePath;
 
-  final interactor = BookInteractor();
+  late BookInteractor interactor;
   final textTitle = TextFieldBloc(
     validators: [valueRequired],
     asyncValidatorDebounceTime: Duration(milliseconds: 300),
@@ -39,7 +39,8 @@ class BookFormBloc extends FormBloc<String, String> {
     initialValue: 'bookNotFinish'.tr(),
   );
 
-  BookFormBloc(Book? book) {
+  BookFormBloc(Book? book, BookInteractor interactor) {
+    this.interactor = interactor;
     if (book != null) {
       isUpdating = true;
       idUpdating = book.id;

@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:bookmemo/data/httpResponse/apiResponse.dart';
 import 'package:bookmemo/data/model/book.dart';
+import 'package:bookmemo/data/model/bookRepository.dart';
 import 'package:bookmemo/helper/apiHelper.dart';
 import 'package:bookmemo/helper/fileHelper.dart';
 import 'package:bookmemo/ui/generic/alertDialog.dart';
@@ -18,11 +19,15 @@ import 'bookFormBloc.dart';
 
 class BuildBookForm extends StatefulWidget {
   BuildBookForm(
-      {Key? key, required this.formBloc, required this.scrollController})
+      {Key? key,
+      required this.formBloc,
+      required this.scrollController,
+      required this.repository})
       : super(key: key);
 
   final BookFormBloc formBloc;
   final ScrollController scrollController;
+  final BookRepository repository;
   ApiResponse? apiResponse;
 
   @override
@@ -347,7 +352,8 @@ class _BuildBookFormState extends State<BuildBookForm> {
   }
 
   void addImage() async {
-    String path = await FileHelper().getPathPicker(["jpg", "png", "jpeg"]);
+    String path = await FileHelper(repository: widget.repository)
+        .getPathPicker(["jpg", "png", "jpeg"]);
     if (path != "") {
       setState(() {
         widget.formBloc.imagePath = path;

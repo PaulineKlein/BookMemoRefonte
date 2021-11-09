@@ -5,8 +5,10 @@ import '../../../strings.dart';
 import 'buildFilter.dart';
 
 class FilterInteractor {
-  final BookRepository repository = BookRepository();
+  final BookRepository repository;
   static const String filterSelectedIndex = "FILTER_SELECTED_INDEX";
+
+  FilterInteractor({required this.repository});
 
   Future<List<int>> getSelectedIndex() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
