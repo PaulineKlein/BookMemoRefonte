@@ -7,7 +7,7 @@
         android:allowBackup="true"
         android:requestLegacyExternalStorage="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="BookMemo">
+        android:label="Book Memo">
         <activity
             android:name="com.pklein.bookmemo.MainActivity"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"

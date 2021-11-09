@@ -11,7 +11,7 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>book_memo</string>
+	<string>Book Memo</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
@@ -22,19 +22,19 @@
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-    <key>FIREBASE_ANALYTICS_COLLECTION_ENABLED</key>
-    <true/>
-    <key>FirebaseCrashlyticsCollectionEnabled</key>
-    <true/>
-    <key>NSCameraUsageDescription</key>
-    <string>Camera permission is required for barcode scanning.</string>
-    <key>NSPhotoLibraryAddUsageDescription</key>
-    <string>Permet l import / export de votre bibliotheque sous format CSV et l'ajout d'une image pour illustrer vos livres</string>
-    <key>CFBundleLocalizations</key>
-    <array>
-    	<string>en</string>
-    	<string>fr</string>
-    </array>
+	<key>FIREBASE_ANALYTICS_COLLECTION_ENABLED</key>
+	<true/>
+	<key>FirebaseCrashlyticsCollectionEnabled</key>
+	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>Camera permission is required for barcode scanning.</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Permet l import / export de votre bibliotheque sous format CSV et l&apos;ajout d&apos;une image pour illustrer vos livres</string>
+	<key>CFBundleLocalizations</key>
+	<array>
+		<string>en</string>
+		<string>fr</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
