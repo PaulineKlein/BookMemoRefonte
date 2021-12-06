@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../strings.dart';
+import '../../bookMemo_theme.dart';
 import '../filter/buildFilter.dart';
 import 'buildListActions.dart';
 
@@ -37,7 +38,7 @@ class _BuildListBookState extends State<BuildListBook> {
           ),
           Expanded(
               child: Padding(
-                  padding: EdgeInsets.all(3),
+                  padding: EdgeInsets.all(16),
                   child: SizedBox(height: 500.0, child: _bookList(context))))
         ],
       ),
@@ -55,30 +56,33 @@ class _BuildListBookState extends State<BuildListBook> {
       return ListView.builder(
           itemCount: widget.listBook.length,
           itemBuilder: (context, position) {
-            return _buildCard(position, context);
+            return Padding(
+              padding: EdgeInsets.symmetric(vertical: 5),
+              child: _buildCard(position, context),
+            );
           });
     }
   }
 
   Widget _buildCard(int pos, BuildContext context) {
-    Color cardColor = pos % 2 == 0 ? Colors.blue : Colors.deepPurple;
-
     return Card(
-      elevation: 0,
+      elevation: 8,
+      shadowColor: colorPrimary,
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
-          side: BorderSide(color: cardColor)),
+          side: BorderSide(color: Colors.black)),
       child: Padding(
         padding: EdgeInsets.all(10),
         child: Theme(
           data: ThemeData().copyWith(
             dividerColor: Colors.transparent,
-            colorScheme: ThemeData().colorScheme.copyWith(primary: cardColor),
+            colorScheme:
+                ThemeData().colorScheme.copyWith(primary: Colors.black),
           ),
           child: ExpansionTile(
               childrenPadding: EdgeInsets.all(16).copyWith(top: 0),
               title: _buildTitleTile(pos),
-              children: [_buildExpansionTile(pos, cardColor, context)]),
+              children: [_buildExpansionTile(pos, context)]),
         ),
       ),
     );
@@ -97,13 +101,13 @@ class _BuildListBookState extends State<BuildListBook> {
     ]);
   }
 
-  Widget _buildExpansionTile(int pos, Color cardColor, BuildContext context) {
+  Widget _buildExpansionTile(int pos, BuildContext context) {
     Book book = widget.listBook[pos];
     String author =
         book.author.isEmpty ? 'bookAuthorNotKnown'.tr() : book.author;
     BoxDecoration decorateTile = BoxDecoration(
       boxShadow: [
-        BoxShadow(blurRadius: 13, color: cardColor.withOpacity(0.2)),
+        BoxShadow(blurRadius: 13, color: colorPrimaryLight),
       ],
       color: Colors.white,
       borderRadius: BorderRadius.all(Radius.circular(10.0)),
@@ -114,81 +118,78 @@ class _BuildListBookState extends State<BuildListBook> {
       children: <Widget>[
         Row(children: <Widget>[
           _buildBookInfoInChip(
-              cardColor,
+              colorPrimary,
               book.isBought ? 'bookBuy'.tr() : 'bookNotBuy'.tr(),
               book.isBought
                   ? Icons.shopping_cart_outlined
                   : Icons.remove_shopping_cart_outlined),
           SizedBox(width: 5),
           _buildBookInfoInChip(
-              cardColor,
+              colorPrimary,
               book.isFinished ? 'bookFinish'.tr() : 'bookNotFinish'.tr(),
               book.isFinished ? Icons.check : Icons.hourglass_bottom),
           new Spacer(),
-          _buildFavoriteIcon(pos, cardColor),
+          _buildFavoriteIcon(pos, colorPrimary),
         ]),
         SizedBox(height: 10),
         Container(
           decoration: decorateTile,
           padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-          child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                _buildBookInfoInRow(
-                    cardColor,
-                    book.year != null ? "$author (${book.year})" : author,
-                    Icons.assignment_ind_rounded),
-                if (book.description != null &&
-                    book.description?.isNotEmpty == true)
-                  _buildBookInfoInRow(
-                      cardColor, book.description!, Icons.description_outlined),
-                SizedBox(height: 10),
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                    color: cardColor.withOpacity(0.2),
-                  ),
-                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                  child: Table(
-                    columnWidths: {
-                      0: FixedColumnWidth(100.0), // fixed to 100 width
-                      1: FixedColumnWidth(50.0),
-                    },
-                    children: [
-                      TableRow(children: [
-                        Text('bookVolume'.tr(),
-                            style:
-                                TextStyle(fontSize: 13.0, color: Colors.black)),
-                        Text(book.volume > 0 ? "${book.volume}" : "-",
-                            style: TextStyle(
-                                fontSize: 13.0,
-                                color: cardColor,
-                                fontWeight: FontWeight.bold)),
-                      ]),
-                      TableRow(children: [
-                        Text('bookChapter'.tr(),
-                            style:
-                                TextStyle(fontSize: 13.0, color: Colors.black)),
-                        Text(book.chapter > 0 ? "${book.chapter}" : "- ",
-                            style: TextStyle(
-                                fontSize: 13.0,
-                                color: cardColor,
-                                fontWeight: FontWeight.bold)),
-                      ]),
-                      TableRow(children: [
-                        Text('bookEpisode'.tr(),
-                            style:
-                                TextStyle(fontSize: 13.0, color: Colors.black)),
-                        Text(book.episode > 0 ? "${book.episode}" : "-",
-                            style: TextStyle(
-                                fontSize: 13.0,
-                                color: cardColor,
-                                fontWeight: FontWeight.bold)),
-                      ]),
-                    ],
-                  ),
-                ),
-              ]),
+          child:
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: <
+                  Widget>[
+            _buildBookInfoInRow(
+                colorPrimary,
+                book.year != null ? "$author (${book.year})" : author,
+                Icons.assignment_ind_rounded),
+            if (book.description != null &&
+                book.description?.isNotEmpty == true)
+              _buildBookInfoInRow(
+                  colorPrimary, book.description!, Icons.description_outlined),
+            SizedBox(height: 10),
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+                color: colorPrimary.withOpacity(0.2),
+              ),
+              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+              child: Table(
+                columnWidths: {
+                  0: FixedColumnWidth(100.0), // fixed to 100 width
+                  1: FixedColumnWidth(50.0),
+                },
+                children: [
+                  TableRow(children: [
+                    Text('bookVolume'.tr(),
+                        style: TextStyle(fontSize: 13.0, color: Colors.black)),
+                    Text(book.volume > 0 ? "${book.volume}" : "-",
+                        style: TextStyle(
+                            fontSize: 13.0,
+                            color: colorPrimary,
+                            fontWeight: FontWeight.bold)),
+                  ]),
+                  TableRow(children: [
+                    Text('bookChapter'.tr(),
+                        style: TextStyle(fontSize: 13.0, color: Colors.black)),
+                    Text(book.chapter > 0 ? "${book.chapter}" : "- ",
+                        style: TextStyle(
+                            fontSize: 13.0,
+                            color: colorPrimary,
+                            fontWeight: FontWeight.bold)),
+                  ]),
+                  TableRow(children: [
+                    Text('bookEpisode'.tr(),
+                        style: TextStyle(fontSize: 13.0, color: Colors.black)),
+                    Text(book.episode > 0 ? "${book.episode}" : "-",
+                        style: TextStyle(
+                            fontSize: 13.0,
+                            color: colorPrimary,
+                            fontWeight: FontWeight.bold)),
+                  ]),
+                ],
+              ),
+            ),
+          ]),
         ),
         SizedBox(height: 10),
         Container(
@@ -196,7 +197,7 @@ class _BuildListBookState extends State<BuildListBook> {
             padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
             child: BuildListActions(
               book: book,
-              cardColor: cardColor,
+              cardColor: colorPrimary,
               onIncreaseValue: (String column, int updateValue) {
                 setState(() {
                   switch (column) {

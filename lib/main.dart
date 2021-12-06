@@ -1,6 +1,7 @@
 import 'package:bookmemo/helper/widgetHelper.dart';
 import 'package:bookmemo/ui/addBook/addBook.dart';
 import 'package:bookmemo/ui/addBook/bookInteractor.dart';
+import 'package:bookmemo/ui/bookMemo_theme.dart';
 import 'package:bookmemo/ui/modifyBook/modifyBook.dart';
 import 'package:bookmemo/ui/splash.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -48,13 +49,10 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    final theme = BookMemoTheme.light();
     return MaterialApp(
       title: 'Book Memo',
-      theme: ThemeData(
-        dividerColor: Colors.transparent,
-        primarySwatch: Colors.blue,
-        scaffoldBackgroundColor: Colors.blue[100],
-      ),
+      theme: theme,
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
       locale: context.deviceLocale,
