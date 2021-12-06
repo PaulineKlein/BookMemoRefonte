@@ -28,6 +28,7 @@
   "formTitleError":"Ce titre est déja présent dans la bilbiothèque",
   "formEmptyError":"Ce champ est obligatoire",
   "formAuthor": "Auteur",
+  "formEditor": "Editeur",
   "formYear": "Année",
   "formAdvancement": "Avancement :",
   "formVolume": "Volume",

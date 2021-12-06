@@ -16,6 +16,7 @@ class BookFormBloc extends FormBloc<String, String> {
     asyncValidatorDebounceTime: Duration(milliseconds: 300),
   );
   final textAuthor = TextFieldBloc();
+  final textEditor = TextFieldBloc();
   final textYear = TextFieldBloc();
   final textVolume = TextFieldBloc();
   final textChapter = TextFieldBloc();
@@ -46,6 +47,7 @@ class BookFormBloc extends FormBloc<String, String> {
       idUpdating = book.id;
       textTitle.updateInitialValue(book.title);
       textAuthor.updateInitialValue(book.author);
+      textEditor.updateInitialValue(book.editor);
       textYear
           .updateInitialValue(book.year != null ? book.year.toString() : "");
       textVolume.updateInitialValue(book.volume.toString());
@@ -63,6 +65,7 @@ class BookFormBloc extends FormBloc<String, String> {
     addFieldBlocs(fieldBlocs: [
       textTitle,
       textAuthor,
+      textEditor,
       textYear,
       textVolume,
       textChapter,
@@ -121,6 +124,7 @@ class BookFormBloc extends FormBloc<String, String> {
           bookType: Book.getTypeFromName(selectType.value),
           title: textTitle.value != null ? textTitle.value! : "",
           author: textAuthor.value != null ? textAuthor.value! : "",
+          editor: textEditor.value != null ? textEditor.value! : "",
           year: textYear.valueToInt,
           isBought: booleanBought.value != null ? booleanBought.value! : false,
           isFinished:
@@ -155,6 +159,7 @@ class BookFormBloc extends FormBloc<String, String> {
   void clearInputs() {
     textTitle.clear();
     textAuthor.clear();
+    textEditor.clear();
     textYear.clear();
     textVolume.clear();
     textChapter.clear();

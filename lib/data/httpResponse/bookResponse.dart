@@ -7,17 +7,20 @@ class BookResponse implements ApiResponse {
   final String? title;
   final String? startDate;
   final String? author;
+  final String? editor;
 
   @override
   String? get imagePath => null;
 
-  BookResponse({this.title, this.startDate, this.author});
+  BookResponse({this.title, this.startDate, this.author, this.editor});
 
   factory BookResponse.fromJson(Map<String, dynamic> json) {
     String? title;
     String? startDate;
     String? author;
+    String? editor;
     List<String?> authorList = [];
+    List<String?> editorList = [];
 
     try {
       var listData = json["docs"];
@@ -36,6 +39,18 @@ class BookResponse implements ApiResponse {
           }
           author = authorList.join(", ");
         }
+
+        var listEditor = listData[0]["publisher"];
+        if (listEditor is List<dynamic> && listEditor.length > 0) {
+          int limitNb = 0;
+          for (var i = 0; i < listEditor.length; i++) {
+            if (limitNb < 3) {
+              editorList.add(listEditor[i]);
+              limitNb += 1; // limit nb of author to 3 persons
+            }
+          }
+          editor = editorList.join(", ");
+        }
       }
     } catch (exception) {
       debugPrint('Error API request Json. $exception');
@@ -47,6 +62,7 @@ class BookResponse implements ApiResponse {
       title: title,
       startDate: startDate,
       author: author,
+      editor: editor
     );
   }
 }

@@ -9,6 +9,7 @@ class Book {
   final BookType bookType;
   final String title;
   final String author;
+  final String? editor;
   final int? year;
   bool isBought;
   bool isFinished;
@@ -24,6 +25,7 @@ class Book {
       required this.bookType,
       required this.title,
       required this.author,
+      this.editor,
       this.year,
       required this.isBought,
       required this.isFinished,
@@ -64,6 +66,7 @@ class Book {
       Strings.columnBookType: bookType.index,
       Strings.columnTitle: title,
       Strings.columnAuthor: author,
+      Strings.columnEditor: editor,
       Strings.columnYear: year,
       Strings.columnIsBought: isBought == true ? 1 : 0,
       Strings.columnIsFinished: isFinished == true ? 1 : 0,
@@ -84,6 +87,7 @@ class Book {
       bookType: BookType.values[map[Strings.columnBookType]],
       title: map[Strings.columnTitle],
       author: map[Strings.columnAuthor],
+      editor: map[Strings.columnEditor],
       year: map[Strings.columnYear],
       isBought: map[Strings.columnIsBought] == 1,
       isFinished: map[Strings.columnIsFinished] == 1,

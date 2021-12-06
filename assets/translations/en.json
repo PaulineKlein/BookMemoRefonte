@@ -28,6 +28,7 @@
   "formTitleError":"This title is already present in the library",
   "formEmptyError":"This field is required",
   "formAuthor": "Author",
+  "formEditor": "Editor",
   "formYear": "Year",
   "formAdvancement": "Advancement :",
   "formVolume": "Volume",

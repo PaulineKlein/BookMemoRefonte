@@ -45,6 +45,7 @@ class DatabaseProvider {
         "${Strings.columnBookType} INTEGER, "
         "${Strings.columnTitle} TEXT UNIQUE, "
         "${Strings.columnAuthor} TEXT, "
+        "${Strings.columnEditor} TEXT, "
         "${Strings.columnYear} INTEGER, "
         "${Strings.columnIsBought} INTEGER, "
         "${Strings.columnIsFinished} INTEGER, "

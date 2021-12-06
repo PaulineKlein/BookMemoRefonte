@@ -64,6 +64,17 @@ class _BuildBookFormState extends State<BuildBookForm> {
               ),
             ),
             TextFieldBlocBuilder(
+              textFieldBloc: widget.formBloc.textEditor,
+              textInputAction: TextInputAction.next,
+              decoration: InputDecoration(
+                labelText: 'formEditor'.tr(),
+                labelStyle: TextStyle(fontSize: 18.0),
+                prefixIcon: Icon(Icons.assignment_ind_rounded),
+                fillColor: Colors.white,
+                filled: true,
+              ),
+            ),
+            TextFieldBlocBuilder(
               textFieldBloc: widget.formBloc.textYear,
               textInputAction: TextInputAction.next,
               keyboardType: TextInputType.number,
@@ -319,6 +330,7 @@ class _BuildBookFormState extends State<BuildBookForm> {
       String message =
           "${'formTitle'.tr()} = ${widget.apiResponse?.title ?? 'genericErrorLabel'.tr()}"
           "\n${'formAuthor'.tr()} = ${widget.apiResponse?.author ?? 'genericErrorLabel'.tr()}"
+          "\n${'formEditor'.tr()} = ${widget.apiResponse?.editor ?? 'genericErrorLabel'.tr()}"
           "\n${'formYear'.tr()} = ${widget.apiResponse?.startDate ?? 'genericErrorLabel'.tr()}";
       AlertDialogUtility().showCustomImageDialog(
           context: context,
@@ -339,6 +351,7 @@ class _BuildBookFormState extends State<BuildBookForm> {
     setState(() {
       widget.formBloc.textTitle.updateInitialValue(widget.apiResponse?.title);
       widget.formBloc.textAuthor.updateInitialValue(widget.apiResponse?.author);
+      widget.formBloc.textEditor.updateInitialValue(widget.apiResponse?.editor);
       widget.formBloc.textYear
           .updateInitialValue(widget.apiResponse?.startDate);
       widget.formBloc.imagePath = widget.apiResponse?.imagePath;

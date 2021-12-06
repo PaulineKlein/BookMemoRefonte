@@ -5,6 +5,7 @@ class Strings {
   static const String columnBookType = 'bookType';
   static const String columnTitle = 'title';
   static const String columnAuthor = 'author';
+  static const String columnEditor = 'editor';
   static const String columnYear = 'year';
   static const String columnIsBought = 'isBought';
   static const String columnIsFinished = 'isFinished';

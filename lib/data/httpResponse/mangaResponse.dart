@@ -9,6 +9,9 @@ class MangaResponse implements ApiResponse {
   final String? imagePath;
   final String? author;
 
+  @override
+  String? get editor => null;
+
   MangaResponse({this.title, this.startDate, this.imagePath, this.author});
 
   factory MangaResponse.fromJson(Map<String, dynamic> json) {
