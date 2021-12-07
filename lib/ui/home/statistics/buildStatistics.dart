@@ -22,21 +22,15 @@ class _BuildStatisticsState extends State<BuildStatistics> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(10),
+      padding: EdgeInsets.symmetric(horizontal: 10),
       child: ListView(
         children: <Widget>[
-          Card(
-            elevation: 0,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-                child: Text(
-                  'chartExplanation',
-                  style: TextStyle(fontSize: 16, fontStyle: FontStyle.italic),
-                ).tr()),
-          ),
+          Padding(
+              padding: EdgeInsets.only(left: 20, right: 20, bottom: 16),
+              child: Text(
+                'chartExplanation',
+                style: Theme.of(context).textTheme.bodyText1,
+              ).tr()),
           _listGraphics()
         ],
       ),

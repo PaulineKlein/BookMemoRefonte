@@ -1,7 +1,7 @@
 {
   "homeTitle" : "Votre bibliothèque",
   "homeEmptyList" : "Pas encore de livre enregistré",
-  "homeSearchTitle": "Entrez un titre, un auteur ...",
+  "homeSearchTitle": "Rechercher un titre, un auteur ...",
   "bookBuy": "Possédé",
   "bookNotBuy": "Emprunté",
   "bookFinish":"Terminé",
@@ -61,7 +61,7 @@
   "menuImport": "Importer un CSV",
   "menuExport": "Exporter en CSV",
   "chartTitle": "Statistiques",
-  "chartExplanation": "Adaptez vos filtres dans votre bibliothèque et les graphiques se mettront à jour en fonction de votre sélection choisie",
+  "chartExplanation": "Adaptez vos filtres et les graphiques se mettront à jour en fonction de votre sélection choisie",
   "pieChartTitle": "Nombre d'ouvrages par type",
   "barChartTitleIsFinish": "Ouvrages en cours",
   "barChartTitleIsBought": "Ouvrages possédés",

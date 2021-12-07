@@ -1,7 +1,7 @@
 {
   "homeTitle" : "Your library",
   "homeEmptyList" : "No book registered yet",
-  "homeSearchTitle": "Write a title, an author ...",
+  "homeSearchTitle": "Search a title, an author ...",
   "bookBuy": "Possesses",
   "bookNotBuy": "borrowed",
   "bookFinish":"Finished",
@@ -61,7 +61,7 @@
   "menuImport": "Import a CSV",
   "menuExport": "Export to CSV",
   "chartTitle": "Statistics",
-  "chartExplanation": "Adapt your filters in your library and the charts will update based on your chosen selection",
+  "chartExplanation": "Adapt your filters and the charts will update based on your chosen selection",
   "pieChartTitle": "Number of books by type",
   "barChartTitleIsFinish": "Books in progress",
   "barChartTitleIsBought": "Books possesses",

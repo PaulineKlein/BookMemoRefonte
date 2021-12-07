@@ -10,7 +10,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../strings.dart';
 import '../../bookMemo_theme.dart';
-import '../filter/buildFilter.dart';
 import 'buildListActions.dart';
 
 class BuildListBook extends StatefulWidget {
@@ -30,15 +29,9 @@ class _BuildListBookState extends State<BuildListBook> {
     return Center(
       child: Column(
         children: <Widget>[
-          Center(
-            child: Padding(
-              padding: EdgeInsets.all(10),
-              child: BuildFilter(),
-            ),
-          ),
           Expanded(
               child: Padding(
-                  padding: EdgeInsets.all(16),
+                  padding: EdgeInsets.symmetric(horizontal: 16),
                   child: SizedBox(height: 500.0, child: _bookList(context))))
         ],
       ),
@@ -57,7 +50,7 @@ class _BuildListBookState extends State<BuildListBook> {
           itemCount: widget.listBook.length,
           itemBuilder: (context, position) {
             return Padding(
-              padding: EdgeInsets.symmetric(vertical: 5),
+              padding: EdgeInsets.only(bottom: 16),
               child: _buildCard(position, context),
             );
           });
@@ -65,14 +58,28 @@ class _BuildListBookState extends State<BuildListBook> {
   }
 
   Widget _buildCard(int pos, BuildContext context) {
-    return Card(
-      elevation: 8,
-      shadowColor: colorPrimary,
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
-          side: BorderSide(color: Colors.black)),
+    return Container(
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.all(Radius.circular(16.0)),
+        boxShadow: [
+          BoxShadow(
+            offset: const Offset(
+              5.0,
+              5.0,
+            ),
+            blurRadius: 2.0,
+            spreadRadius: 1.0,
+            color: colorPrimary,
+          ),
+        ],
+        border: Border.all(
+          color: Colors.black,
+        ),
+      ),
       child: Padding(
-        padding: EdgeInsets.all(10),
+        padding: EdgeInsets.all(5),
         child: Theme(
           data: ThemeData().copyWith(
             dividerColor: Colors.transparent,
@@ -90,7 +97,10 @@ class _BuildListBookState extends State<BuildListBook> {
 
   Widget _buildTitleTile(int pos) {
     return Row(children: <Widget>[
-      _displayImage(pos),
+      ClipRRect(
+        borderRadius: BorderRadius.circular(8.0),
+        child: _displayImage(pos),
+      ),
       SizedBox(width: 10),
       Flexible(
           child: Text(

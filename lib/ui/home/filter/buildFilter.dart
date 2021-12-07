@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
+import '../../bookMemo_theme.dart';
 import 'filterInteractor.dart';
 
 enum FilterType {
@@ -68,118 +69,99 @@ class _BuildFilter extends State<BuildFilter> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(18.0),
-      decoration: BoxDecoration(
-        boxShadow: [
-          BoxShadow(
-            blurRadius: 13,
-            color: Colors.black12,
-          ),
-        ],
-        color: Colors.white,
-        borderRadius: BorderRadius.all(Radius.circular(25.0)),
-      ),
-      child: Column(
-        children: <Widget>[
-          Row(children: <Widget>[
-            Icon(Icons.tune, color: Colors.deepPurple),
-            SizedBox(width: 15.0),
-            Text(
-              'filterCategory'.tr(),
-              style: Theme.of(context)
-                  .textTheme
-                  .headline5
-                  ?.apply(color: Colors.deepPurple),
-            ),
-          ]),
-          SizedBox(height: 5.0),
-          Container(
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(10.0)),
-              border: Border.all(
-                color: Colors.grey.withOpacity(.43),
-              ),
-            ),
-            child: ListTile(
-              leading: Icon(
-                Icons.search,
-                color: Colors.grey,
-                size: 28,
-              ),
-              title: TextField(
-                autofocus: false,
-                controller: myTitleSearchController,
-                decoration: InputDecoration(
-                  hintText: 'homeSearchTitle'.tr(),
-                  hintStyle: TextStyle(
-                    color: Colors.grey,
-                    fontSize: 16,
-                    fontStyle: FontStyle.italic,
-                  ),
-                  border: InputBorder.none,
+    return Column(
+      children: <Widget>[
+        Container(
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.all(Radius.circular(16.0)),
+            boxShadow: [
+              BoxShadow(
+                offset: const Offset(
+                  5.0,
+                  5.0,
                 ),
-                style: TextStyle(color: Colors.black),
+                blurRadius: 2.0,
+                spreadRadius: 1.0,
+                color: colorPrimary,
               ),
+            ],
+            border: Border.all(
+              color: Colors.black,
             ),
           ),
-          SizedBox(height: 9.0),
-          Container(
-            height: 42,
-            child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: _categories.length,
-                itemBuilder: (ctx, i) {
-                  final _isSelected = _selectedIndexs.contains(i);
-                  return GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        if (_isSelected) {
-                          _selectedIndexs.remove(i);
-                          interactor.setSelectedIndex(_selectedIndexs);
-                          _filterList();
-                        } else {
-                          _selectedIndexs.add(i);
-                          interactor.setSelectedIndex(_selectedIndexs);
-                          _filterList();
-                        }
-                      });
+          child: ListTile(
+            leading: Icon(
+              Icons.search,
+              color: Colors.black,
+              size: 28,
+            ),
+            title: TextField(
+              autofocus: false,
+              controller: myTitleSearchController,
+              decoration: InputDecoration(
+                hintText: 'homeSearchTitle'.tr(),
+                hintStyle: Theme.of(context).textTheme.bodyText1,
+                border: InputBorder.none,
+              ),
+              style: TextStyle(color: Colors.black),
+            ),
+          ),
+        ),
+        SizedBox(height: 24.0),
+        Container(
+          height: 42,
+          child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: _categories.length,
+              itemBuilder: (ctx, i) {
+                final _isSelected = _selectedIndexs.contains(i);
+                return GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      if (_isSelected) {
+                        _selectedIndexs.remove(i);
+                        interactor.setSelectedIndex(_selectedIndexs);
+                        _filterList();
+                      } else {
+                        _selectedIndexs.add(i);
+                        interactor.setSelectedIndex(_selectedIndexs);
+                        _filterList();
+                      }
+                    });
+                  },
+                  child: AnimatedSwitcher(
+                    duration: const Duration(milliseconds: 800),
+                    transitionBuilder:
+                        (Widget child, Animation<double> animation) {
+                      return FadeTransition(opacity: animation, child: child);
                     },
-                    child: AnimatedSwitcher(
-                      duration: const Duration(milliseconds: 800),
-                      transitionBuilder:
-                          (Widget child, Animation<double> animation) {
-                        return FadeTransition(opacity: animation, child: child);
-                      },
-                      child: Container(
-                        key: ValueKey<int>(_isSelected ? 1 : 0),
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 7.5, horizontal: 10),
-                        margin: const EdgeInsets.only(right: 7.0),
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          color: _isSelected ? Colors.deepPurple : null,
-                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                          border: Border.all(
-                            color: Colors.grey.withOpacity(.43),
-                          ),
-                        ),
-                        child: Text(
-                          "${_categories[i]}",
-                          style: Theme.of(context).textTheme.button?.apply(
-                                color: _isSelected
-                                    ? Colors.white
-                                    : Colors.deepPurple,
-                              ),
+                    child: Container(
+                      key: ValueKey<int>(_isSelected ? 1 : 0),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 7.5, horizontal: 10),
+                      margin: const EdgeInsets.only(right: 7.0),
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        color: _isSelected ? Colors.black : Colors.white,
+                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                        border: Border.all(
+                          color: Colors.black,
                         ),
                       ),
+                      child: Text(
+                        "${_categories[i]}",
+                        style: Theme.of(context).textTheme.button?.apply(
+                              color: _isSelected ? Colors.white : Colors.black,
+                            ),
+                      ),
                     ),
-                  );
-                }),
-          ),
-        ],
-      ),
+                  ),
+                );
+              }),
+        ),
+      ],
     );
   }
 }

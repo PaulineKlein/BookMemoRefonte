@@ -17,6 +17,8 @@ import 'package:provider/provider.dart';
 import '../../bloc/bookBloc.dart';
 import '../../bloc/bookEvent.dart';
 import '../../bloc/bookState.dart';
+import '../bookMemo_theme.dart';
+import 'filter/buildFilter.dart';
 import 'listBooks/buildListBooks.dart';
 
 class HomePage extends StatefulWidget {
@@ -31,6 +33,8 @@ class _HomePageState extends State<HomePage> {
   StreamSubscription? subscription;
   int _selectedIndex = 0;
   late BookRepository repository;
+  ScrollController _scrollController = ScrollController();
+  bool _isScrolled = false;
 
   @override
   initState() {
@@ -40,12 +44,25 @@ class _HomePageState extends State<HomePage> {
     if (Platform.isAndroid) {
       subscription = HomeWidget.widgetClicked.listen(_launchedFromWidget);
     }
+    _scrollController.addListener(_listenToScrollChange);
   }
 
   @override
   void dispose() {
     subscription?.cancel();
     super.dispose();
+  }
+
+  void _listenToScrollChange() {
+    if (_scrollController.offset >= 100.0) {
+      setState(() {
+        _isScrolled = true;
+      });
+    } else {
+      setState(() {
+        _isScrolled = false;
+      });
+    }
   }
 
   void _addBook() {
@@ -115,25 +132,100 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: homeTitle(),
-        centerTitle: true,
-        actions: <Widget>[
-          PopupMenuButton<String>(
-            onSelected: _handleMenuClick,
-            itemBuilder: (BuildContext context) {
-              return {'menuImport'.tr(), 'menuExport'.tr()}
-                  .map((String choice) {
-                return PopupMenuItem<String>(
-                  value: choice,
-                  child: Text(choice),
-                );
-              }).toList();
-            },
-          ),
-        ],
+      body: NestedScrollView(
+        controller: _scrollController,
+        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+          return <Widget>[
+            SliverAppBar(
+              expandedHeight: 250.0,
+              pinned: true,
+              forceElevated: true,
+              centerTitle: true,
+              title: AnimatedOpacity(
+                duration: Duration(milliseconds: 500),
+                opacity: _isScrolled ? 1.0 : 0.0,
+                curve: Curves.ease,
+                child: homeTitle(),
+              ),
+              actions: _isScrolled
+                  ? <Widget>[
+                      PopupMenuButton<String>(
+                        onSelected: _handleMenuClick,
+                        itemBuilder: (BuildContext context) {
+                          return {'menuImport'.tr(), 'menuExport'.tr()}
+                              .map((String choice) {
+                            return PopupMenuItem<String>(
+                              value: choice,
+                              child: Text(choice),
+                            );
+                          }).toList();
+                        },
+                      ),
+                    ]
+                  : null,
+              backgroundColor: colorPrimaryLight,
+              flexibleSpace: FlexibleSpaceBar(
+                collapseMode: CollapseMode.parallax,
+                background: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Container(
+                        margin: EdgeInsets.symmetric(vertical: 24.0),
+                        child: homeTitle()),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      child: BuildFilter(),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ];
+        },
+        body: buildListBookListener(),
       ),
-      body: BlocListener<BookBloc, BookState>(
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _selectedIndex,
+        type: BottomNavigationBarType.fixed,
+        showSelectedLabels: false,
+        showUnselectedLabels: false,
+        items: [
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: ""),
+          BottomNavigationBarItem(icon: Icon(Icons.query_stats), label: "")
+        ],
+        onTap: (index) {
+          _onItemTapped(index);
+        },
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: FloatingActionButton(
+        onPressed: _addBook,
+        tooltip: 'AddBook',
+        child: Icon(Icons.add),
+      ),
+    );
+  }
+
+  Widget homeTitle() {
+    if (_selectedIndex == 0) {
+      return Text('homeTitle'.tr(),
+          style: Theme.of(context).textTheme.headline1);
+    } else {
+      return Text('chartTitle'.tr(),
+          style: Theme.of(context).textTheme.headline1);
+    }
+  }
+
+  Widget buildListBookListener() {
+    return BlocListener<BookBloc, BookState>(
+      listenWhen: (previousState, state) {
+        return state is BookSuccess;
+      },
+      listener: (context, state) {
+        BlocProvider.of<BookBloc>(context).add(LoadBook());
+      },
+      child: BlocListener<BookBloc, BookState>(
         listenWhen: (previousState, state) {
           return state is BookSuccess;
         },
@@ -160,33 +252,6 @@ class _HomePageState extends State<HomePage> {
           }
         }),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _selectedIndex,
-        type: BottomNavigationBarType.fixed,
-        showSelectedLabels: false,
-        showUnselectedLabels: false,
-        items: [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: ""),
-          BottomNavigationBarItem(icon: Icon(Icons.query_stats), label: "")
-        ],
-        onTap: (index) {
-          _onItemTapped(index);
-        },
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: FloatingActionButton(
-        onPressed: _addBook,
-        tooltip: 'AddBook',
-        child: Icon(Icons.add),
-      ),
     );
-  }
-
-  Widget homeTitle() {
-    if (_selectedIndex == 0) {
-      return Text('homeTitle'.tr());
-    } else {
-      return Text('chartTitle'.tr());
-    }
   }
 }
