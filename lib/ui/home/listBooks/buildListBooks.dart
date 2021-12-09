@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:bookmemo/bloc/bookBloc.dart';
 import 'package:bookmemo/bloc/bookEvent.dart';
 import 'package:bookmemo/data/model/book.dart';
+import 'package:bookmemo/ui/generic/orangeBlurredBoxDecoration.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/material.dart';
@@ -60,24 +61,7 @@ class _BuildListBookState extends State<BuildListBook> {
   Widget _buildCard(int pos, BuildContext context) {
     return Container(
       alignment: Alignment.center,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.all(Radius.circular(16.0)),
-        boxShadow: [
-          BoxShadow(
-            offset: const Offset(
-              5.0,
-              5.0,
-            ),
-            blurRadius: 2.0,
-            spreadRadius: 1.0,
-            color: colorPrimary,
-          ),
-        ],
-        border: Border.all(
-          color: Colors.black,
-        ),
-      ),
+      decoration: orangeBlurredBoxDecoration(Colors.white),
       child: Padding(
         padding: EdgeInsets.all(5),
         child: Theme(

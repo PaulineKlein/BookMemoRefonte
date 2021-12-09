@@ -1,34 +1,33 @@
 import 'package:bookmemo/bloc/bookBloc.dart';
 import 'package:bookmemo/bloc/bookEvent.dart';
 import 'package:bookmemo/data/model/book.dart';
-import 'package:bookmemo/ui/displayBook/displayBook.dart';
 import 'package:bookmemo/ui/generic/alertDialog.dart';
+import 'package:bookmemo/ui/generic/orangeBlurredBoxDecoration.dart';
 import 'package:bookmemo/ui/modifyBook/modifyBook.dart';
 import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 
 import '../../../strings.dart';
 
-class BuildListActions extends StatefulWidget {
-  BuildListActions(
+class BuildActions extends StatefulWidget {
+  BuildActions(
       {Key? key,
       required this.book,
-      required this.cardColor,
       required this.onIncreaseValue,
       required this.onDeleteBook})
       : super(key: key);
 
   final Book book;
-  final Color cardColor;
   final Function(String, int) onIncreaseValue;
   final Function() onDeleteBook;
 
   @override
-  _BuildListActionsState createState() => _BuildListActionsState();
+  _BuildActionsState createState() => _BuildActionsState();
 }
 
-class _BuildListActionsState extends State<BuildListActions> {
+class _BuildActionsState extends State<BuildActions> {
   void _deleteBook(BuildContext context) {
     AlertDialogUtility.getInstance().showAlertDialogTwoChoices(
         context: context,
@@ -78,40 +77,52 @@ class _BuildListActionsState extends State<BuildListActions> {
         arguments: ModifyBookArguments(book: widget.book));
   }
 
-  void _displayBook(BuildContext context) {
-    Navigator.pushNamed(context, DisplayBookPage.routeName,
-        arguments: DisplayBookArguments(book: widget.book));
-  }
-
   @override
   Widget build(BuildContext context) {
-    return Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: <
-        Widget>[
-      IconButton(
-          icon: Icon(Icons.account_balance_outlined,
-              color: widget.cardColor, size: 40),
-          onPressed: () {
-            _displayBook(context);
-          }),
-      SizedBox(width: 5),
-      IconButton(
-          icon: Icon(Icons.brush_outlined, color: widget.cardColor, size: 40),
-          onPressed: () {
-            _updateBook(context);
-          }),
-      SizedBox(width: 5),
-      IconButton(
-          icon: Icon(Icons.exposure_plus_1, color: widget.cardColor, size: 40),
-          onPressed: () {
-            _increaseBook(context);
-          }),
-      SizedBox(width: 5),
-      IconButton(
-          icon: Icon(Icons.delete_forever_rounded,
-              color: Colors.blueGrey, size: 40),
-          onPressed: () {
-            _deleteBook(context);
-          }),
-    ]);
+    return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: <Widget>[
+          InkWell(
+            onTap: () {
+              _updateBook(context);
+            },
+            child: _buildActionButton("icon_modify", "Modifier"),
+          ),
+          SizedBox(width: 5),
+          InkWell(
+            onTap: () {
+              _increaseBook(context);
+            },
+            child: _buildActionButton("icon_add", "Ajouter"),
+          ),
+          SizedBox(width: 5),
+          InkWell(
+            onTap: () {
+              _deleteBook(context);
+            },
+            child: _buildActionButton("icon_delete", "Supprimer"),
+          ),
+        ]);
+  }
+
+  Widget _buildActionButton(String imagePath, String title) {
+    return Container(
+        alignment: Alignment.center,
+        width: 100,
+        height: 100,
+        decoration: orangeBlurredBoxDecoration(Colors.black),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            SvgPicture.asset("assets/images/$imagePath.svg",
+                semanticsLabel: imagePath),
+            Text(title,
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText1!
+                    .copyWith(color: Colors.white)),
+          ],
+        ));
   }
 }

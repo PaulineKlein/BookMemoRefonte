@@ -17,6 +17,7 @@ const Map<int, Color> colorOrange = {
 const MaterialColor colorPrimary = MaterialColor(0xFFFFC692, colorOrange);
 const Color colorPrimaryLight = Color(0xFFFFF3E8);
 const Color colorSecondary = Color(0xFF5F61BF);
+const Color colorGrey = Color(0xFF777777);
 
 class BookMemoTheme {
   static TextTheme lightTextTheme = TextTheme(
@@ -24,13 +25,27 @@ class BookMemoTheme {
       fontSize: 14.0,
       color: Colors.black,
     ),
+    bodyText2: GoogleFonts.openSans(
+      fontSize: 14.0,
+      color: colorGrey,
+    ),
+    caption: GoogleFonts.openSans(
+        fontSize: 14.0,
+        color: colorGrey,
+        textStyle: TextStyle(decoration: TextDecoration.underline),
+    ),
+    overline: GoogleFonts.openSans(
+      fontSize: 11.0,
+      color: Colors.black,
+      fontWeight: FontWeight.w700,
+    ),
     headline1: GoogleFonts.openSans(
       fontSize: 21.0,
       fontWeight: FontWeight.bold,
       color: Colors.black,
     ),
     headline2: GoogleFonts.openSans(
-      fontSize: 21.0,
+      fontSize: 18.0,
       fontWeight: FontWeight.w700,
       color: Colors.black,
     ),

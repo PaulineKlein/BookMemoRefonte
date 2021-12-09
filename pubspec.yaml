@@ -33,6 +33,7 @@ dependencies:
   # ui
   cupertino_icons: ^1.0.2
   lottie: ^1.2.1
+  flutter_svg: ^1.0.0
   # == operator
   equatable: ^2.0.0
   # database

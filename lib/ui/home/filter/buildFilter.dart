@@ -1,12 +1,12 @@
 import 'package:bookmemo/bloc/bookBloc.dart';
 import 'package:bookmemo/bloc/bookEvent.dart';
 import 'package:bookmemo/data/model/bookRepository.dart';
+import 'package:bookmemo/ui/generic/orangeBlurredBoxDecoration.dart';
 import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
-import '../../bookMemo_theme.dart';
 import 'filterInteractor.dart';
 
 enum FilterType {
@@ -73,24 +73,7 @@ class _BuildFilter extends State<BuildFilter> {
       children: <Widget>[
         Container(
           alignment: Alignment.center,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.all(Radius.circular(16.0)),
-            boxShadow: [
-              BoxShadow(
-                offset: const Offset(
-                  5.0,
-                  5.0,
-                ),
-                blurRadius: 2.0,
-                spreadRadius: 1.0,
-                color: colorPrimary,
-              ),
-            ],
-            border: Border.all(
-              color: Colors.black,
-            ),
-          ),
+          decoration: orangeBlurredBoxDecoration(Colors.white),
           child: ListTile(
             leading: Icon(
               Icons.search,

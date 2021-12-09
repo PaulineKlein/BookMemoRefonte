@@ -2,6 +2,7 @@ import 'package:bookmemo/helper/widgetHelper.dart';
 import 'package:bookmemo/ui/addBook/addBook.dart';
 import 'package:bookmemo/ui/addBook/bookInteractor.dart';
 import 'package:bookmemo/ui/bookMemo_theme.dart';
+import 'package:bookmemo/ui/displayBook/displayBook.dart';
 import 'package:bookmemo/ui/modifyBook/modifyBook.dart';
 import 'package:bookmemo/ui/splash.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -60,6 +61,7 @@ class MyApp extends StatelessWidget {
         AddBookPage.routeName: (context) => AddBookPage(),
         HomePage.routeName: (context) => HomePage(),
         ModifyBookPage.routeName: (context) => ModifyBookPage(),
+        DisplayBookPage.routeName: (context) => DisplayBookPage(),
       },
       home: SplashPage(),
     );
