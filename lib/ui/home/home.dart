@@ -54,7 +54,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _listenToScrollChange() {
-    if (_scrollController.offset >= 100.0) {
+    if (_scrollController.offset >= 200.0) {
       setState(() {
         _isScrolled = true;
       });
@@ -137,7 +137,7 @@ class _HomePageState extends State<HomePage> {
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return <Widget>[
             SliverAppBar(
-              expandedHeight: 250.0,
+              expandedHeight: 330.0,
               pinned: true,
               forceElevated: true,
               centerTitle: true,
@@ -170,6 +170,8 @@ class _HomePageState extends State<HomePage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
+                    Image.asset("assets/images/header.png", width: double.infinity,
+                      fit: BoxFit.cover),
                     Container(
                         margin: EdgeInsets.symmetric(vertical: 24.0),
                         child: homeTitle()),
@@ -177,6 +179,7 @@ class _HomePageState extends State<HomePage> {
                       padding: EdgeInsets.symmetric(horizontal: 20),
                       child: BuildFilter(),
                     ),
+                    Spacer(),
                   ],
                 ),
               ),

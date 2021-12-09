@@ -99,7 +99,7 @@ class _BuildBookFormState extends State<BuildBookForm> {
             ),
             Card(
                 elevation: 0,
-                color: Colors.blue[100],
+                color: Colors.white,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20),
                     side: BorderSide(color: Colors.blue)),
@@ -186,7 +186,7 @@ class _BuildBookFormState extends State<BuildBookForm> {
   Widget displaySearch() {
     return Card(
       elevation: 0,
-      color: Colors.blue[100],
+      color: Colors.white,
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
           side: BorderSide(color: Colors.blue)),
