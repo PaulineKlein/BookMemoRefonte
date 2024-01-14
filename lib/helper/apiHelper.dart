@@ -42,6 +42,7 @@ class ApiHelper {
     } finally {
       client.close();
     }
+    return null;
   }
 
   static Future<BookResponse?> getInformationFromBookApi(
@@ -70,6 +71,7 @@ class ApiHelper {
     } finally {
       client.close();
     }
+    return null;
   }
 
   static Future<BookResponse?> getInformationFromBarCodeApi(
@@ -99,5 +101,6 @@ class ApiHelper {
     } finally {
       client.close();
     }
+    return null;
   }
 }

@@ -34,7 +34,7 @@ class _BuildPieChartState extends State<BuildPieChart> {
             'pieChartTitle'.tr(),
             style: Theme.of(context)
                 .textTheme
-                .headline5
+                .headlineSmall
                 ?.apply(color: Colors.deepPurple),
           ),
           Row(

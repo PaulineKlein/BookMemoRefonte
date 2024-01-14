@@ -36,7 +36,7 @@ class _BuildBarChartState extends State<BuildBarChart> {
               'barChartTitleCount'.tr(),
               style: Theme.of(context)
                   .textTheme
-                  .headline5
+                  .headlineSmall
                   ?.apply(color: Colors.deepPurple),
             ),
             SizedBox(height: 15),
@@ -49,32 +49,23 @@ class _BuildBarChartState extends State<BuildBarChart> {
                       BarChartData(
                         titlesData: FlTitlesData(
                           show: true,
-                          rightTitles: SideTitles(showTitles: false),
-                          topTitles: SideTitles(showTitles: false),
-                          bottomTitles: SideTitles(
-                            showTitles: true,
-                            getTextStyles: (context, value) => const TextStyle(
-                                color: Colors.black, fontSize: 10),
-                            margin: 10,
-                            getTitles: (double value) {
-                              switch (value.toInt()) {
-                                case 0:
-                                  return 'formTypeLiterature'.tr();
-                                case 1:
-                                  return 'formTypeManga'.tr();
-                                case 2:
-                                  return 'formTypeComic'.tr();
-                                case 3:
-                                  return 'formTypeMovie'.tr();
-                                default:
-                                  return '';
-                              }
-                            },
+                          rightTitles: AxisTitles(
+                            sideTitles: SideTitles(showTitles: false),
                           ),
-                          leftTitles: SideTitles(
-                            showTitles: true,
-                            margin: 4,
-                            reservedSize: 34,
+                          topTitles: AxisTitles(
+                            sideTitles: SideTitles(showTitles: false),
+                          ),
+                          bottomTitles: AxisTitles(
+                            sideTitles: SideTitles(
+                              showTitles: true,
+                              getTitlesWidget: bottomTitlesWidgets,
+                            ),
+                          ),
+                          leftTitles: AxisTitles(
+                            sideTitles: SideTitles(
+                              showTitles: true,
+                              reservedSize: 34,
+                            ),
                           ),
                         ),
                         borderData: FlBorderData(show: false),
@@ -146,24 +137,49 @@ class _BuildBarChartState extends State<BuildBarChart> {
       List<BarChartRodData> barRods = [];
       if (volumeCount > 0)
         barRods.add(BarChartRodData(
-          y: volumeCount,
-          colors: [volumeColor],
+          toY: volumeCount,
+          color: volumeColor,
           width: width,
         ));
       if (chapterCount > 0)
         barRods.add(BarChartRodData(
-          y: chapterCount,
-          colors: [chapterColor],
+          toY: chapterCount,
+          color: chapterColor,
           width: width,
         ));
       if (episodeCount > 0)
         barRods.add(BarChartRodData(
-          y: episodeCount,
-          colors: [episodeColor],
+          toY: episodeCount,
+          color: episodeColor,
           width: width,
         ));
 
       return BarChartGroupData(barsSpace: 4, x: axis, barRods: barRods);
     }
+    return null;
+  }
+
+  Widget bottomTitlesWidgets(double value, TitleMeta meta) {
+    const style = TextStyle(color: Colors.black, fontSize: 10);
+    String text = "";
+    switch (value.toInt()) {
+      case 0:
+        text = 'formTypeLiterature'.tr();
+        break;
+      case 1:
+        text = 'formTypeManga'.tr();
+        break;
+      case 2:
+        text = 'formTypeComic'.tr();
+        break;
+      case 3:
+        text = 'formTypeMovie'.tr();
+        break;
+    }
+
+    return FittedBox(
+      child: Text(text, style: style, textAlign: TextAlign.center),
+      fit: BoxFit.fitWidth,
+    );
   }
 }

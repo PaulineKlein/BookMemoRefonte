@@ -47,13 +47,13 @@ class BookFormBloc extends FormBloc<String, String> {
       idUpdating = book.id;
       textTitle.updateInitialValue(book.title);
       textAuthor.updateInitialValue(book.author);
-      textEditor.updateInitialValue(book.editor);
+      textEditor.updateInitialValue(book.editor.toString());
       textYear
           .updateInitialValue(book.year != null ? book.year.toString() : "");
       textVolume.updateInitialValue(book.volume.toString());
       textChapter.updateInitialValue(book.chapter.toString());
       textEpisode.updateInitialValue(book.episode.toString());
-      textDescription.updateInitialValue(book.description);
+      textDescription.updateInitialValue(book.description.toString());
       booleanBought.updateInitialValue(book.isBought);
       booleanFavorite.updateInitialValue(book.isFavorite);
       selectIsfinished.updateInitialValue(
@@ -122,15 +122,15 @@ class BookFormBloc extends FormBloc<String, String> {
 
       var book = Book(
           bookType: Book.getTypeFromName(selectType.value),
-          title: textTitle.value != null ? textTitle.value! : "",
-          author: textAuthor.value != null ? textAuthor.value! : "",
-          editor: textEditor.value != null ? textEditor.value! : "",
+          title: textTitle.value,
+          author: textAuthor.value,
+          editor: textEditor.value,
           year: textYear.valueToInt,
-          isBought: booleanBought.value != null ? booleanBought.value! : false,
+          isBought: booleanBought.value,
           isFinished:
               selectIsfinished.value == 'bookFinish'.tr() ? true : false,
           isFavorite:
-              booleanFavorite.value != null ? booleanFavorite.value! : false,
+              booleanFavorite.value,
           volume: volume,
           chapter: textChapter.valueToInt != null ? textChapter.valueToInt! : 0,
           episode: episode,

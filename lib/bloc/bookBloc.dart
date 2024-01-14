@@ -8,75 +8,81 @@ import 'bookState.dart';
 class BookBloc extends Bloc<BookEvent, BookState> {
   final BookInteractor interactor;
 
-  BookBloc({required this.interactor}) : super(InitialBookState());
-
-  @override
-  Stream<BookState> mapEventToState(BookEvent event) async* {
-    if (event is LoadBook) {
-      yield* _mapLoadBookToState();
-    } else if (event is AddBook) {
-      yield* _mapAddBookToState(event);
-    } else if (event is RemoveBook) {
-      yield* _mapRemoveBookToState(event);
-    } else if (event is FilterBook) {
-      yield* _mapFilterBookToState(event);
-    } else if (event is IncreaseBook) {
-      yield* _mapIncreaseBookToState(event);
-    }
-  }
-
-  Stream<BookState> _mapLoadBookToState() async* {
-    try {
-      var books = await interactor.getBooks(null, null);
-      if (books.isEmpty) {
-        yield BookNoData('homeEmptyList'.tr());
-      } else {
-        yield BookHasData(books);
+  BookBloc({required this.interactor}) : super(InitialBookState()) {
+    on<BookEvent>((event, emit) async {
+      if (event is LoadBook) {
+        await _mapLoadBookToState(emit);
+      } else if (event is AddBook) {
+        await _mapAddBookToState(event, emit);
+      } else if (event is RemoveBook) {
+        await _mapRemoveBookToState(event, emit);
+      } else if (event is FilterBook) {
+        await _mapFilterBookToState(event, emit);
+      } else if (event is IncreaseBook) {
+        await _mapIncreaseBookToState(event, emit);
       }
-    } catch (e) {
-      yield BookError(e.toString());
-    }
+    });
   }
 
-  Stream<BookState> _mapFilterBookToState(FilterBook event) async* {
+  Future<void> _mapLoadBookToState(Emitter<BookState> emit) async {
     try {
-      var books = await interactor.getBooks(event.query, null);
-      if (books.isEmpty) {
-        yield BookNoData('filterEmptyList'.tr());
-      } else {
-        yield BookHasData(books);
-      }
+      await interactor.getBooks(null, null).then((books) async {
+        if (books.isEmpty) {
+          emit(BookNoData('homeEmptyList'.tr()));
+        } else {
+          emit(BookHasData(books));
+        }
+      });
     } catch (e) {
-      yield BookError(e.toString());
+      emit(BookError(e.toString()));
     }
   }
 
-  Stream<BookState> _mapAddBookToState(AddBook event) async* {
+  Future<void> _mapFilterBookToState(
+      FilterBook event, Emitter<BookState> emit) async {
     try {
-      await interactor.insertBook(event.book);
-      yield BookSuccess(event.book.title + ' add to database');
+      await interactor.getBooks(event.query, null).then((books) async {
+        if (books.isEmpty) {
+          emit(BookNoData('filterEmptyList'.tr()));
+        } else {
+          emit(BookHasData(books));
+        }
+      });
     } catch (e) {
-      yield BookError(e.toString());
+      emit(BookError(e.toString()));
     }
   }
 
-  Stream<BookState> _mapRemoveBookToState(RemoveBook event) async* {
+  Future<void> _mapAddBookToState(
+      AddBook event, Emitter<BookState> emit) async {
+    try {
+      await interactor.insertBook(event.book).then((books) async {
+        emit(BookSuccess(event.book.title + ' add to database'));
+      });
+    } catch (e) {
+      emit(BookError(e.toString()));
+    }
+  }
+
+  Future<void> _mapRemoveBookToState(
+      RemoveBook event, Emitter<BookState> emit) async {
     try {
       if (event.book.id == null) {
-        yield BookError('genericError'.tr());
+        emit(BookError('genericError'.tr()));
       } else {
         await interactor.deleteBook(event.book.id!);
       }
     } catch (e) {
-      yield BookError(e.toString());
+      emit(BookError(e.toString()));
     }
   }
 
-  Stream<BookState> _mapIncreaseBookToState(IncreaseBook event) async* {
+  Future<void> _mapIncreaseBookToState(
+      IncreaseBook event, Emitter<BookState> emit) async {
     try {
       await interactor.increaseBook(event.book, event.column, event.value);
     } catch (e) {
-      yield BookError(e.toString());
+      emit(BookError(e.toString()));
     }
   }
 }

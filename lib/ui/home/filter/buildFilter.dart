@@ -55,7 +55,7 @@ class _BuildFilter extends State<BuildFilter> {
     interactor = FilterInteractor(
         repository: Provider.of<BookRepository>(context, listen: false));
     myTitleSearchController.addListener(_filterList);
-    WidgetsBinding.instance!.addPostFrameCallback((_) async {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
       _selectedIndexs = await interactor.getSelectedIndex();
       _filterList();
     });
@@ -85,7 +85,7 @@ class _BuildFilter extends State<BuildFilter> {
               controller: myTitleSearchController,
               decoration: InputDecoration(
                 hintText: 'homeSearchTitle'.tr(),
-                hintStyle: Theme.of(context).textTheme.bodyText1,
+                hintStyle: Theme.of(context).textTheme.bodyLarge,
                 border: InputBorder.none,
               ),
               style: TextStyle(color: Colors.black),
@@ -135,7 +135,7 @@ class _BuildFilter extends State<BuildFilter> {
                       ),
                       child: Text(
                         "${_categories[i]}",
-                        style: Theme.of(context).textTheme.button?.apply(
+                        style: Theme.of(context).textTheme.labelLarge?.apply(
                               color: _isSelected ? Colors.white : Colors.black,
                             ),
                       ),

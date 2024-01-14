@@ -29,7 +29,7 @@ class _BuildStatisticsState extends State<BuildStatistics> {
               padding: EdgeInsets.only(left: 20, right: 20, bottom: 16),
               child: Text(
                 'chartExplanation',
-                style: Theme.of(context).textTheme.bodyText1,
+                style: Theme.of(context).textTheme.bodyLarge,
               ).tr()),
           _listGraphics()
         ],

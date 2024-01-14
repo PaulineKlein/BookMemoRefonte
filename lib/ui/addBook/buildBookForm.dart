@@ -152,7 +152,7 @@ class _BuildBookFormState extends State<BuildBookForm> {
                   labelStyle: TextStyle(fontSize: 20.0, color: Colors.blue),
                   prefixIcon: SizedBox(),
                   contentPadding: EdgeInsets.all(5.0)),
-              itemBuilder: (context, item) => item,
+              itemBuilder: (context, item) => FieldItem(child: Text(item)),
             ),
             RadioButtonGroupFieldBlocBuilder<String>(
               selectFieldBloc: widget.formBloc.selectIsfinished,
@@ -161,7 +161,7 @@ class _BuildBookFormState extends State<BuildBookForm> {
                   labelStyle: TextStyle(fontSize: 20.0, color: Colors.blue),
                   prefixIcon: SizedBox(),
                   contentPadding: EdgeInsets.all(5.0)),
-              itemBuilder: (context, item) => item,
+              itemBuilder: (context, item) => FieldItem(child: Text(item)),
             ),
             SwitchFieldBlocBuilder(
               booleanFieldBloc: widget.formBloc.booleanBought,
@@ -305,15 +305,14 @@ class _BuildBookFormState extends State<BuildBookForm> {
   }
 
   Future<void> searchTitle(BookType bookType) async {
-    if (widget.formBloc.textTitle.value != null &&
-        widget.formBloc.textTitle.value!.isNotEmpty) {
+    if (widget.formBloc.textTitle.value.isNotEmpty) {
       LoadingDialog.show(context);
       if (bookType == BookType.manga || bookType == BookType.movie) {
         widget.apiResponse = await ApiHelper.getInformationFromMangaApi(
-            bookType, widget.formBloc.textTitle.value!);
+            bookType, widget.formBloc.textTitle.value);
       } else {
         widget.apiResponse = await ApiHelper.getInformationFromBookApi(
-            widget.formBloc.textTitle.value!);
+            widget.formBloc.textTitle.value);
       }
       LoadingDialog.hide(context);
       _displayApiResponse();
@@ -349,11 +348,22 @@ class _BuildBookFormState extends State<BuildBookForm> {
 
   void _updateDataFromApi() {
     setState(() {
-      widget.formBloc.textTitle.updateInitialValue(widget.apiResponse?.title);
-      widget.formBloc.textAuthor.updateInitialValue(widget.apiResponse?.author);
-      widget.formBloc.textEditor.updateInitialValue(widget.apiResponse?.editor);
-      widget.formBloc.textYear
-          .updateInitialValue(widget.apiResponse?.startDate);
+      widget.formBloc.textTitle.updateInitialValue(
+          widget.apiResponse?.title != null
+              ? widget.apiResponse!.title!.toString()
+              : "");
+      widget.formBloc.textAuthor.updateInitialValue(
+          widget.apiResponse?.author != null
+              ? widget.apiResponse!.author!.toString()
+              : "");
+      widget.formBloc.textEditor.updateInitialValue(
+          widget.apiResponse?.editor != null
+              ? widget.apiResponse!.editor!.toString()
+              : "");
+      widget.formBloc.textYear.updateInitialValue(
+          widget.apiResponse?.startDate != null
+              ? widget.apiResponse!.startDate!.toString()
+              : "");
       widget.formBloc.imagePath = widget.apiResponse?.imagePath;
     });
   }

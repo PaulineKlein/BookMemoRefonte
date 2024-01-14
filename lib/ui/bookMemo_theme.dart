@@ -21,35 +21,35 @@ const Color colorGrey = Color(0xFF777777);
 
 class BookMemoTheme {
   static TextTheme lightTextTheme = TextTheme(
-    bodyText1: GoogleFonts.openSans(
+    bodyLarge: GoogleFonts.openSans(
       fontSize: 14.0,
       color: Colors.black,
     ),
-    bodyText2: GoogleFonts.openSans(
+    bodyMedium: GoogleFonts.openSans(
       fontSize: 14.0,
       color: colorGrey,
     ),
-    caption: GoogleFonts.openSans(
+    bodySmall: GoogleFonts.openSans(
         fontSize: 14.0,
         color: colorGrey,
         textStyle: TextStyle(decoration: TextDecoration.underline),
     ),
-    overline: GoogleFonts.openSans(
+    labelSmall: GoogleFonts.openSans(
       fontSize: 11.0,
       color: Colors.black,
       fontWeight: FontWeight.w700,
     ),
-    headline1: GoogleFonts.openSans(
+    displayLarge: GoogleFonts.openSans(
       fontSize: 21.0,
       fontWeight: FontWeight.bold,
       color: Colors.black,
     ),
-    headline2: GoogleFonts.openSans(
+    displayMedium: GoogleFonts.openSans(
       fontSize: 18.0,
       fontWeight: FontWeight.w700,
       color: Colors.black,
     ),
-    headline3: GoogleFonts.openSans(
+    displaySmall: GoogleFonts.openSans(
       fontSize: 16.0,
       fontWeight: FontWeight.w600,
       color: Colors.black,

@@ -130,7 +130,7 @@ class _AddBookState extends State<AddBookPage> {
   }
 
   void _onConfirmClick() {
-    WidgetsBinding.instance!.addPostFrameCallback((_) async {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
       Navigator.pushNamedAndRemoveUntil(
           context, HomePage.routeName, (Route<dynamic> route) => false);
       BlocProvider.of<BookBloc>(context).add(LoadBook());

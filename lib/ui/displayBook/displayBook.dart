@@ -7,7 +7,6 @@ import 'package:bookmemo/ui/generic/orangeBlurredBoxDecoration.dart';
 import 'package:bookmemo/ui/home/home.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/src/public_ext.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
@@ -135,8 +134,8 @@ class _DisplayBookState extends State<DisplayBookPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Text(book.title, style: Theme.of(context).textTheme.headline1),
-              Text(author, style: Theme.of(context).textTheme.bodyText1),
+              Text(book.title, style: Theme.of(context).textTheme.displayLarge),
+              Text(author, style: Theme.of(context).textTheme.bodyLarge),
             ],
           ),
         ),
@@ -165,14 +164,14 @@ class _DisplayBookState extends State<DisplayBookPage> {
             book.year != null && book.year.toString().isNotEmpty
                 ? book.year.toString()
                 : 'bookYearNotKnown'.tr(),
-            style: Theme.of(context).textTheme.bodyText2),
+            style: Theme.of(context).textTheme.bodyMedium),
         Text(
             book.editor != null && book.editor.toString().isNotEmpty
                 ? book.editor.toString()
                 : 'bookEditorNotKnown'.tr(),
-            style: Theme.of(context).textTheme.bodyText2),
+            style: Theme.of(context).textTheme.bodyMedium),
         Text(book.getNameFromType(),
-            style: Theme.of(context).textTheme.bodyText2),
+            style: Theme.of(context).textTheme.bodyMedium),
       ],
     );
   }
@@ -182,12 +181,12 @@ class _DisplayBookState extends State<DisplayBookPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Text('formDescription'.tr(),
-            style: Theme.of(context).textTheme.caption),
+            style: Theme.of(context).textTheme.bodySmall),
         Text(
             book.description != null && book.description.toString().isNotEmpty
                 ? book.description.toString()
                 : '/',
-            style: Theme.of(context).textTheme.bodyText2),
+            style: Theme.of(context).textTheme.bodyMedium),
       ],
     );
   }
@@ -223,7 +222,7 @@ class _DisplayBookState extends State<DisplayBookPage> {
               : null,
         ),
         SizedBox(width: 8),
-        Text(textStatus, style: Theme.of(context).textTheme.overline),
+        Text(textStatus, style: Theme.of(context).textTheme.labelSmall),
       ],
     );
   }
@@ -241,36 +240,36 @@ class _DisplayBookState extends State<DisplayBookPage> {
           Padding(
             padding: EdgeInsets.symmetric(vertical: 16.0),
             child: Text('bookVolume'.tr(),
-                style: Theme.of(context).textTheme.bodyText1),
+                style: Theme.of(context).textTheme.bodyLarge),
           ),
           Padding(
             padding: EdgeInsets.symmetric(vertical: 16.0),
             child: Text(book.volume > 0 ? "${book.volume}" : "-",
-                style: Theme.of(context).textTheme.bodyText1),
+                style: Theme.of(context).textTheme.bodyLarge),
           ),
         ]),
         TableRow(children: [
           Padding(
             padding: EdgeInsets.symmetric(vertical: 16.0),
             child: Text('bookChapter'.tr(),
-                style: Theme.of(context).textTheme.bodyText1),
+                style: Theme.of(context).textTheme.bodyLarge),
           ),
           Padding(
             padding: EdgeInsets.symmetric(vertical: 16.0),
             child: Text(book.chapter > 0 ? "${book.chapter}" : "- ",
-                style: Theme.of(context).textTheme.bodyText1),
+                style: Theme.of(context).textTheme.bodyLarge),
           ),
         ]),
         TableRow(children: [
           Padding(
             padding: EdgeInsets.symmetric(vertical: 16.0),
             child: Text('bookEpisode'.tr(),
-                style: Theme.of(context).textTheme.bodyText1),
+                style: Theme.of(context).textTheme.bodyLarge),
           ),
           Padding(
             padding: EdgeInsets.symmetric(vertical: 16.0),
             child: Text(book.episode > 0 ? "${book.episode}" : "-",
-                style: Theme.of(context).textTheme.bodyText1),
+                style: Theme.of(context).textTheme.bodyLarge),
           ),
         ]),
       ],
@@ -338,7 +337,7 @@ class _DisplayBookState extends State<DisplayBookPage> {
   }
 
   void _onBackPressedClick() {
-    WidgetsBinding.instance!.addPostFrameCallback((_) async {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
       Navigator.pushNamedAndRemoveUntil(
           context, HomePage.routeName, (Route<dynamic> route) => false);
       BlocProvider.of<BookBloc>(context).add(LoadBook());

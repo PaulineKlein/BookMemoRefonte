@@ -120,7 +120,7 @@ class _BuildActionsState extends State<BuildActions> {
             Text(title,
                 style: Theme.of(context)
                     .textTheme
-                    .bodyText1!
+                    .bodyLarge!
                     .copyWith(color: Colors.white)),
           ],
         ));

@@ -27,6 +27,7 @@ class WidgetHelper {
       await FirebaseCrashlytics.instance.recordError(exception, null,
           reason: 'non-fatal error : Error Sending Data WidgetHelper');
     }
+    return null;
   }
 
   Future<bool?> _updateWidget() async {
@@ -38,6 +39,7 @@ class WidgetHelper {
       await FirebaseCrashlytics.instance.recordError(exception, null,
           reason: 'non-fatal error : Error Updating Data WidgetHelper');
     }
+    return null;
   }
 
   Future<void> sendAndUpdate() async {

@@ -66,7 +66,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _addBook() {
-    WidgetsBinding.instance!.addPostFrameCallback((_) async {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
       Navigator.pushNamed(this.context, AddBookPage.routeName);
     });
   }
@@ -213,10 +213,10 @@ class _HomePageState extends State<HomePage> {
   Widget homeTitle() {
     if (_selectedIndex == 0) {
       return Text('homeTitle'.tr(),
-          style: Theme.of(context).textTheme.headline1);
+          style: Theme.of(context).textTheme.displayLarge);
     } else {
       return Text('chartTitle'.tr(),
-          style: Theme.of(context).textTheme.headline1);
+          style: Theme.of(context).textTheme.displayLarge);
     }
   }
 

@@ -42,7 +42,7 @@ class _BuildBarChartPercentState extends State<BuildBarChartPercent> {
                 : 'barChartTitleIsBought'.tr(),
             style: Theme.of(context)
                 .textTheme
-                .headline5
+                .headlineSmall
                 ?.apply(color: Colors.deepPurple),
           ),
           SizedBox(height: 15),
@@ -74,41 +74,26 @@ class _BuildBarChartPercentState extends State<BuildBarChartPercent> {
                     ),
                     titlesData: FlTitlesData(
                       show: true,
-                      topTitles: SideTitles(showTitles: false),
-                      bottomTitles: SideTitles(
-                        showTitles: true,
-                        getTextStyles: (context, value) =>
-                            const TextStyle(color: Colors.black, fontSize: 10),
-                        margin: 10,
-                        rotateAngle: 0,
-                        getTitles: (double value) {
-                          switch (value.toInt()) {
-                            case 0:
-                              return 'formTypeLiterature'.tr();
-                            case 1:
-                              return 'formTypeManga'.tr();
-                            case 2:
-                              return 'formTypeComic'.tr();
-                            case 3:
-                              return 'formTypeMovie'.tr();
-                            default:
-                              return '';
-                          }
-                        },
+                      topTitles: AxisTitles(
+                        sideTitles: SideTitles(showTitles: false),
                       ),
-                      leftTitles: SideTitles(
-                        showTitles: true,
-                        getTextStyles: (context, value) =>
-                            const TextStyle(color: Colors.black, fontSize: 10),
-                        rotateAngle: 0,
-                        getTitles: (double value) {
-                          return '${value.toInt()}%';
-                        },
-                        interval: 20,
-                        margin: 8,
-                        reservedSize: 30,
+                      bottomTitles: AxisTitles(
+                        sideTitles: SideTitles(
+                          showTitles: true,
+                          getTitlesWidget: bottomTitlesWidgets,
+                        ),
                       ),
-                      rightTitles: SideTitles(showTitles: false),
+                      leftTitles: AxisTitles(
+                        sideTitles: SideTitles(
+                          showTitles: true,
+                          getTitlesWidget: leftTitlesWidgets,
+                          interval: 20,
+                          reservedSize: 30,
+                        ),
+                      ),
+                      rightTitles: AxisTitles(
+                        sideTitles: SideTitles(showTitles: false),
+                      ),
                     ),
                     gridData: FlGridData(
                       show: true,
@@ -194,7 +179,7 @@ class _BuildBarChartPercentState extends State<BuildBarChartPercent> {
         x: axis,
         barRods: [
           BarChartRodData(
-            y: 100,
+            toY: 100,
             width: barWidth,
             borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(6), topRight: Radius.circular(6)),
@@ -216,5 +201,40 @@ class _BuildBarChartPercentState extends State<BuildBarChartPercent> {
         ],
       );
     }
+    return null;
+  }
+
+  Widget bottomTitlesWidgets(double value, TitleMeta meta) {
+    const style = TextStyle(color: Colors.black, fontSize: 10);
+    String text = "";
+    switch (value.toInt()) {
+      case 0:
+        text = 'formTypeLiterature'.tr();
+        break;
+      case 1:
+        text = 'formTypeManga'.tr();
+        break;
+      case 2:
+        text = 'formTypeComic'.tr();
+        break;
+      case 3:
+        text = 'formTypeMovie'.tr();
+        break;
+    }
+
+    return FittedBox(
+      child: Text(text, style: style, textAlign: TextAlign.center),
+      fit: BoxFit.fitWidth,
+    );
+  }
+
+  Widget leftTitlesWidgets(double value, TitleMeta meta) {
+    const style = TextStyle(color: Colors.black, fontSize: 10);
+    String text = '${value.toInt()}%';
+
+    return FittedBox(
+      child: Text(text, style: style, textAlign: TextAlign.center),
+      fit: BoxFit.fitWidth,
+    );
   }
 }

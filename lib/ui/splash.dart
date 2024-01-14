@@ -34,7 +34,7 @@ class _SplashPageState extends State<SplashPage> {
         SplashInteractor(widgetHelper: widgetHelper, repository: repository);
     interactor.migrateOldDatabase(context);
     interactor.initializeFlutterFire();
-    WidgetsBinding.instance!.addPostFrameCallback((_) async {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
       if (Platform.isAndroid) {
         HomeWidget.initiallyLaunchedFromHomeWidget().then(_launchedFromWidget);
         subscription = HomeWidget.widgetClicked.listen(_launchedFromWidget);
